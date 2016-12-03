@@ -34,9 +34,9 @@ namespace MyFileItDataLayer.Models
                 case "OrganizationStatus":
                     ORGANIZATIONSTATUS.ToList().ForEach(r => { result.Add(r.ID, r.NAME); });
                     break;
-                case "TeamEventDocumentStatus":
-                    TEAMEVENTDOCUMENTSTATUS.ToList().ForEach(r => { result.Add(r.ID, r.NAME); });
-                    break;
+                //case "TeamEventDocumentStatus":
+                //    TEAMEVENTDOCUMENTSTATUS.ToList().ForEach(r => { result.Add(r.ID, r.NAME); });
+                //    break;
                 case "DocumentType":
                     DOCUMENTTYPEs.ToList().ForEach(r => { result.Add(r.ID, r.NAME); });
                     break;

@@ -60,8 +60,8 @@ namespace MyFileItDataLayer.Models
         public virtual ICollection<APPUSERORGANIZATION> APPUSERORGANIZATIONs1 { get; set; }
         public virtual ICollection<PAYMENTHISTORY> PAYMENTHISTORies { get; set; }
         public virtual ICollection<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
+        public virtual APPUSERTYPE APPUSERTYPE { get; set; }
         public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
         public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs1 { get; set; }
-        public virtual APPUSERTYPE APPUSERTYPE { get; set; }
     }
 }

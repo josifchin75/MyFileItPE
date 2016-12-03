@@ -16,7 +16,7 @@ namespace MyFileItDataLayer.Models
     {
         public int ID { get; set; }
         public string DOCUMENTID { get; set; }
-        public Nullable<int> TEAMEVENTDOCUMENTID { get; set; }
+        public Nullable<int> TEAMEVENTID { get; set; }
         public Nullable<int> APPUSERID { get; set; }
         public Nullable<System.DateTime> SCANDATE { get; set; }
         public string COMMENT { get; set; }
@@ -41,6 +41,6 @@ namespace MyFileItDataLayer.Models
         public virtual DOCUMENTSTATU DOCUMENTSTATU { get; set; }
         public virtual DOCUMENTTYPE DOCUMENTTYPE { get; set; }
         public virtual FILECABINETDOCUMENT FILECABINETDOCUMENT { get; set; }
-        public virtual TEAMEVENTDOCUMENT TEAMEVENTDOCUMENT { get; set; }
+        public virtual TEAMEVENT TEAMEVENT { get; set; }
     }
 }

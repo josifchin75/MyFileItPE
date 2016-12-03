@@ -18,7 +18,7 @@ namespace MyFileItDataLayer.Models
         {
             this.COACHes = new HashSet<COACH>();
             this.TEAMEVENTPLAYERROSTERs = new HashSet<TEAMEVENTPLAYERROSTER>();
-            this.TEAMEVENTDOCUMENTs = new HashSet<TEAMEVENTDOCUMENT>();
+            this.SHAREDOCUMENTs = new HashSet<SHAREDOCUMENT>();
         }
     
         public int ID { get; set; }
@@ -33,6 +33,6 @@ namespace MyFileItDataLayer.Models
         public virtual ICollection<COACH> COACHes { get; set; }
         public virtual ORGANIZATION ORGANIZATION { get; set; }
         public virtual ICollection<TEAMEVENTPLAYERROSTER> TEAMEVENTPLAYERROSTERs { get; set; }
-        public virtual ICollection<TEAMEVENTDOCUMENT> TEAMEVENTDOCUMENTs { get; set; }
+        public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
     }
 }

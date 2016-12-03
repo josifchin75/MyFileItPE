@@ -149,12 +149,6 @@
     <Compile Include="Models\TEAMEVENT.cs">
       <DependentUpon>MyFileItModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TEAMEVENTDOCUMENT.cs">
-      <DependentUpon>MyFileItModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TEAMEVENTDOCUMENTSTATU.cs">
-      <DependentUpon>MyFileItModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TEAMEVENTPLAYERROSTER.cs">
       <DependentUpon>MyFileItModel.tt</DependentUpon>
     </Compile>
@@ -172,7 +166,6 @@
     <Compile Include="PartialClasses\SHAREDOCUMENT.cs" />
     <Compile Include="PartialClasses\SHAREKEY.cs" />
     <Compile Include="PartialClasses\TEAMEVENT.cs" />
-    <Compile Include="PartialClasses\TEAMEVENTDOCUMENT.cs" />
     <Compile Include="PartialClasses\TEAMEVENTPLAYERROSTER.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

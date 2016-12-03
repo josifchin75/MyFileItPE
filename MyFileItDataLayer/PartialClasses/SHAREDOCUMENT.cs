@@ -11,18 +11,18 @@ namespace MyFileItDataLayer.Models
     {
         public SHAREDOCUMENT() { }
 
-        public SHAREDOCUMENT(int appUserId, int fileCabinetDocumentId, int? teamEventDocumentId, string comment, bool emergency, string emergencyEmailAddress, ref string errorMessage)
+        public SHAREDOCUMENT(int appUserId, int fileCabinetDocumentId, int? teamEventId, string comment, bool emergency, string emergencyEmailAddress, ref string errorMessage)
         {
             using (var db = new MyFileItEntities())
             {
-                var teamEventDocument = teamEventDocumentId != null ? db.TEAMEVENTDOCUMENTs.SingleOrDefault(td => td.ID == teamEventDocumentId) : null;
+                //var teamEventDocument = teamEventDocumentId != null ? db.TEAMEVENTDOCUMENTs.SingleOrDefault(td => td.ID == teamEventDocumentId) : null;
+                var teamEvent = teamEventId != null ? db.TEAMEVENTs.SingleOrDefault(t => t.ID == teamEventId) : null;
                 var fileCabinetDocument = db.FILECABINETDOCUMENTs.SingleOrDefault(d => d.ID == fileCabinetDocumentId);
-                //var organization = db.ORGANIZATIONs.SingleOrDefault(o => o.ID == organizationId);
 
-                if ((teamEventDocument == null && !emergency) || fileCabinetDocument == null)
+                if ((teamEvent == null && !emergency) || fileCabinetDocument == null)
                 {
-                    if (teamEventDocument == null) {
-                        errorMessage += "Team event document not found.";
+                    if (teamEvent == null) {
+                        errorMessage += "Event  not found.";
                     }
                     if (fileCabinetDocument == null)
                     {
@@ -36,7 +36,7 @@ namespace MyFileItDataLayer.Models
                 else {
                     SetNewID();
                     FILECABINETDOCUMENTID = fileCabinetDocumentId;
-                    TEAMEVENTDOCUMENTID = teamEventDocumentId;
+                    TEAMEVENTID = teamEventId;
                     DOCUMENTID = fileCabinetDocument.DOCUMENTID;
                     APPUSERID = appUserId;
                     SCANDATE = fileCabinetDocument.SCANDATE;
@@ -70,7 +70,7 @@ namespace MyFileItDataLayer.Models
             var result = false;
 
             FILECABINETDOCUMENTID = updated.FILECABINETDOCUMENTID;
-            TEAMEVENTDOCUMENTID = updated.TEAMEVENTDOCUMENTID;
+            TEAMEVENTID = updated.TEAMEVENTID;
             DOCUMENTID = updated.DOCUMENTID;
             APPUSERID = updated.APPUSERID;
             SCANDATE = updated.SCANDATE;

@@ -257,7 +257,7 @@
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="DOCUMENTID" Type="varchar" MaxLength="20" Unicode="true" Nullable="false" />
-          <Property Name="TEAMEVENTDOCUMENTID" Type="int" />
+          <Property Name="TEAMEVENTID" Type="int" />
           <Property Name="APPUSERID" Type="int" />
           <Property Name="SCANDATE" Type="date" />
           <Property Name="COMMENT" Type="clob" Unicode="true" />
@@ -312,30 +312,6 @@
           <Property Name="EXPIRESDATE" Type="date" />
           <Property Name="DATECREATED" Type="timestamp" />
           <Property Name="ISDELETED" Type="varchar" MaxLength="1" Unicode="true" />
-        </EntityType>
-        <EntityType Name="TEAMEVENTDOCUMENT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="TEAMEVENTID" Type="int" Nullable="false" />
-          <Property Name="DOCUMENTNAME" Type="varchar" MaxLength="200" Unicode="true" />
-          <Property Name="ENTERWHOSCANNED" Type="char" MaxLength="1" Unicode="false" />
-          <Property Name="SCANNAME" Type="varchar" MaxLength="100" Unicode="true" />
-          <Property Name="MUSTBEVERIFIED" Type="char" MaxLength="1" Unicode="false" />
-          <Property Name="TEAMEVENTDOCUMENTSTATUSID" Type="int" />
-          <Property Name="VERIFIERNAME" Type="varchar" MaxLength="100" Unicode="true" />
-          <Property Name="PLAYERENTEREXPIRATION" Type="date" />
-          <Property Name="PLAYERENTERDOCUMENTDATE" Type="date" />
-          <Property Name="ISCOACHDOCUMENT" Type="char" MaxLength="1" Unicode="false" />
-          <Property Name="ROSTERCLOSEDATE" Type="date" />
-        </EntityType>
-        <EntityType Name="TEAMEVENTDOCUMENTSTATUS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="NAME" Type="varchar" MaxLength="60" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="TEAMEVENTPLAYERROSTER">
           <Key>
@@ -548,54 +524,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="INTEG_241">
-          <End Role="TEAMEVENTDOCUMENT" Type="Self.TEAMEVENTDOCUMENT" Multiplicity="0..1" />
-          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TEAMEVENTDOCUMENT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="TEAMEVENTDOCUMENTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_242">
-          <End Role="APPUSER" Type="Self.APPUSER" Multiplicity="0..1" />
-          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="APPUSER">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="APPUSERID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_243">
-          <End Role="DOCUMENTSTATUS" Type="Self.DOCUMENTSTATUS" Multiplicity="1" />
-          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DOCUMENTSTATUS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="DOCUMENTSTATUSID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_244">
-          <End Role="DOCUMENTTYPE" Type="Self.DOCUMENTTYPE" Multiplicity="1" />
-          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DOCUMENTTYPE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="DOCUMENTTYPEID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="INTEG_251">
           <End Role="PAYMENTTYPE" Type="Self.PAYMENTTYPE" Multiplicity="0..1" />
           <End Role="SHAREKEY" Type="Self.SHAREKEY" Multiplicity="*" />
@@ -632,18 +560,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="INTEG_257">
-          <End Role="FILECABINETDOCUMENT" Type="Self.FILECABINETDOCUMENT" Multiplicity="0..1" />
-          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FILECABINETDOCUMENT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="FILECABINETDOCUMENTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="INTEG_261">
           <End Role="USERSTAGETYPE" Type="Self.USERSTAGETYPE" Multiplicity="0..1" />
           <End Role="TEAMEVENTPLAYERROSTER" Type="Self.TEAMEVENTPLAYERROSTER" Multiplicity="*" />
@@ -677,18 +593,6 @@
             </Principal>
             <Dependent Role="PAYMENTHISTORY">
               <PropertyRef Name="PRIMARYAPPUSERID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_269">
-          <End Role="APPUSER" Type="Self.APPUSER" Multiplicity="0..1" />
-          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="APPUSER">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="VERIFIEDAPPUSERID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -752,27 +656,75 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="INTEG_284">
-          <End Role="TEAMEVENTDOCUMENTSTATUS" Type="Self.TEAMEVENTDOCUMENTSTATUS" Multiplicity="0..1" />
-          <End Role="TEAMEVENTDOCUMENT" Type="Self.TEAMEVENTDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TEAMEVENTDOCUMENTSTATUS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TEAMEVENTDOCUMENT">
-              <PropertyRef Name="TEAMEVENTDOCUMENTSTATUSID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_285">
-          <End Role="TEAMEVENT" Type="Self.TEAMEVENT" Multiplicity="1" />
-          <End Role="TEAMEVENTDOCUMENT" Type="Self.TEAMEVENTDOCUMENT" Multiplicity="*" />
+        <Association Name="INTEG_294">
+          <End Role="TEAMEVENT" Type="Self.TEAMEVENT" Multiplicity="0..1" />
+          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TEAMEVENT">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TEAMEVENTDOCUMENT">
+            <Dependent Role="SHAREDOCUMENT">
               <PropertyRef Name="TEAMEVENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_295">
+          <End Role="APPUSER" Type="Self.APPUSER" Multiplicity="0..1" />
+          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="APPUSER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="APPUSERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_296">
+          <End Role="DOCUMENTSTATUS" Type="Self.DOCUMENTSTATUS" Multiplicity="1" />
+          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOCUMENTSTATUS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="DOCUMENTSTATUSID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_297">
+          <End Role="DOCUMENTTYPE" Type="Self.DOCUMENTTYPE" Multiplicity="1" />
+          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOCUMENTTYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="DOCUMENTTYPEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_298">
+          <End Role="FILECABINETDOCUMENT" Type="Self.FILECABINETDOCUMENT" Multiplicity="0..1" />
+          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FILECABINETDOCUMENT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="FILECABINETDOCUMENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_299">
+          <End Role="APPUSER" Type="Self.APPUSER" Multiplicity="0..1" />
+          <End Role="SHAREDOCUMENT" Type="Self.SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="APPUSER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="VERIFIEDAPPUSERID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -800,8 +752,6 @@
           <EntitySet Name="SHAREKEY" EntityType="Self.SHAREKEY" Schema="Firebird" store:Type="Tables" />
           <EntitySet Name="SPORTTYPE" EntityType="Self.SPORTTYPE" Schema="Firebird" store:Type="Tables" />
           <EntitySet Name="TEAMEVENT" EntityType="Self.TEAMEVENT" Schema="Firebird" store:Type="Tables" />
-          <EntitySet Name="TEAMEVENTDOCUMENT" EntityType="Self.TEAMEVENTDOCUMENT" Schema="Firebird" store:Type="Tables" />
-          <EntitySet Name="TEAMEVENTDOCUMENTSTATUS" EntityType="Self.TEAMEVENTDOCUMENTSTATUS" Schema="Firebird" store:Type="Tables" />
           <EntitySet Name="TEAMEVENTPLAYERROSTER" EntityType="Self.TEAMEVENTPLAYERROSTER" Schema="Firebird" store:Type="Tables" />
           <EntitySet Name="USERSTAGETYPE" EntityType="Self.USERSTAGETYPE" Schema="Firebird" store:Type="Tables" />
           <AssociationSet Name="INTEG_138" Association="Self.INTEG_138">
@@ -868,22 +818,6 @@
             <End Role="APPUSER" EntitySet="APPUSER" />
             <End Role="TEAMEVENTPLAYERROSTER" EntitySet="TEAMEVENTPLAYERROSTER" />
           </AssociationSet>
-          <AssociationSet Name="INTEG_241" Association="Self.INTEG_241">
-            <End Role="TEAMEVENTDOCUMENT" EntitySet="TEAMEVENTDOCUMENT" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_242" Association="Self.INTEG_242">
-            <End Role="APPUSER" EntitySet="APPUSER" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_243" Association="Self.INTEG_243">
-            <End Role="DOCUMENTSTATUS" EntitySet="DOCUMENTSTATUS" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_244" Association="Self.INTEG_244">
-            <End Role="DOCUMENTTYPE" EntitySet="DOCUMENTTYPE" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
-          </AssociationSet>
           <AssociationSet Name="INTEG_251" Association="Self.INTEG_251">
             <End Role="PAYMENTTYPE" EntitySet="PAYMENTTYPE" />
             <End Role="SHAREKEY" EntitySet="SHAREKEY" />
@@ -896,10 +830,6 @@
             <End Role="APPUSER" EntitySet="APPUSER" />
             <End Role="SHAREKEY" EntitySet="SHAREKEY" />
           </AssociationSet>
-          <AssociationSet Name="INTEG_257" Association="Self.INTEG_257">
-            <End Role="FILECABINETDOCUMENT" EntitySet="FILECABINETDOCUMENT" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
-          </AssociationSet>
           <AssociationSet Name="INTEG_261" Association="Self.INTEG_261">
             <End Role="USERSTAGETYPE" EntitySet="USERSTAGETYPE" />
             <End Role="TEAMEVENTPLAYERROSTER" EntitySet="TEAMEVENTPLAYERROSTER" />
@@ -911,10 +841,6 @@
           <AssociationSet Name="INTEG_267" Association="Self.INTEG_267">
             <End Role="APPUSER" EntitySet="APPUSER" />
             <End Role="PAYMENTHISTORY" EntitySet="PAYMENTHISTORY" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_269" Association="Self.INTEG_269">
-            <End Role="APPUSER" EntitySet="APPUSER" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
           </AssociationSet>
           <AssociationSet Name="INTEG_279" Association="Self.INTEG_279">
             <End Role="SPORTTYPE" EntitySet="SPORTTYPE" />
@@ -936,13 +862,29 @@
             <End Role="TEAMEVENT" EntitySet="TEAMEVENT" />
             <End Role="COACH" EntitySet="COACH" />
           </AssociationSet>
-          <AssociationSet Name="INTEG_284" Association="Self.INTEG_284">
-            <End Role="TEAMEVENTDOCUMENTSTATUS" EntitySet="TEAMEVENTDOCUMENTSTATUS" />
-            <End Role="TEAMEVENTDOCUMENT" EntitySet="TEAMEVENTDOCUMENT" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_285" Association="Self.INTEG_285">
+          <AssociationSet Name="INTEG_294" Association="Self.INTEG_294">
             <End Role="TEAMEVENT" EntitySet="TEAMEVENT" />
-            <End Role="TEAMEVENTDOCUMENT" EntitySet="TEAMEVENTDOCUMENT" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_295" Association="Self.INTEG_295">
+            <End Role="APPUSER" EntitySet="APPUSER" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_296" Association="Self.INTEG_296">
+            <End Role="DOCUMENTSTATUS" EntitySet="DOCUMENTSTATUS" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_297" Association="Self.INTEG_297">
+            <End Role="DOCUMENTTYPE" EntitySet="DOCUMENTTYPE" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_298" Association="Self.INTEG_298">
+            <End Role="FILECABINETDOCUMENT" EntitySet="FILECABINETDOCUMENT" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_299" Association="Self.INTEG_299">
+            <End Role="APPUSER" EntitySet="APPUSER" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENT" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -964,7 +906,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="FILECABINETDOCUMENTs" Relationship="MyFileItModel.INTEG_207" FromRole="DOCUMENTSTATU" ToRole="FILECABINETDOCUMENT" />
-          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_243" FromRole="DOCUMENTSTATU" ToRole="SHAREDOCUMENT" />
+          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_296" FromRole="DOCUMENTSTATU" ToRole="SHAREDOCUMENT" />
         </EntityType>
         <EntityType Name="DOCUMENTTYPE">
           <Key>
@@ -973,7 +915,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="FILECABINETDOCUMENTs" Relationship="MyFileItModel.INTEG_206" FromRole="DOCUMENTTYPE" ToRole="FILECABINETDOCUMENT" />
-          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_244" FromRole="DOCUMENTTYPE" ToRole="SHAREDOCUMENT" />
+          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_297" FromRole="DOCUMENTTYPE" ToRole="SHAREDOCUMENT" />
         </EntityType>
         <EntityType Name="ORGANIZATIONSTATU">
           <Key>
@@ -1017,14 +959,6 @@
           <NavigationProperty Name="APPUSERORGANIZATIONs" Relationship="MyFileItModel.INTEG_192" FromRole="SPORTTYPE" ToRole="APPUSERORGANIZATION" />
           <NavigationProperty Name="COACHes" Relationship="MyFileItModel.INTEG_119" FromRole="SPORTTYPE" ToRole="COACH" />
         </EntityType>
-        <EntityType Name="TEAMEVENTDOCUMENTSTATU">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="TEAMEVENTDOCUMENTs" Relationship="MyFileItModel.INTEG_284" FromRole="TEAMEVENTDOCUMENTSTATU" ToRole="TEAMEVENTDOCUMENT" />
-        </EntityType>
         <EntityContainer Name="MyFileItEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="APPUSERSTATUS" EntityType="Self.APPUSERSTATU" />
           <EntitySet Name="DOCUMENTSTATUS" EntityType="Self.DOCUMENTSTATU" />
@@ -1034,7 +968,6 @@
           <EntitySet Name="RELATIONSHIPTYPEs" EntityType="Self.RELATIONSHIPTYPE" />
           <EntitySet Name="SALESREPSTATUS" EntityType="Self.SALESREPSTATU" />
           <EntitySet Name="SPORTTYPEs" EntityType="Self.SPORTTYPE" />
-          <EntitySet Name="TEAMEVENTDOCUMENTSTATUS" EntityType="Self.TEAMEVENTDOCUMENTSTATU" />
           <EntitySet Name="PAYMENTTYPEs" EntityType="MyFileItModel.PAYMENTTYPE" />
           <EntitySet Name="SALESREPLEADAREAs" EntityType="MyFileItModel.SALESREPLEADAREA" />
           <EntitySet Name="SHAREKEYs" EntityType="MyFileItModel.SHAREKEY" />
@@ -1135,41 +1068,11 @@
             <End Role="DOCUMENTTYPE" EntitySet="DOCUMENTTYPEs" />
             <End Role="FILECABINETDOCUMENT" EntitySet="FILECABINETDOCUMENTs" />
           </AssociationSet>
-          <EntitySet Name="SHAREDOCUMENTs" EntityType="MyFileItModel.SHAREDOCUMENT" />
-          <AssociationSet Name="INTEG_242" Association="MyFileItModel.INTEG_242">
-            <End Role="APPUSER" EntitySet="APPUSERs" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_274" Association="MyFileItModel.INTEG_274">
-            <End Role="APPUSER" EntitySet="APPUSERs" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_243" Association="MyFileItModel.INTEG_243">
-            <End Role="DOCUMENTSTATU" EntitySet="DOCUMENTSTATUS" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_244" Association="MyFileItModel.INTEG_244">
-            <End Role="DOCUMENTTYPE" EntitySet="DOCUMENTTYPEs" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_261" Association="MyFileItModel.INTEG_261">
-            <End Role="FILECABINETDOCUMENT" EntitySet="FILECABINETDOCUMENTs" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
-          </AssociationSet>
           <EntitySet Name="EMAILLOGs" EntityType="MyFileItModel.EMAILLOG" />
           <EntitySet Name="APPUSERTYPEs" EntityType="MyFileItModel.APPUSERTYPE" />
           <AssociationSet Name="INTEG_139" Association="MyFileItModel.INTEG_139">
             <End Role="APPUSERTYPE" EntitySet="APPUSERTYPEs" />
             <End Role="APPUSER" EntitySet="APPUSERs" />
-          </AssociationSet>
-          <EntitySet Name="TEAMEVENTDOCUMENTs" EntityType="MyFileItModel.TEAMEVENTDOCUMENT" />
-          <AssociationSet Name="INTEG_241" Association="MyFileItModel.INTEG_241">
-            <End Role="TEAMEVENTDOCUMENT" EntitySet="TEAMEVENTDOCUMENTs" />
-            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_284" Association="MyFileItModel.INTEG_284">
-            <End Role="TEAMEVENTDOCUMENTSTATU" EntitySet="TEAMEVENTDOCUMENTSTATUS" />
-            <End Role="TEAMEVENTDOCUMENT" EntitySet="TEAMEVENTDOCUMENTs" />
           </AssociationSet>
           <EntitySet Name="SALESREPs" EntityType="MyFileItModel.SALESREP" />
           <EntitySet Name="TEAMEVENTs" EntityType="MyFileItModel.TEAMEVENT" />
@@ -1197,9 +1100,30 @@
             <End Role="TEAMEVENT" EntitySet="TEAMEVENTs" />
             <End Role="TEAMEVENTPLAYERROSTER" EntitySet="TEAMEVENTPLAYERROSTERs" />
           </AssociationSet>
-          <AssociationSet Name="INTEG_285" Association="MyFileItModel.INTEG_285">
+          <EntitySet Name="SHAREDOCUMENTs" EntityType="MyFileItModel.SHAREDOCUMENT" />
+          <AssociationSet Name="INTEG_295" Association="MyFileItModel.INTEG_295">
+            <End Role="APPUSER" EntitySet="APPUSERs" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_299" Association="MyFileItModel.INTEG_299">
+            <End Role="APPUSER" EntitySet="APPUSERs" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_296" Association="MyFileItModel.INTEG_296">
+            <End Role="DOCUMENTSTATU" EntitySet="DOCUMENTSTATUS" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_297" Association="MyFileItModel.INTEG_297">
+            <End Role="DOCUMENTTYPE" EntitySet="DOCUMENTTYPEs" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_298" Association="MyFileItModel.INTEG_298">
+            <End Role="FILECABINETDOCUMENT" EntitySet="FILECABINETDOCUMENTs" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_294" Association="MyFileItModel.INTEG_294">
             <End Role="TEAMEVENT" EntitySet="TEAMEVENTs" />
-            <End Role="TEAMEVENTDOCUMENT" EntitySet="TEAMEVENTDOCUMENTs" />
+            <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="PAYMENTTYPE">
@@ -1442,9 +1366,9 @@
           <NavigationProperty Name="APPUSERORGANIZATIONs1" Relationship="MyFileItModel.INTEG_266" FromRole="APPUSER" ToRole="APPUSERORGANIZATION" />
           <NavigationProperty Name="PAYMENTHISTORies" Relationship="MyFileItModel.INTEG_271" FromRole="APPUSER" ToRole="PAYMENTHISTORY" />
           <NavigationProperty Name="FILECABINETDOCUMENTs" Relationship="MyFileItModel.INTEG_208" FromRole="APPUSER" ToRole="FILECABINETDOCUMENT" />
-          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_242" FromRole="APPUSER" ToRole="SHAREDOCUMENT" />
-          <NavigationProperty Name="SHAREDOCUMENTs1" Relationship="MyFileItModel.INTEG_274" FromRole="APPUSER" ToRole="SHAREDOCUMENT" />
           <NavigationProperty Name="APPUSERTYPE" Relationship="MyFileItModel.INTEG_139" FromRole="APPUSER" ToRole="APPUSERTYPE" />
+          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_295" FromRole="APPUSER" ToRole="SHAREDOCUMENT" />
+          <NavigationProperty Name="SHAREDOCUMENTs1" Relationship="MyFileItModel.INTEG_299" FromRole="APPUSER" ToRole="SHAREDOCUMENT" />
           </EntityType>
         <Association Name="INTEG_138">
           <End Type="MyFileItModel.RELATIONSHIPTYPE" Role="RELATIONSHIPTYPE" Multiplicity="0..1" />
@@ -1664,7 +1588,7 @@
           <NavigationProperty Name="APPUSER" Relationship="MyFileItModel.INTEG_208" FromRole="FILECABINETDOCUMENT" ToRole="APPUSER" />
           <NavigationProperty Name="DOCUMENTSTATU" Relationship="MyFileItModel.INTEG_207" FromRole="FILECABINETDOCUMENT" ToRole="DOCUMENTSTATU" />
           <NavigationProperty Name="DOCUMENTTYPE" Relationship="MyFileItModel.INTEG_206" FromRole="FILECABINETDOCUMENT" ToRole="DOCUMENTTYPE" />
-          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_261" FromRole="FILECABINETDOCUMENT" ToRole="SHAREDOCUMENT" />
+          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_298" FromRole="FILECABINETDOCUMENT" ToRole="SHAREDOCUMENT" />
         </EntityType>
         <Association Name="INTEG_208">
           <End Type="MyFileItModel.APPUSER" Role="APPUSER" Multiplicity="0..1" />
@@ -1702,98 +1626,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SHAREDOCUMENT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="DOCUMENTID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="TEAMEVENTDOCUMENTID" Type="Int32" />
-          <Property Name="APPUSERID" Type="Int32" />
-          <Property Name="SCANDATE" Type="DateTime" />
-          <Property Name="COMMENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LOCATION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DOCUMENTTYPEID" Type="Int32" Nullable="false" />
-          <Property Name="DOCUMENTSTATUSID" Type="Int32" Nullable="false" />
-          <Property Name="EMERGENCY" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="CABINETID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DOCUMENTDATE" Type="DateTime" />
-          <Property Name="DATECREATED" Type="DateTime" />
-          <Property Name="FILECABINETDOCUMENTID" Type="Int32" />
-          <Property Name="VERIFIEDDATE" Type="DateTime" />
-          <Property Name="VERIFIEDAPPUSERID" Type="Int32" />
-          <Property Name="EMERGENCYEMAILADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="VIEWDOCUMENTKEY" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="VIEWED" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="VIEWDATE" Type="DateTime" />
-          <Property Name="ISACTIVE" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="APPUSER" Relationship="MyFileItModel.INTEG_242" FromRole="SHAREDOCUMENT" ToRole="APPUSER" />
-          <NavigationProperty Name="APPUSER1" Relationship="MyFileItModel.INTEG_274" FromRole="SHAREDOCUMENT" ToRole="APPUSER" />
-          <NavigationProperty Name="DOCUMENTSTATU" Relationship="MyFileItModel.INTEG_243" FromRole="SHAREDOCUMENT" ToRole="DOCUMENTSTATU" />
-          <NavigationProperty Name="DOCUMENTTYPE" Relationship="MyFileItModel.INTEG_244" FromRole="SHAREDOCUMENT" ToRole="DOCUMENTTYPE" />
-          <NavigationProperty Name="FILECABINETDOCUMENT" Relationship="MyFileItModel.INTEG_261" FromRole="SHAREDOCUMENT" ToRole="FILECABINETDOCUMENT" />
-          <NavigationProperty Name="TEAMEVENTDOCUMENT" Relationship="MyFileItModel.INTEG_241" FromRole="SHAREDOCUMENT" ToRole="TEAMEVENTDOCUMENT" />
-        </EntityType>
-        <Association Name="INTEG_242">
-          <End Type="MyFileItModel.APPUSER" Role="APPUSER" Multiplicity="0..1" />
-          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="APPUSER">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="APPUSERID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_274">
-          <End Type="MyFileItModel.APPUSER" Role="APPUSER" Multiplicity="0..1" />
-          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="APPUSER">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="VERIFIEDAPPUSERID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_243">
-          <End Type="MyFileItModel.DOCUMENTSTATU" Role="DOCUMENTSTATU" Multiplicity="1" />
-          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DOCUMENTSTATU">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="DOCUMENTSTATUSID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_244">
-          <End Type="MyFileItModel.DOCUMENTTYPE" Role="DOCUMENTTYPE" Multiplicity="1" />
-          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DOCUMENTTYPE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="DOCUMENTTYPEID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_261">
-          <End Type="MyFileItModel.FILECABINETDOCUMENT" Role="FILECABINETDOCUMENT" Multiplicity="0..1" />
-          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FILECABINETDOCUMENT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="FILECABINETDOCUMENTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="EMAILLOG">
           <Key>
             <PropertyRef Name="ID" />
@@ -1823,50 +1655,6 @@
             </Principal>
             <Dependent Role="APPUSER">
               <PropertyRef Name="APPUSERTYPEID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TEAMEVENTDOCUMENT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="TEAMEVENTID" Type="Int32" Nullable="false" />
-          <Property Name="DOCUMENTNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ENTERWHOSCANNED" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="SCANNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="MUSTBEVERIFIED" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="TEAMEVENTDOCUMENTSTATUSID" Type="Int32" />
-          <Property Name="VERIFIERNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PLAYERENTEREXPIRATION" Type="DateTime" />
-          <Property Name="PLAYERENTERDOCUMENTDATE" Type="DateTime" />
-          <Property Name="ISCOACHDOCUMENT" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="ROSTERCLOSEDATE" Type="DateTime" />
-          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_241" FromRole="TEAMEVENTDOCUMENT" ToRole="SHAREDOCUMENT" />
-          <NavigationProperty Name="TEAMEVENTDOCUMENTSTATU" Relationship="MyFileItModel.INTEG_284" FromRole="TEAMEVENTDOCUMENT" ToRole="TEAMEVENTDOCUMENTSTATU" />
-          <NavigationProperty Name="TEAMEVENT" Relationship="MyFileItModel.INTEG_285" FromRole="TEAMEVENTDOCUMENT" ToRole="TEAMEVENT" />
-        </EntityType>
-        <Association Name="INTEG_241">
-          <End Type="MyFileItModel.TEAMEVENTDOCUMENT" Role="TEAMEVENTDOCUMENT" Multiplicity="0..1" />
-          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TEAMEVENTDOCUMENT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREDOCUMENT">
-              <PropertyRef Name="TEAMEVENTDOCUMENTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_284">
-          <End Type="MyFileItModel.TEAMEVENTDOCUMENTSTATU" Role="TEAMEVENTDOCUMENTSTATU" Multiplicity="0..1" />
-          <End Type="MyFileItModel.TEAMEVENTDOCUMENT" Role="TEAMEVENTDOCUMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TEAMEVENTDOCUMENTSTATU">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TEAMEVENTDOCUMENT">
-              <PropertyRef Name="TEAMEVENTDOCUMENTSTATUSID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1909,7 +1697,7 @@
           <NavigationProperty Name="COACHes" Relationship="MyFileItModel.INTEG_283" FromRole="TEAMEVENT" ToRole="COACH" />
           <NavigationProperty Name="ORGANIZATION" Relationship="MyFileItModel.INTEG_225" FromRole="TEAMEVENT" ToRole="ORGANIZATION" />
           <NavigationProperty Name="TEAMEVENTPLAYERROSTERs" Relationship="MyFileItModel.INTEG_230" FromRole="TEAMEVENT" ToRole="TEAMEVENTPLAYERROSTER" />
-          <NavigationProperty Name="TEAMEVENTDOCUMENTs" Relationship="MyFileItModel.INTEG_285" FromRole="TEAMEVENT" ToRole="TEAMEVENTDOCUMENT" />
+          <NavigationProperty Name="SHAREDOCUMENTs" Relationship="MyFileItModel.INTEG_294" FromRole="TEAMEVENT" ToRole="SHAREDOCUMENT" />
         </EntityType>
         <Association Name="INTEG_283">
           <End Type="MyFileItModel.TEAMEVENT" Role="TEAMEVENT" Multiplicity="0..1" />
@@ -1983,14 +1771,106 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="INTEG_285">
-          <End Type="MyFileItModel.TEAMEVENT" Role="TEAMEVENT" Multiplicity="1" />
-          <End Type="MyFileItModel.TEAMEVENTDOCUMENT" Role="TEAMEVENTDOCUMENT" Multiplicity="*" />
+        <EntityType Name="SHAREDOCUMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DOCUMENTID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TEAMEVENTID" Type="Int32" />
+          <Property Name="APPUSERID" Type="Int32" />
+          <Property Name="SCANDATE" Type="DateTime" />
+          <Property Name="COMMENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LOCATION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DOCUMENTTYPEID" Type="Int32" Nullable="false" />
+          <Property Name="DOCUMENTSTATUSID" Type="Int32" Nullable="false" />
+          <Property Name="EMERGENCY" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="CABINETID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DOCUMENTDATE" Type="DateTime" />
+          <Property Name="DATECREATED" Type="DateTime" />
+          <Property Name="FILECABINETDOCUMENTID" Type="Int32" />
+          <Property Name="VERIFIEDDATE" Type="DateTime" />
+          <Property Name="VERIFIEDAPPUSERID" Type="Int32" />
+          <Property Name="EMERGENCYEMAILADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="VIEWDOCUMENTKEY" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="VIEWED" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="VIEWDATE" Type="DateTime" />
+          <Property Name="ISACTIVE" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="APPUSER" Relationship="MyFileItModel.INTEG_295" FromRole="SHAREDOCUMENT" ToRole="APPUSER" />
+          <NavigationProperty Name="APPUSER1" Relationship="MyFileItModel.INTEG_299" FromRole="SHAREDOCUMENT" ToRole="APPUSER" />
+          <NavigationProperty Name="DOCUMENTSTATU" Relationship="MyFileItModel.INTEG_296" FromRole="SHAREDOCUMENT" ToRole="DOCUMENTSTATU" />
+          <NavigationProperty Name="DOCUMENTTYPE" Relationship="MyFileItModel.INTEG_297" FromRole="SHAREDOCUMENT" ToRole="DOCUMENTTYPE" />
+          <NavigationProperty Name="FILECABINETDOCUMENT" Relationship="MyFileItModel.INTEG_298" FromRole="SHAREDOCUMENT" ToRole="FILECABINETDOCUMENT" />
+          <NavigationProperty Name="TEAMEVENT" Relationship="MyFileItModel.INTEG_294" FromRole="SHAREDOCUMENT" ToRole="TEAMEVENT" />
+        </EntityType>
+        <Association Name="INTEG_295">
+          <End Type="MyFileItModel.APPUSER" Role="APPUSER" Multiplicity="0..1" />
+          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="APPUSER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="APPUSERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_299">
+          <End Type="MyFileItModel.APPUSER" Role="APPUSER" Multiplicity="0..1" />
+          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="APPUSER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="VERIFIEDAPPUSERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_296">
+          <End Type="MyFileItModel.DOCUMENTSTATU" Role="DOCUMENTSTATU" Multiplicity="1" />
+          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOCUMENTSTATU">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="DOCUMENTSTATUSID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_297">
+          <End Type="MyFileItModel.DOCUMENTTYPE" Role="DOCUMENTTYPE" Multiplicity="1" />
+          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOCUMENTTYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="DOCUMENTTYPEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_298">
+          <End Type="MyFileItModel.FILECABINETDOCUMENT" Role="FILECABINETDOCUMENT" Multiplicity="0..1" />
+          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FILECABINETDOCUMENT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREDOCUMENT">
+              <PropertyRef Name="FILECABINETDOCUMENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_294">
+          <End Type="MyFileItModel.TEAMEVENT" Role="TEAMEVENT" Multiplicity="0..1" />
+          <End Type="MyFileItModel.SHAREDOCUMENT" Role="SHAREDOCUMENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TEAMEVENT">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TEAMEVENTDOCUMENT">
+            <Dependent Role="SHAREDOCUMENT">
               <PropertyRef Name="TEAMEVENTID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2060,14 +1940,6 @@
           <EntitySetMapping Name="SPORTTYPEs">
             <EntityTypeMapping TypeName="MyFileItModel.SPORTTYPE">
               <MappingFragment StoreEntitySet="SPORTTYPE">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TEAMEVENTDOCUMENTSTATUS">
-            <EntityTypeMapping TypeName="MyFileItModel.TEAMEVENTDOCUMENTSTATU">
-              <MappingFragment StoreEntitySet="TEAMEVENTDOCUMENTSTATUS">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
               </MappingFragment>
@@ -2277,33 +2149,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SHAREDOCUMENTs">
-            <EntityTypeMapping TypeName="MyFileItModel.SHAREDOCUMENT">
-              <MappingFragment StoreEntitySet="SHAREDOCUMENT">
-                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
-                <ScalarProperty Name="VIEWDATE" ColumnName="VIEWDATE" />
-                <ScalarProperty Name="VIEWED" ColumnName="VIEWED" />
-                <ScalarProperty Name="VIEWDOCUMENTKEY" ColumnName="VIEWDOCUMENTKEY" />
-                <ScalarProperty Name="EMERGENCYEMAILADDRESS" ColumnName="EMERGENCYEMAILADDRESS" />
-                <ScalarProperty Name="VERIFIEDAPPUSERID" ColumnName="VERIFIEDAPPUSERID" />
-                <ScalarProperty Name="VERIFIEDDATE" ColumnName="VERIFIEDDATE" />
-                <ScalarProperty Name="FILECABINETDOCUMENTID" ColumnName="FILECABINETDOCUMENTID" />
-                <ScalarProperty Name="DATECREATED" ColumnName="DATECREATED" />
-                <ScalarProperty Name="DOCUMENTDATE" ColumnName="DOCUMENTDATE" />
-                <ScalarProperty Name="CABINETID" ColumnName="CABINETID" />
-                <ScalarProperty Name="EMERGENCY" ColumnName="EMERGENCY" />
-                <ScalarProperty Name="DOCUMENTSTATUSID" ColumnName="DOCUMENTSTATUSID" />
-                <ScalarProperty Name="DOCUMENTTYPEID" ColumnName="DOCUMENTTYPEID" />
-                <ScalarProperty Name="LOCATION" ColumnName="LOCATION" />
-                <ScalarProperty Name="COMMENT" ColumnName="COMMENT" />
-                <ScalarProperty Name="SCANDATE" ColumnName="SCANDATE" />
-                <ScalarProperty Name="APPUSERID" ColumnName="APPUSERID" />
-                <ScalarProperty Name="TEAMEVENTDOCUMENTID" ColumnName="TEAMEVENTDOCUMENTID" />
-                <ScalarProperty Name="DOCUMENTID" ColumnName="DOCUMENTID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="EMAILLOGs">
             <EntityTypeMapping TypeName="MyFileItModel.EMAILLOG">
               <MappingFragment StoreEntitySet="EMAILLOG">
@@ -2321,24 +2166,6 @@
                 <ScalarProperty Name="ISCOACH" ColumnName="ISCOACH" />
                 <ScalarProperty Name="PLAYERUSER" ColumnName="PLAYERUSER" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TEAMEVENTDOCUMENTs">
-            <EntityTypeMapping TypeName="MyFileItModel.TEAMEVENTDOCUMENT">
-              <MappingFragment StoreEntitySet="TEAMEVENTDOCUMENT">
-                <ScalarProperty Name="ROSTERCLOSEDATE" ColumnName="ROSTERCLOSEDATE" />
-                <ScalarProperty Name="ISCOACHDOCUMENT" ColumnName="ISCOACHDOCUMENT" />
-                <ScalarProperty Name="PLAYERENTERDOCUMENTDATE" ColumnName="PLAYERENTERDOCUMENTDATE" />
-                <ScalarProperty Name="PLAYERENTEREXPIRATION" ColumnName="PLAYERENTEREXPIRATION" />
-                <ScalarProperty Name="VERIFIERNAME" ColumnName="VERIFIERNAME" />
-                <ScalarProperty Name="TEAMEVENTDOCUMENTSTATUSID" ColumnName="TEAMEVENTDOCUMENTSTATUSID" />
-                <ScalarProperty Name="MUSTBEVERIFIED" ColumnName="MUSTBEVERIFIED" />
-                <ScalarProperty Name="SCANNAME" ColumnName="SCANNAME" />
-                <ScalarProperty Name="ENTERWHOSCANNED" ColumnName="ENTERWHOSCANNED" />
-                <ScalarProperty Name="DOCUMENTNAME" ColumnName="DOCUMENTNAME" />
-                <ScalarProperty Name="TEAMEVENTID" ColumnName="TEAMEVENTID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2375,6 +2202,33 @@
                 <ScalarProperty Name="YEARCODE" ColumnName="YEARCODE" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="ORGANIZATIONID" ColumnName="ORGANIZATIONID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SHAREDOCUMENTs">
+            <EntityTypeMapping TypeName="MyFileItModel.SHAREDOCUMENT">
+              <MappingFragment StoreEntitySet="SHAREDOCUMENT">
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="VIEWDATE" ColumnName="VIEWDATE" />
+                <ScalarProperty Name="VIEWED" ColumnName="VIEWED" />
+                <ScalarProperty Name="VIEWDOCUMENTKEY" ColumnName="VIEWDOCUMENTKEY" />
+                <ScalarProperty Name="EMERGENCYEMAILADDRESS" ColumnName="EMERGENCYEMAILADDRESS" />
+                <ScalarProperty Name="VERIFIEDAPPUSERID" ColumnName="VERIFIEDAPPUSERID" />
+                <ScalarProperty Name="VERIFIEDDATE" ColumnName="VERIFIEDDATE" />
+                <ScalarProperty Name="FILECABINETDOCUMENTID" ColumnName="FILECABINETDOCUMENTID" />
+                <ScalarProperty Name="DATECREATED" ColumnName="DATECREATED" />
+                <ScalarProperty Name="DOCUMENTDATE" ColumnName="DOCUMENTDATE" />
+                <ScalarProperty Name="CABINETID" ColumnName="CABINETID" />
+                <ScalarProperty Name="EMERGENCY" ColumnName="EMERGENCY" />
+                <ScalarProperty Name="DOCUMENTSTATUSID" ColumnName="DOCUMENTSTATUSID" />
+                <ScalarProperty Name="DOCUMENTTYPEID" ColumnName="DOCUMENTTYPEID" />
+                <ScalarProperty Name="LOCATION" ColumnName="LOCATION" />
+                <ScalarProperty Name="COMMENT" ColumnName="COMMENT" />
+                <ScalarProperty Name="SCANDATE" ColumnName="SCANDATE" />
+                <ScalarProperty Name="APPUSERID" ColumnName="APPUSERID" />
+                <ScalarProperty Name="TEAMEVENTID" ColumnName="TEAMEVENTID" />
+                <ScalarProperty Name="DOCUMENTID" ColumnName="DOCUMENTID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
