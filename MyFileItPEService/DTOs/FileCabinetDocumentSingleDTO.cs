@@ -14,7 +14,7 @@ namespace MyFileItService.DTOs
         [DataMember]
         public int FILECABINETDOCUMENTID { get; set; }
         [DataMember]
-        public int? TEAMEVENTDOCUMENTID { get; set; }
+        public int? TEAMEVENTID { get; set; }
         [DataMember]
         public int? VerifiedAppUserId { get; set; }
     }

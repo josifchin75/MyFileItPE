@@ -17,7 +17,7 @@ namespace MyFileItService.DTOs
         [DataMember]
         public int fileCabinetDocumentId { get; set; }
         [DataMember]
-        public int teamEventDocumentId { get; set; }
+        public int teamEventId { get; set; }
         [DataMember]
         public string comment { get; set; }
         [DataMember]

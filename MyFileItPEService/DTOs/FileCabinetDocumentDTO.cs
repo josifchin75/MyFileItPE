@@ -46,7 +46,7 @@ namespace MyFileItService.DTOs
         public string VerifiedAppUserName { get; set; }
 
         [DataMember]
-        public int? TeamEventDocumentId { get; set; }
+        public int? TeamEventId { get; set; }
 
         [DataMember]
         public string Base64Image { get; set; }
