@@ -76,6 +76,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Global.asax" />
     <Content Include="MyFileItPEMainService.svc" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\MyFileIT PE PRODUCTION.pubxml" />
@@ -112,6 +113,9 @@
     <Compile Include="DTOs\ShareKeyDTO.cs" />
     <Compile Include="DTOs\TeamEventDTO.cs" />
     <Compile Include="DTOs\TeamEventPlayerRosterDTO.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\ConfigurationSettings.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
