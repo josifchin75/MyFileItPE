@@ -1554,7 +1554,17 @@ namespace MyFileItPEService
                         fileitDoc.Base64ImageThumb = null;
                         fileitDoc.TeamEventId = teamEventId;
                         result.Documents.Add(fileitDoc);
-
+                    });
+                }
+                else
+                {
+                    db.FILECABINETDOCUMENTs.Where(fcd => userIds.Contains(fcd.APPUSERID)).ToList().ForEach(fcd =>
+                    {
+                        var fileitDoc = new FileCabinetDocumentDTO(fcd);
+                        fileitDoc.Base64Image = null;
+                        fileitDoc.Base64ImageThumb = null;
+                        fileitDoc.TeamEventId = teamEventId;
+                        result.Documents.Add(fileitDoc);
                     });
                 }
                 result.Success = true;
@@ -1584,8 +1594,16 @@ namespace MyFileItPEService
                         }
                     });
                 }
-
-
+                else
+                {
+                    db.FILECABINETDOCUMENTs.Where(fcd => userIds.Contains(fcd.APPUSERID)).ToList().ForEach(fcd =>
+                    {
+                        if (!skipDocumentList.Contains(fcd.ID))
+                        {
+                            fileDocuments.Add(fcd);
+                        }
+                    });
+                }
 
                 fileDocuments
                     .ForEach(fd =>
@@ -1633,7 +1651,7 @@ namespace MyFileItPEService
                             {
                                 fileitDoc.TeamEventId = teamEventId;
                                 //var documentEventObject = shareDocumentTeamEventIds.SingleOrDefault(t => (int)t.TeamEventDocumentId == td.Key && (int)t.FileCabinetDocumentId == fd.ID);
-                               // fileitDoc.VerifiedAppUserId = documentEventObject == null ? null : documentEventObject.VerifiedAppUserId;
+                                // fileitDoc.VerifiedAppUserId = documentEventObject == null ? null : documentEventObject.VerifiedAppUserId;
                                 //var teamEventDocId = td.Key;//shareDocumentTeamEventIds.Single(t => (int)t.TeamEventDocumentId == td.Key && (int)t.FileCabinetDocumentId == fd.ID).TeamEventDocumentId;
                                 //fileitDoc.DocumentTypeName = db.TEAMEVENTDOCUMENTs.Single(ted => ted.ID == teamEventDocId).DOCUMENTNAME;//get the TeamEventDocumentType
                             }
