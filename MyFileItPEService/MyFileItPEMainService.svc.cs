@@ -1128,7 +1128,13 @@ namespace MyFileItPEService
                     //not sure if this should include the primary app user
                     db.APPUSERs.Include(a => a.SHAREKEYs).Where(a => a.ID == primaryAppUserId || a.PRIMARYAPPUSERID == primaryAppUserId).ToList().ForEach(a =>
                         {
-                            result.AppUsers.Add(new AppUserDTO(a));
+                            //get the docs
+                            var documentsEF = db.FILECABINETDOCUMENTs.Where(fcd => fcd.APPUSERID == a.ID).ToList();
+                            List<FileCabinetDocumentDTO> documents = new List<FileCabinetDocumentDTO>();
+                            documentsEF.ForEach(d => {
+                                documents.Add(new FileCabinetDocumentDTO(d));
+                            });
+                            result.AppUsers.Add(new AppUserDTO(a, documents));
                             result.Success = true;
                         });
                 }

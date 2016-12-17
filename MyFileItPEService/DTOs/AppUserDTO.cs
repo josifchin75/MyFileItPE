@@ -96,8 +96,21 @@ namespace MyFileItService.DTOs
         [DataMember]
         public List<ShareKeyDTO> ShareKeys { get; set; }
 
+        [DataMember]
+        public int TotalDocuments { get; set; }
+
+        [DataMember]
+        public int TotalDocumentsYTD { get; set; }
+
 
         public AppUserDTO() { }
+
+        public AppUserDTO(APPUSER appUserEF, List<FileCabinetDocumentDTO> documents) : this(appUserEF)
+        { 
+            //set the document count
+            TotalDocuments = documents.Count;
+            TotalDocumentsYTD = documents.Count(d => ((DateTime)d.DATECREATED).Year == DateTime.Now.Year);
+        }
 
         public AppUserDTO(APPUSER appUserEF)
         {
@@ -155,6 +168,9 @@ namespace MyFileItService.DTOs
             RemindUserForSignUp = !ShareKeys.Any();// && DATECREATED < DateTime.Now.AddDays(-90);
             var expirationDate = ((DateTime)DATECREATED).AddDays(ConfigurationSettings.TrialExpirationDays);
             DaysLeftInTrial = ShareKeys.Any() ? -9999 : (expirationDate - DateTime.Now).Days;
+
+            TotalDocuments = 0;
+            TotalDocumentsYTD = 100;
         }
 
         // User-defined conversion from dto to ef 
