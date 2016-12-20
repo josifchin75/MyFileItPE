@@ -21,9 +21,9 @@ namespace MyFileItDataLayer.Models
             this.SHAREKEYs = new HashSet<SHAREKEY>();
             this.APPUSERORGANIZATIONs1 = new HashSet<APPUSERORGANIZATION>();
             this.PAYMENTHISTORies = new HashSet<PAYMENTHISTORY>();
-            this.FILECABINETDOCUMENTs = new HashSet<FILECABINETDOCUMENT>();
             this.SHAREDOCUMENTs = new HashSet<SHAREDOCUMENT>();
             this.SHAREDOCUMENTs1 = new HashSet<SHAREDOCUMENT>();
+            this.FILECABINETDOCUMENTs = new HashSet<FILECABINETDOCUMENT>();
         }
     
         public int ID { get; set; }
@@ -59,9 +59,9 @@ namespace MyFileItDataLayer.Models
         public virtual ICollection<SHAREKEY> SHAREKEYs { get; set; }
         public virtual ICollection<APPUSERORGANIZATION> APPUSERORGANIZATIONs1 { get; set; }
         public virtual ICollection<PAYMENTHISTORY> PAYMENTHISTORies { get; set; }
-        public virtual ICollection<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
         public virtual APPUSERTYPE APPUSERTYPE { get; set; }
         public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
         public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs1 { get; set; }
+        public virtual ICollection<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
     }
 }

@@ -32,6 +32,7 @@ namespace MyFileItDataLayer.Models
         public int DOCUMENTSTATUSID { get; set; }
         public Nullable<System.DateTime> DATECREATED { get; set; }
         public string CABINETID { get; set; }
+        public Nullable<decimal> AMOUNT { get; set; }
     
         public virtual APPUSER APPUSER { get; set; }
         public virtual DOCUMENTSTATU DOCUMENTSTATU { get; set; }

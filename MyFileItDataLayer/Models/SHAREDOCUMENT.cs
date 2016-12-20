@@ -40,7 +40,7 @@ namespace MyFileItDataLayer.Models
         public virtual APPUSER APPUSER1 { get; set; }
         public virtual DOCUMENTSTATU DOCUMENTSTATU { get; set; }
         public virtual DOCUMENTTYPE DOCUMENTTYPE { get; set; }
-        public virtual FILECABINETDOCUMENT FILECABINETDOCUMENT { get; set; }
         public virtual TEAMEVENT TEAMEVENT { get; set; }
+        public virtual FILECABINETDOCUMENT FILECABINETDOCUMENT { get; set; }
     }
 }

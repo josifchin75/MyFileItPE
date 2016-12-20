@@ -114,7 +114,8 @@ namespace MyFileItPEService
                                     //VERIFIEDDATE = doc.VERIFIEDDATE,
                                     //VERIFIEDAPPUSERID = doc.VERIFIEDAPPUSERID,
                                     DOCUMENTLOCATION = doc.DOCUMENTLOCATION,
-                                    DOCUMENTSTATUSID = doc.DOCUMENTSTATUSID == 0 ? db.DOCUMENTSTATUS.First().ID : doc.DOCUMENTSTATUSID
+                                    DOCUMENTSTATUSID = doc.DOCUMENTSTATUSID == 0 ? db.DOCUMENTSTATUS.First().ID : doc.DOCUMENTSTATUSID,
+                                    AMOUNT = doc.AMOUNT
                                 };
 
                                 documentEF.SetNewID();
@@ -2674,8 +2675,8 @@ namespace MyFileItPEService
 
         public FileItMainService.FileItTemplate DefaultMyFileItTemplate(string organizationName)
         {
-            var templateName = organizationName.Replace(" ", "") + "template";
-            var templateDefinitions = new FileItMainService.FileItTemplateDefinition[9];
+            var templateName = organizationName.Replace(" ", "") + "_PEtemplate";
+            var templateDefinitions = new FileItMainService.FileItTemplateDefinition[8];
 
             templateDefinitions[0] = CreateTemplateDefinition(templateName, "Application User ID", 1, 10, "Number", false, false, false);
             templateDefinitions[1] = CreateTemplateDefinition(templateName, "Scan Date", 2, 10, "Date", false, false, false);
@@ -2684,9 +2685,8 @@ namespace MyFileItPEService
             templateDefinitions[4] = CreateTemplateDefinition(templateName, "Document Type ID", 5, 10, "Number", false, false, false);
             templateDefinitions[5] = CreateTemplateDefinition(templateName, "Document Type", 6, 100, "Text", false, false, false);
             templateDefinitions[6] = CreateTemplateDefinition(templateName, "Document Date", 7, 10, "Date", false, false, false);
-            templateDefinitions[7] = CreateTemplateDefinition(templateName, "Verified Date", 8, 10, "Date", false, false, false);
-            templateDefinitions[8] = CreateTemplateDefinition(templateName, "Verified Application User ID", 9, 10, "Number", false, false, false);
-
+            templateDefinitions[7] = CreateTemplateDefinition(templateName, "Amount", 8, 10, "Number", false, false, false);
+           
             var response = new FileItMainService.FileItTemplate()
             {
                 TemplateName = templateName,

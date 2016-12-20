@@ -44,11 +44,11 @@ namespace MyFileItDataLayer.Models
         public virtual DbSet<APPUSER> APPUSERs { get; set; }
         public virtual DbSet<COACH> COACHes { get; set; }
         public virtual DbSet<COACHSTATU> COACHSTATUS { get; set; }
-        public virtual DbSet<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
         public virtual DbSet<EMAILLOG> EMAILLOGs { get; set; }
         public virtual DbSet<APPUSERTYPE> APPUSERTYPEs { get; set; }
         public virtual DbSet<SALESREP> SALESREPs { get; set; }
         public virtual DbSet<TEAMEVENT> TEAMEVENTs { get; set; }
         public virtual DbSet<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
+        public virtual DbSet<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
     }
 }

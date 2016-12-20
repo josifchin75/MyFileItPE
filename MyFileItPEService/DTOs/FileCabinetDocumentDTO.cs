@@ -31,13 +31,15 @@ namespace MyFileItService.DTOs
         public string COMMENT { get; set; }
         [DataMember]
         public Nullable<System.DateTime> DOCUMENTDATE { get; set; }
-       
+
         [DataMember]
         public string DOCUMENTLOCATION { get; set; }
         [DataMember]
         public int DOCUMENTSTATUSID { get; set; }
         [DataMember]
         public Nullable<System.DateTime> DATECREATED { get; set; }
+        [DataMember]
+        public decimal? AMOUNT { get; set; }
 
         [DataMember]
         public int? VerifiedAppUserId { get; set; }
@@ -77,6 +79,7 @@ namespace MyFileItService.DTOs
             DOCUMENTLOCATION = fileCabinetDocumentEF.DOCUMENTLOCATION;
             DOCUMENTSTATUSID = fileCabinetDocumentEF.DOCUMENTSTATUSID;
             DATECREATED = fileCabinetDocumentEF.DATECREATED;
+            AMOUNT = fileCabinetDocumentEF.AMOUNT;
             CanDelete = !fileCabinetDocumentEF.SHAREDOCUMENTs.Any();
         }
 
@@ -93,10 +96,11 @@ namespace MyFileItService.DTOs
                 LASTNAME = dto.LASTNAME,
                 DOCUMENTTYPEID = dto.DOCUMENTTYPEID,
                 COMMENT = dto.COMMENT,
-                DOCUMENTDATE = dto.DOCUMENTDATE,   
+                DOCUMENTDATE = dto.DOCUMENTDATE,
                 DOCUMENTLOCATION = dto.DOCUMENTLOCATION,
                 DOCUMENTSTATUSID = dto.DOCUMENTSTATUSID,
-                DATECREATED = dto.DATECREATED
+                DATECREATED = dto.DATECREATED,
+                AMOUNT = dto.AMOUNT
             };
         }
 
@@ -114,8 +118,7 @@ namespace MyFileItService.DTOs
             //add the document type to the data
             result.Add(6, GetDocumentType(DOCUMENTTYPEID));
             result.Add(7, DOCUMENTDATE.ConvertToFirebirdDate());
-            result.Add(8,  currentDate.ConvertToFirebirdDate()); //removed from table to be used in share verification
-            result.Add(9, null);//VERIFIEDAPPUSERID == null ?  null : VERIFIEDAPPUSERID.ToString());
+            result.Add(8, AMOUNT.ToString());
 
             return result;
         }

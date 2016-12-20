@@ -83,6 +83,7 @@
     <None Include="Service References\FileItMainService\FileItService.disco" />
     <None Include="Service References\FileItMainService\configuration91.svcinfo" />
     <None Include="Service References\FileItMainService\configuration.svcinfo" />
+    <Content Include="PETest.aspx" />
     <Content Include="Service References\FileItMainService\MyFileItPEService.FileItMainService.FileItCabinet.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -126,6 +127,13 @@
     <Compile Include="Interfaces\IMyFileItPEMainService.cs" />
     <Compile Include="MyFileItPEMainService.svc.cs">
       <DependentUpon>MyFileItPEMainService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="PETest.aspx.cs">
+      <DependentUpon>PETest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PETest.aspx.designer.cs">
+      <DependentUpon>PETest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\FileItMainService\Reference.cs">
