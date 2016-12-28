@@ -12,7 +12,14 @@
         <div>
     <h1>User</h1>
             <asp:Button runat="server" ID="btnAddUser" Text="Add User" OnClick="btnAddUser_Click" />
-
+            <table>
+                <tr><td>User:</td><td><asp:TextBox runat="server" ID="username"></asp:TextBox></td></tr>
+                <tr><td>Pass:</td><td><asp:TextBox runat="server" ID="password"></asp:TextBox></td></tr>
+                <tr><td>
+                    </td><td><asp:Button runat="server" ID="btnLogin" Text="Login" OnClick="btnLogin_Click"/></td></tr>
+            </table>
+            <asp:Button runat="server" ID="btnGetAppUserDocuments" Text="Get App User Docs" OnClick="btnGetAppUserDocuments_Click" />
+            <asp:Button runat="server" ID="btnAssociate" Text="Share Doc" OnClick="btnAssociate_Click" />           
     </div>
     </form>
 </body>

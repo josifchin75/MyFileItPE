@@ -39,5 +39,40 @@ namespace MyFileItPEService
             lblError.Text = result.Success.ToString();
             var i = 0;
         }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var txtuser = (TextBox)Page.FindControl("username");
+            var txtpass = (TextBox)Page.FindControl("password");
+            var result = svc.LoginAppUser(USERNAME, PASSWORD, txtuser.Text, txtpass.Text);
+            lblError.Text = "Login: " + result.Success.ToString() + " Coach: " + result.AppUsers.First().IsCoach.ToString();
+        }
+
+        protected void btnGetAppUserDocuments_Click(object sender, EventArgs e)
+        {
+            var appUserId = 5;
+            int? teamEventId = 2;
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.GetAppUserDocumentsListNoImages(USERNAME, PASSWORD, appUserId, teamEventId, null);
+            lblError.Text = "Docs Found: " + result.Documents.Count.ToString();
+        }
+
+        protected void btnAssociate_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var associations = new List<AssociateDocumentDTO>();
+            associations.Add(new AssociateDocumentDTO()
+            {
+                appUserId = 5,
+                comment = "TESTING",
+                emergency = false,
+                fileCabinetDocumentId = 1,
+                organizationId = 1,
+                teamEventId = 2
+            });
+            var result = svc.AssociateDocumentsToTeamEventDocuments(USERNAME, PASSWORD, associations);
+        }
+
     }
 }
