@@ -27,7 +27,6 @@ namespace MyFileItDataLayer.Models
     
         public virtual DbSet<APPUSERSTATU> APPUSERSTATUS { get; set; }
         public virtual DbSet<DOCUMENTSTATU> DOCUMENTSTATUS { get; set; }
-        public virtual DbSet<DOCUMENTTYPE> DOCUMENTTYPEs { get; set; }
         public virtual DbSet<ORGANIZATIONSTATU> ORGANIZATIONSTATUS { get; set; }
         public virtual DbSet<ORGANIZATIONTYPE> ORGANIZATIONTYPEs { get; set; }
         public virtual DbSet<RELATIONSHIPTYPE> RELATIONSHIPTYPEs { get; set; }
@@ -50,5 +49,6 @@ namespace MyFileItDataLayer.Models
         public virtual DbSet<TEAMEVENT> TEAMEVENTs { get; set; }
         public virtual DbSet<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
         public virtual DbSet<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
+        public virtual DbSet<DOCUMENTTYPE> DOCUMENTTYPEs { get; set; }
     }
 }

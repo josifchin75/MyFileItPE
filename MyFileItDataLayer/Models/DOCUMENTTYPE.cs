@@ -16,14 +16,16 @@ namespace MyFileItDataLayer.Models
     {
         public DOCUMENTTYPE()
         {
-            this.SHAREDOCUMENTs = new HashSet<SHAREDOCUMENT>();
             this.FILECABINETDOCUMENTs = new HashSet<FILECABINETDOCUMENT>();
+            this.SHAREDOCUMENTs = new HashSet<SHAREDOCUMENT>();
         }
     
         public int ID { get; set; }
         public string NAME { get; set; }
+        public Nullable<int> APPUSERID { get; set; }
     
-        public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
+        public virtual APPUSER APPUSER { get; set; }
         public virtual ICollection<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
+        public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
     }
 }

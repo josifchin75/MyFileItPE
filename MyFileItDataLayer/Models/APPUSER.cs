@@ -24,6 +24,7 @@ namespace MyFileItDataLayer.Models
             this.SHAREDOCUMENTs = new HashSet<SHAREDOCUMENT>();
             this.SHAREDOCUMENTs1 = new HashSet<SHAREDOCUMENT>();
             this.FILECABINETDOCUMENTs = new HashSet<FILECABINETDOCUMENT>();
+            this.DOCUMENTTYPEs = new HashSet<DOCUMENTTYPE>();
         }
     
         public int ID { get; set; }
@@ -63,5 +64,6 @@ namespace MyFileItDataLayer.Models
         public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
         public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs1 { get; set; }
         public virtual ICollection<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
+        public virtual ICollection<DOCUMENTTYPE> DOCUMENTTYPEs { get; set; }
     }
 }

@@ -70,6 +70,67 @@ namespace MyFileItPEService
             return result;
         }
 
+        public MyFileItResult GetDocumentTypes(string user, string pass, int appUserId)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    db.DOCUMENTTYPEs
+                        .Where(dt => dt.APPUSERID == null || dt.APPUSERID == appUserId)
+                        .OrderBy(dt => dt.NAME)
+                        .ToList().ForEach(dt =>
+                        {
+                            result.DocumentTypes.Add(new DocumentTypeDTO(dt));
+                        });
+                    result.Success = result.DocumentTypes.Any();
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult AddDocumentType(string user, string pass, int appUserId, string documentType)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    var ef = new DOCUMENTTYPE()
+                    {
+                        NAME = documentType,
+                        APPUSERID = appUserId
+                    };
+                    ef.SetNewID();
+                    db.DOCUMENTTYPEs.Add(ef);
+                    result.Success = SaveDBChanges(db);
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult UpdateDocumentType(string user, string pass, int id, string documentType)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    var ef = db.DOCUMENTTYPEs.Single(dt => dt.ID == id);
+                    ef.NAME = documentType;
+                    result.Success = SaveDBChanges(db);
+                    db.DOCUMENTTYPEs
+                        .Where(dt => dt.APPUSERID == null || dt.APPUSERID == ef.APPUSERID)
+                        .ToList().ForEach(dt =>
+                        {
+                            result.DocumentTypes.Add(new DocumentTypeDTO(dt));
+                        });
+                }
+            }
+            return result;
+        }
+
         /************************************************************
          * FILEDOCUMENT UPLOAD STUFF 
          * ********************************************************/
@@ -1132,7 +1193,8 @@ namespace MyFileItPEService
                             //get the docs
                             var documentsEF = db.FILECABINETDOCUMENTs.Where(fcd => fcd.APPUSERID == a.ID).ToList();
                             List<FileCabinetDocumentDTO> documents = new List<FileCabinetDocumentDTO>();
-                            documentsEF.ForEach(d => {
+                            documentsEF.ForEach(d =>
+                            {
                                 documents.Add(new FileCabinetDocumentDTO(d));
                             });
                             result.AppUsers.Add(new AppUserDTO(a, documents));
@@ -2686,7 +2748,7 @@ namespace MyFileItPEService
             templateDefinitions[5] = CreateTemplateDefinition(templateName, "Document Type", 6, 100, "Text", false, false, false);
             templateDefinitions[6] = CreateTemplateDefinition(templateName, "Document Date", 7, 10, "Date", false, false, false);
             templateDefinitions[7] = CreateTemplateDefinition(templateName, "Amount", 8, 10, "Number", false, false, false);
-           
+
             var response = new FileItMainService.FileItTemplate()
             {
                 TemplateName = templateName,
@@ -2717,6 +2779,9 @@ namespace MyFileItPEService
                 ExceptionHelper.LogError(message);
             }
         }
+
+
+
 
     }
 

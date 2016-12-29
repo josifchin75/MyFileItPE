@@ -103,6 +103,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\DocumentTypeDTO.cs" />
     <Compile Include="DTOs\AppUserDTO.cs" />
     <Compile Include="DTOs\AssociateDocumentDTO.cs" />
     <Compile Include="DTOs\CoachDTO.cs" />

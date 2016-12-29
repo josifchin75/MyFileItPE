@@ -158,6 +158,7 @@
     <Compile Include="PartialClasses\APPUSER.cs" />
     <Compile Include="PartialClasses\COACH.cs" />
     <Compile Include="PartialClasses\DbExtensions.cs" />
+    <Compile Include="PartialClasses\DOCUMENTTYPE.cs" />
     <Compile Include="PartialClasses\EMAILLOG.cs" />
     <Compile Include="PartialClasses\FILECABINETDOCUMENT.cs" />
     <Compile Include="PartialClasses\ORGANIZATION.cs" />

@@ -13,6 +13,24 @@ namespace MyFileItPEService
         public string USERNAME = "admin";
         public string PASSWORD = "admin";
 
+        public int AppUserId
+        {
+            get
+            {
+                var txt = (TextBox)Page.FindControl("txtAppUserId");
+                return string.IsNullOrEmpty(txt.Text) ? -1 : int.Parse(txt.Text);
+            }
+        }
+
+        public string NewDocumentType
+        {
+            get
+            {
+                var txt = (TextBox)Page.FindControl("txtDocumentType");
+                return txt.Text;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -72,6 +90,23 @@ namespace MyFileItPEService
                 teamEventId = 2
             });
             var result = svc.AssociateDocumentsToTeamEventDocuments(USERNAME, PASSWORD, associations);
+        }
+
+        protected void btnAddDocumentType_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.AddDocumentType(USERNAME, PASSWORD, AppUserId,NewDocumentType);
+            lblError.Text = result.Success.ToString();           
+        }
+
+        protected void btnGetAllDocTypes_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.GetDocumentTypes(USERNAME, PASSWORD, AppUserId);
+            result.DocumentTypes.ForEach(t =>
+            {
+                lblError.Text += t.NAME + "<br/>";
+            });
         }
 
     }

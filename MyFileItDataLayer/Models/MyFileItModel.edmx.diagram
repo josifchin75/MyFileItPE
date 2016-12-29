@@ -7,7 +7,6 @@
       <Diagram DiagramId="efc4f138951c4226ae64e6ca7957f2c7" Name="Diagram1" ZoomLevel="55">
         <EntityTypeShape EntityType="MyFileItModel.APPUSERSTATU" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MyFileItModel.DOCUMENTSTATU" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyFileItModel.DOCUMENTTYPE" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MyFileItModel.ORGANIZATIONSTATU" Width="1.5" PointX="1.5" PointY="25.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MyFileItModel.ORGANIZATIONTYPE" Width="1.5" PointX="1.5" PointY="27.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MyFileItModel.RELATIONSHIPTYPE" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="true" />
@@ -58,13 +57,15 @@
         <AssociationConnector Association="MyFileItModel.INTEG_295" />
         <AssociationConnector Association="MyFileItModel.INTEG_299" />
         <AssociationConnector Association="MyFileItModel.INTEG_296" />
-        <AssociationConnector Association="MyFileItModel.INTEG_297" />
         <AssociationConnector Association="MyFileItModel.INTEG_294" />
         <EntityTypeShape EntityType="MyFileItModel.FILECABINETDOCUMENT" Width="1.5" PointX="8.25" PointY="6.5" />
         <AssociationConnector Association="MyFileItModel.INTEG_208" />
         <AssociationConnector Association="MyFileItModel.INTEG_207" />
-        <AssociationConnector Association="MyFileItModel.INTEG_206" />
         <AssociationConnector Association="MyFileItModel.INTEG_298" />
+        <EntityTypeShape EntityType="MyFileItModel.DOCUMENTTYPE" Width="1.5" PointX="5.25" PointY="36.75" />
+        <AssociationConnector Association="MyFileItModel.INTEG_300" />
+        <AssociationConnector Association="MyFileItModel.INTEG_206" />
+        <AssociationConnector Association="MyFileItModel.INTEG_297" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -46,7 +46,11 @@ namespace MyFileItService.DTOs
         public List<PaymentHistoryDTO> PaymentHistories { get; set; }
 
         [DataMember]
-        public List<EmailLogDTO> EmailLogs { get; set; }
+        public List<EmailLogDTO> EmailLogs
+        { get; set; }
+
+        [DataMember]
+        public List<DocumentTypeDTO> DocumentTypes { get; set; }
 
         [DataMember]
         public string ReportData { get; set; }
@@ -65,6 +69,7 @@ namespace MyFileItService.DTOs
             Documents = new List<FileCabinetDocumentDTO>();
             PaymentHistories = new List<PaymentHistoryDTO>();
             EmailLogs = new List<EmailLogDTO>();
+            DocumentTypes = new List<DocumentTypeDTO>();
         }
     }
 }

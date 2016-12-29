@@ -36,7 +36,7 @@ namespace MyFileItDataLayer.Models
     
         public virtual APPUSER APPUSER { get; set; }
         public virtual DOCUMENTSTATU DOCUMENTSTATU { get; set; }
-        public virtual DOCUMENTTYPE DOCUMENTTYPE { get; set; }
         public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
+        public virtual DOCUMENTTYPE DOCUMENTTYPE { get; set; }
     }
 }
