@@ -100,13 +100,18 @@ namespace MyFileItService.DTOs
         public int TotalDocuments { get; set; }
 
         [DataMember]
+        public string PromoCodeImage { get; set; }
+
+        [DataMember]
         public int TotalDocumentsYTD { get; set; }
 
+       
 
         public AppUserDTO() { }
 
-        public AppUserDTO(APPUSER appUserEF, List<FileCabinetDocumentDTO> documents) : this(appUserEF)
-        { 
+        public AppUserDTO(APPUSER appUserEF, List<FileCabinetDocumentDTO> documents)
+            : this(appUserEF)
+        {
             //set the document count
             TotalDocuments = documents.Count;
             TotalDocumentsYTD = documents.Count(d => ((DateTime)d.DATECREATED).Year == DateTime.Now.Year);
@@ -146,6 +151,11 @@ namespace MyFileItService.DTOs
             ShareKeys = appUserEF.AssociatedShareKeys.Select(sk =>
                 new ShareKeyDTO(sk, true)
             ).ToList();
+
+            if (ShareKeys.Any())
+            {
+                PromoCodeImage = "data:image/png;base64," + ShareKeys.First().ShareImageBase64;
+            }
             //ShareKeys = appUserEF.SHAREKEYs.Where(sk => sk.APPUSERID == appUserEF.ID).Select(sk => new ShareKeyDTO(sk, true)).ToList();
 
             NumberOfPurchasedShareKeys = appUserEF.PurchasedShareKeys.Count;
@@ -157,7 +167,8 @@ namespace MyFileItService.DTOs
             });
 
             Coaches = new List<CoachDTO>();
-            appUserEF.Coaches.ForEach(c => {
+            appUserEF.Coaches.ForEach(c =>
+            {
                 Coaches.Add(new CoachDTO(c));
             });
 

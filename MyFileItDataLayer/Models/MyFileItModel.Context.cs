@@ -34,7 +34,6 @@ namespace MyFileItDataLayer.Models
         public virtual DbSet<SPORTTYPE> SPORTTYPEs { get; set; }
         public virtual DbSet<PAYMENTTYPE> PAYMENTTYPEs { get; set; }
         public virtual DbSet<SALESREPLEADAREA> SALESREPLEADAREAs { get; set; }
-        public virtual DbSet<SHAREKEY> SHAREKEYs { get; set; }
         public virtual DbSet<TEAMEVENTPLAYERROSTER> TEAMEVENTPLAYERROSTERs { get; set; }
         public virtual DbSet<USERSTAGETYPE> USERSTAGETYPEs { get; set; }
         public virtual DbSet<APPUSERORGANIZATION> APPUSERORGANIZATIONs { get; set; }
@@ -50,5 +49,6 @@ namespace MyFileItDataLayer.Models
         public virtual DbSet<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
         public virtual DbSet<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
         public virtual DbSet<DOCUMENTTYPE> DOCUMENTTYPEs { get; set; }
+        public virtual DbSet<SHAREKEY> SHAREKEYs { get; set; }
     }
 }

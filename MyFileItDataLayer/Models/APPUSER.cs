@@ -18,13 +18,13 @@ namespace MyFileItDataLayer.Models
         {
             this.APPUSERORGANIZATIONs = new HashSet<APPUSERORGANIZATION>();
             this.TEAMEVENTPLAYERROSTERs = new HashSet<TEAMEVENTPLAYERROSTER>();
-            this.SHAREKEYs = new HashSet<SHAREKEY>();
             this.APPUSERORGANIZATIONs1 = new HashSet<APPUSERORGANIZATION>();
             this.PAYMENTHISTORies = new HashSet<PAYMENTHISTORY>();
             this.SHAREDOCUMENTs = new HashSet<SHAREDOCUMENT>();
             this.SHAREDOCUMENTs1 = new HashSet<SHAREDOCUMENT>();
             this.FILECABINETDOCUMENTs = new HashSet<FILECABINETDOCUMENT>();
             this.DOCUMENTTYPEs = new HashSet<DOCUMENTTYPE>();
+            this.SHAREKEYs = new HashSet<SHAREKEY>();
         }
     
         public int ID { get; set; }
@@ -57,7 +57,6 @@ namespace MyFileItDataLayer.Models
         public virtual APPUSERSTATU APPUSERSTATU { get; set; }
         public virtual ICollection<APPUSERORGANIZATION> APPUSERORGANIZATIONs { get; set; }
         public virtual ICollection<TEAMEVENTPLAYERROSTER> TEAMEVENTPLAYERROSTERs { get; set; }
-        public virtual ICollection<SHAREKEY> SHAREKEYs { get; set; }
         public virtual ICollection<APPUSERORGANIZATION> APPUSERORGANIZATIONs1 { get; set; }
         public virtual ICollection<PAYMENTHISTORY> PAYMENTHISTORies { get; set; }
         public virtual APPUSERTYPE APPUSERTYPE { get; set; }
@@ -65,5 +64,6 @@ namespace MyFileItDataLayer.Models
         public virtual ICollection<SHAREDOCUMENT> SHAREDOCUMENTs1 { get; set; }
         public virtual ICollection<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
         public virtual ICollection<DOCUMENTTYPE> DOCUMENTTYPEs { get; set; }
+        public virtual ICollection<SHAREKEY> SHAREKEYs { get; set; }
     }
 }

@@ -25,9 +25,10 @@ namespace MyFileItDataLayer.Models
         public Nullable<int> PAYMENTTYPEID { get; set; }
         public Nullable<int> PRIMARYAPPUSERID { get; set; }
         public string SHAREKEYCODE { get; set; }
+        public string SHAREIMAGE { get; set; }
     
-        public virtual PAYMENTTYPE PAYMENTTYPE { get; set; }
         public virtual APPUSER APPUSER { get; set; }
+        public virtual PAYMENTTYPE PAYMENTTYPE { get; set; }
         public virtual SALESREP SALESREP { get; set; }
     }
 }

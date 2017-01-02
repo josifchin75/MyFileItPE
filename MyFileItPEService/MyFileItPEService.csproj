@@ -87,6 +87,7 @@
     <None Include="Service References\FileItMainService\configuration91.svcinfo" />
     <None Include="Service References\FileItMainService\configuration.svcinfo" />
     <Content Include="PETest.aspx" />
+    <Content Include="PromoCodeTester.aspx" />
     <Content Include="Service References\FileItMainService\MyFileItPEService.FileItMainService.FileItCabinet.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -126,6 +127,7 @@
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\JSONHelper.cs" />
     <Compile Include="Helpers\ReportHelper.cs" />
     <Compile Include="Helpers\SQLDataHelper.cs" />
@@ -146,6 +148,13 @@
     </Compile>
     <Compile Include="PETest.aspx.designer.cs">
       <DependentUpon>PETest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PromoCodeTester.aspx.cs">
+      <DependentUpon>PromoCodeTester.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PromoCodeTester.aspx.designer.cs">
+      <DependentUpon>PromoCodeTester.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\FileItMainService\Reference.cs">

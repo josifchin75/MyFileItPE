@@ -294,6 +294,7 @@
           <Property Name="PAYMENTTYPEID" Type="int" />
           <Property Name="PRIMARYAPPUSERID" Type="int" />
           <Property Name="SHAREKEYCODE" Type="varchar" MaxLength="100" Unicode="true" />
+          <Property Name="SHAREIMAGE" Type="varchar" MaxLength="255" Unicode="true" />
         </EntityType>
         <EntityType Name="SPORTTYPE">
           <Key>
@@ -978,11 +979,6 @@
           <EntitySet Name="SPORTTYPEs" EntityType="Self.SPORTTYPE" />
           <EntitySet Name="PAYMENTTYPEs" EntityType="MyFileItModel.PAYMENTTYPE" />
           <EntitySet Name="SALESREPLEADAREAs" EntityType="MyFileItModel.SALESREPLEADAREA" />
-          <EntitySet Name="SHAREKEYs" EntityType="MyFileItModel.SHAREKEY" />
-          <AssociationSet Name="INTEG_251" Association="MyFileItModel.INTEG_251">
-            <End Role="PAYMENTTYPE" EntitySet="PAYMENTTYPEs" />
-            <End Role="SHAREKEY" EntitySet="SHAREKEYs" />
-          </AssociationSet>
           <EntitySet Name="TEAMEVENTPLAYERROSTERs" EntityType="MyFileItModel.TEAMEVENTPLAYERROSTER" />
           <EntitySet Name="USERSTAGETYPEs" EntityType="MyFileItModel.USERSTAGETYPE" />
           <AssociationSet Name="INTEG_265" Association="MyFileItModel.INTEG_265">
@@ -1024,10 +1020,6 @@
           <AssociationSet Name="INTEG_231" Association="MyFileItModel.INTEG_231">
             <End Role="APPUSER" EntitySet="APPUSERs" />
             <End Role="TEAMEVENTPLAYERROSTER" EntitySet="TEAMEVENTPLAYERROSTERs" />
-          </AssociationSet>
-          <AssociationSet Name="INTEG_256" Association="MyFileItModel.INTEG_256">
-            <End Role="APPUSER" EntitySet="APPUSERs" />
-            <End Role="SHAREKEY" EntitySet="SHAREKEYs" />
           </AssociationSet>
           <AssociationSet Name="INTEG_266" Association="MyFileItModel.INTEG_266">
             <End Role="APPUSER" EntitySet="APPUSERs" />
@@ -1083,10 +1075,6 @@
             <End Role="SALESREPSTATU" EntitySet="SALESREPSTATUS" />
             <End Role="SALESREP" EntitySet="SALESREPs" />
           </AssociationSet>
-          <AssociationSet Name="INTEG_160" Association="MyFileItModel.INTEG_160">
-            <End Role="SALESREP" EntitySet="SALESREPs" />
-            <End Role="SHAREKEY" EntitySet="SHAREKEYs" />
-          </AssociationSet>
           <AssociationSet Name="INTEG_252" Association="MyFileItModel.INTEG_252">
             <End Role="SALESREP" EntitySet="SALESREPs" />
             <End Role="SALESREPLEADAREA" EntitySet="SALESREPLEADAREAs" />
@@ -1138,6 +1126,19 @@
             <End Role="DOCUMENTTYPE" EntitySet="DOCUMENTTYPEs" />
             <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
           </AssociationSet>
+          <EntitySet Name="SHAREKEYs" EntityType="MyFileItModel.SHAREKEY" />
+          <AssociationSet Name="INTEG_256" Association="MyFileItModel.INTEG_256">
+            <End Role="APPUSER" EntitySet="APPUSERs" />
+            <End Role="SHAREKEY" EntitySet="SHAREKEYs" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_251" Association="MyFileItModel.INTEG_251">
+            <End Role="PAYMENTTYPE" EntitySet="PAYMENTTYPEs" />
+            <End Role="SHAREKEY" EntitySet="SHAREKEYs" />
+          </AssociationSet>
+          <AssociationSet Name="INTEG_160" Association="MyFileItModel.INTEG_160">
+            <End Role="SALESREP" EntitySet="SALESREPs" />
+            <End Role="SHAREKEY" EntitySet="SHAREKEYs" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="PAYMENTTYPE">
           <Key>
@@ -1158,37 +1159,6 @@
           <Property Name="ZIPCODE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SALESREP" Relationship="MyFileItModel.INTEG_252" FromRole="SALESREPLEADAREA" ToRole="SALESREP" />
         </EntityType>
-        <EntityType Name="SHAREKEY">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="APPUSERID" Type="Int32" />
-          <Property Name="PURCHASEDATE" Type="DateTime" />
-          <Property Name="PROMOCODE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LAST4CC" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="AMOUNT" Type="Decimal" Precision="9" Scale="0" />
-          <Property Name="SALESREPID" Type="Int32" />
-          <Property Name="DATECREATED" Type="DateTime" />
-          <Property Name="PAYMENTTYPEID" Type="Int32" />
-          <Property Name="PRIMARYAPPUSERID" Type="Int32" />
-          <Property Name="SHAREKEYCODE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PAYMENTTYPE" Relationship="MyFileItModel.INTEG_251" FromRole="SHAREKEY" ToRole="PAYMENTTYPE" />
-          <NavigationProperty Name="APPUSER" Relationship="MyFileItModel.INTEG_256" FromRole="SHAREKEY" ToRole="APPUSER" />
-          <NavigationProperty Name="SALESREP" Relationship="MyFileItModel.INTEG_160" FromRole="SHAREKEY" ToRole="SALESREP" />
-        </EntityType>
-        <Association Name="INTEG_251">
-          <End Type="MyFileItModel.PAYMENTTYPE" Role="PAYMENTTYPE" Multiplicity="0..1" />
-          <End Type="MyFileItModel.SHAREKEY" Role="SHAREKEY" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PAYMENTTYPE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREKEY">
-              <PropertyRef Name="PAYMENTTYPEID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TEAMEVENTPLAYERROSTER">
           <Key>
             <PropertyRef Name="ID" />
@@ -1375,7 +1345,6 @@
           <NavigationProperty Name="APPUSERSTATU" Relationship="MyFileItModel.INTEG_140" FromRole="APPUSER" ToRole="APPUSERSTATU" />
           <NavigationProperty Name="APPUSERORGANIZATIONs" Relationship="MyFileItModel.INTEG_191" FromRole="APPUSER" ToRole="APPUSERORGANIZATION" />
           <NavigationProperty Name="TEAMEVENTPLAYERROSTERs" Relationship="MyFileItModel.INTEG_231" FromRole="APPUSER" ToRole="TEAMEVENTPLAYERROSTER" />
-          <NavigationProperty Name="SHAREKEYs" Relationship="MyFileItModel.INTEG_256" FromRole="APPUSER" ToRole="SHAREKEY" />
           <NavigationProperty Name="APPUSERORGANIZATIONs1" Relationship="MyFileItModel.INTEG_266" FromRole="APPUSER" ToRole="APPUSERORGANIZATION" />
           <NavigationProperty Name="PAYMENTHISTORies" Relationship="MyFileItModel.INTEG_271" FromRole="APPUSER" ToRole="PAYMENTHISTORY" />
           <NavigationProperty Name="APPUSERTYPE" Relationship="MyFileItModel.INTEG_139" FromRole="APPUSER" ToRole="APPUSERTYPE" />
@@ -1383,6 +1352,7 @@
           <NavigationProperty Name="SHAREDOCUMENTs1" Relationship="MyFileItModel.INTEG_299" FromRole="APPUSER" ToRole="SHAREDOCUMENT" />
           <NavigationProperty Name="FILECABINETDOCUMENTs" Relationship="MyFileItModel.INTEG_208" FromRole="APPUSER" ToRole="FILECABINETDOCUMENT" />
           <NavigationProperty Name="DOCUMENTTYPEs" Relationship="MyFileItModel.INTEG_300" FromRole="APPUSER" ToRole="DOCUMENTTYPE" />
+          <NavigationProperty Name="SHAREKEYs" Relationship="MyFileItModel.INTEG_256" FromRole="APPUSER" ToRole="SHAREKEY" />
           </EntityType>
         <Association Name="INTEG_138">
           <End Type="MyFileItModel.RELATIONSHIPTYPE" Role="RELATIONSHIPTYPE" Multiplicity="0..1" />
@@ -1429,18 +1399,6 @@
             </Principal>
             <Dependent Role="TEAMEVENTPLAYERROSTER">
               <PropertyRef Name="APPUSERID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_256">
-          <End Type="MyFileItModel.APPUSER" Role="APPUSER" Multiplicity="0..1" />
-          <End Type="MyFileItModel.SHAREKEY" Role="SHAREKEY" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="APPUSER">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREKEY">
-              <PropertyRef Name="PRIMARYAPPUSERID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1635,8 +1593,8 @@
           <Property Name="DEACTIVATEDATE" Type="DateTime" />
           <Property Name="PASSWORD" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SALESREPSTATU" Relationship="MyFileItModel.INTEG_152" FromRole="SALESREP" ToRole="SALESREPSTATU" />
-          <NavigationProperty Name="SHAREKEYs" Relationship="MyFileItModel.INTEG_160" FromRole="SALESREP" ToRole="SHAREKEY" />
           <NavigationProperty Name="SALESREPLEADAREAs" Relationship="MyFileItModel.INTEG_252" FromRole="SALESREP" ToRole="SALESREPLEADAREA" />
+          <NavigationProperty Name="SHAREKEYs" Relationship="MyFileItModel.INTEG_160" FromRole="SALESREP" ToRole="SHAREKEY" />
         </EntityType>
         <EntityType Name="TEAMEVENT">
           <Key>
@@ -1688,18 +1646,6 @@
             </Principal>
             <Dependent Role="SALESREP">
               <PropertyRef Name="SALESREPSTATUSID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="INTEG_160">
-          <End Type="MyFileItModel.SALESREP" Role="SALESREP" Multiplicity="0..1" />
-          <End Type="MyFileItModel.SHAREKEY" Role="SHAREKEY" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SALESREP">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SHAREKEY">
-              <PropertyRef Name="SALESREPID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1913,6 +1859,62 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SHAREKEY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="APPUSERID" Type="Int32" />
+          <Property Name="PURCHASEDATE" Type="DateTime" />
+          <Property Name="PROMOCODE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LAST4CC" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="AMOUNT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SALESREPID" Type="Int32" />
+          <Property Name="DATECREATED" Type="DateTime" />
+          <Property Name="PAYMENTTYPEID" Type="Int32" />
+          <Property Name="PRIMARYAPPUSERID" Type="Int32" />
+          <Property Name="SHAREKEYCODE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SHAREIMAGE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="APPUSER" Relationship="MyFileItModel.INTEG_256" FromRole="SHAREKEY" ToRole="APPUSER" />
+          <NavigationProperty Name="PAYMENTTYPE" Relationship="MyFileItModel.INTEG_251" FromRole="SHAREKEY" ToRole="PAYMENTTYPE" />
+          <NavigationProperty Name="SALESREP" Relationship="MyFileItModel.INTEG_160" FromRole="SHAREKEY" ToRole="SALESREP" />
+        </EntityType>
+        <Association Name="INTEG_256">
+          <End Type="MyFileItModel.APPUSER" Role="APPUSER" Multiplicity="0..1" />
+          <End Type="MyFileItModel.SHAREKEY" Role="SHAREKEY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="APPUSER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREKEY">
+              <PropertyRef Name="PRIMARYAPPUSERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_251">
+          <End Type="MyFileItModel.PAYMENTTYPE" Role="PAYMENTTYPE" Multiplicity="0..1" />
+          <End Type="MyFileItModel.SHAREKEY" Role="SHAREKEY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAYMENTTYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREKEY">
+              <PropertyRef Name="PAYMENTTYPEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INTEG_160">
+          <End Type="MyFileItModel.SALESREP" Role="SALESREP" Multiplicity="0..1" />
+          <End Type="MyFileItModel.SHAREKEY" Role="SHAREKEY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SALESREP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHAREKEY">
+              <PropertyRef Name="SALESREPID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1990,23 +1992,6 @@
                 <ScalarProperty Name="STATECODE" ColumnName="STATECODE" />
                 <ScalarProperty Name="CITY" ColumnName="CITY" />
                 <ScalarProperty Name="SALESREPID" ColumnName="SALESREPID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SHAREKEYs">
-            <EntityTypeMapping TypeName="MyFileItModel.SHAREKEY">
-              <MappingFragment StoreEntitySet="SHAREKEY">
-                <ScalarProperty Name="SHAREKEYCODE" ColumnName="SHAREKEYCODE" />
-                <ScalarProperty Name="PRIMARYAPPUSERID" ColumnName="PRIMARYAPPUSERID" />
-                <ScalarProperty Name="PAYMENTTYPEID" ColumnName="PAYMENTTYPEID" />
-                <ScalarProperty Name="DATECREATED" ColumnName="DATECREATED" />
-                <ScalarProperty Name="SALESREPID" ColumnName="SALESREPID" />
-                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
-                <ScalarProperty Name="LAST4CC" ColumnName="LAST4CC" />
-                <ScalarProperty Name="PROMOCODE" ColumnName="PROMOCODE" />
-                <ScalarProperty Name="PURCHASEDATE" ColumnName="PURCHASEDATE" />
-                <ScalarProperty Name="APPUSERID" ColumnName="APPUSERID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2269,6 +2254,24 @@
               <MappingFragment StoreEntitySet="DOCUMENTTYPE">
                 <ScalarProperty Name="APPUSERID" ColumnName="APPUSERID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SHAREKEYs">
+            <EntityTypeMapping TypeName="MyFileItModel.SHAREKEY">
+              <MappingFragment StoreEntitySet="SHAREKEY">
+                <ScalarProperty Name="SHAREIMAGE" ColumnName="SHAREIMAGE" />
+                <ScalarProperty Name="SHAREKEYCODE" ColumnName="SHAREKEYCODE" />
+                <ScalarProperty Name="PRIMARYAPPUSERID" ColumnName="PRIMARYAPPUSERID" />
+                <ScalarProperty Name="PAYMENTTYPEID" ColumnName="PAYMENTTYPEID" />
+                <ScalarProperty Name="DATECREATED" ColumnName="DATECREATED" />
+                <ScalarProperty Name="SALESREPID" ColumnName="SALESREPID" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="LAST4CC" ColumnName="LAST4CC" />
+                <ScalarProperty Name="PROMOCODE" ColumnName="PROMOCODE" />
+                <ScalarProperty Name="PURCHASEDATE" ColumnName="PURCHASEDATE" />
+                <ScalarProperty Name="APPUSERID" ColumnName="APPUSERID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

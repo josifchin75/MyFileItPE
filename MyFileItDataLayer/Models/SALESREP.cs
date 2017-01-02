@@ -16,8 +16,8 @@ namespace MyFileItDataLayer.Models
     {
         public SALESREP()
         {
-            this.SHAREKEYs = new HashSet<SHAREKEY>();
             this.SALESREPLEADAREAs = new HashSet<SALESREPLEADAREA>();
+            this.SHAREKEYs = new HashSet<SHAREKEY>();
         }
     
         public int ID { get; set; }
@@ -38,7 +38,7 @@ namespace MyFileItDataLayer.Models
         public string PASSWORD { get; set; }
     
         public virtual SALESREPSTATU SALESREPSTATU { get; set; }
-        public virtual ICollection<SHAREKEY> SHAREKEYs { get; set; }
         public virtual ICollection<SALESREPLEADAREA> SALESREPLEADAREAs { get; set; }
+        public virtual ICollection<SHAREKEY> SHAREKEYs { get; set; }
     }
 }

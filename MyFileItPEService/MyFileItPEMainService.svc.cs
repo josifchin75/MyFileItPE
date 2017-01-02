@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -2438,7 +2439,23 @@ namespace MyFileItPEService
         /************************************************************
          * SHAREKEYs 
          * ********************************************************/
-        public MyFileItResult AddShareKey(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys)
+        public MyFileItResult AddShareKeyImage(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                //add the image
+                var path = ConfigurationSettings.PromoCodeImagePath;
+                var imageName = DateTime.Now.Ticks.ToString() + Path.GetExtension(uploadImageName);
+                if (string.IsNullOrWhiteSpace(uploadImageName) || FileHelper.WriteBytesToFile(Path.Combine(path, imageName), image))
+                {
+                    result = AddShareKey(user, pass, primaryAppUserId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult AddShareKey(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName)
         {
             var result = new MyFileItResult();
             if (AllowAccess(user, pass))
@@ -2453,7 +2470,7 @@ namespace MyFileItPEService
                         for (var i = 0; i < numKeys; i++)
                         {
                             //this is slow due to the id issues with firebird
-                            sk = new SHAREKEY(primaryAppUserId, purchaseDate, promoCode, last4Digits, amount, salesRepId);
+                            sk = new SHAREKEY(primaryAppUserId, purchaseDate, promoCode, last4Digits, amount, salesRepId, imageName);
                             db.SHAREKEYs.Add(sk);
                             result.Success = SaveDBChanges(db);
                             //fk issue??
@@ -2779,6 +2796,9 @@ namespace MyFileItPEService
                 ExceptionHelper.LogError(message);
             }
         }
+
+
+
 
 
 

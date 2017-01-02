@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Runtime.Serialization;
 using MyFileItDataLayer.Models;
+using MyFileItPEService.Helpers;
+using MyFileItPEService;
+using System.IO;
 
 namespace MyFileItService.DTOs
 {
@@ -32,11 +35,15 @@ namespace MyFileItService.DTOs
         [DataMember]
         public DateTime? DATECREATED { get; set; }
         [DataMember]
+        public string SHAREIMAGE { get; set; }
+        [DataMember]
+        public string ShareImageBase64 { get; set; }
+        [DataMember]
         public AppUserDTO ApplicationUser { get; set; }
 
         public ShareKeyDTO() { }
 
-        public ShareKeyDTO(SHAREKEY sharekeyEF,bool skipUserInclude = false)
+        public ShareKeyDTO(SHAREKEY sharekeyEF, bool skipUserInclude = false)
         {
             ID = sharekeyEF.ID;
             APPUSERID = sharekeyEF.APPUSERID;
@@ -48,6 +55,11 @@ namespace MyFileItService.DTOs
             SHAREKEYCODE = sharekeyEF.SHAREKEYCODE;
             SALESREPID = sharekeyEF.SALESREPID;
             PAYMENTTYPEID = sharekeyEF.PAYMENTTYPEID;
+            SHAREIMAGE = sharekeyEF.SHAREIMAGE;
+            if (!string.IsNullOrWhiteSpace(SHAREIMAGE))
+            {
+                ShareImageBase64 = FileHelper.FileToBase64(Path.Combine(ConfigurationSettings.PromoCodeImagePath, SHAREIMAGE));
+            }
             if (!skipUserInclude)
             {
                 ApplicationUser = new AppUserDTO(sharekeyEF.APPUSER);
@@ -69,6 +81,7 @@ namespace MyFileItService.DTOs
                 SHAREKEYCODE = dto.SHAREKEYCODE,
                 SALESREPID = dto.SALESREPID,
                 PAYMENTTYPEID = dto.PAYMENTTYPEID,
+                SHAREIMAGE = dto.SHAREIMAGE,
                 DATECREATED = dto.DATECREATED
             };
         }

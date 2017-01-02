@@ -62,6 +62,20 @@ namespace MyFileItPEService
             }
         }
 
+        public static string PromoCodeImagePath
+        {
+            get
+            {
+                var path = System.Configuration.ConfigurationManager.AppSettings["PromoCodeImagePath"].ToString();
+                //make sure it exists
+                if (!Directory.Exists(path)) {
+                    Directory.CreateDirectory(path);
+                }
+                return path;
+            }
+
+        }
+
         public static int TrialExpirationDays
         {
             get
@@ -85,7 +99,7 @@ namespace MyFileItPEService
             {
                 var result = ExceptionHelper.ReadFile(ReminderCheckFileName);
                 DateTime? lastReminder = string.IsNullOrEmpty(result) ? (DateTime?)null : DateTime.Parse(result);
-                
+
                 return lastReminder;
             }
             set

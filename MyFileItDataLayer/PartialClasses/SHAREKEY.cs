@@ -10,7 +10,7 @@ namespace MyFileItDataLayer.Models
     {
         public SHAREKEY() { }
 
-        public SHAREKEY(int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId)
+        public SHAREKEY(int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, string shareImageName)
         {
             PRIMARYAPPUSERID = primaryAppUserId;
             SHAREKEYCODE = CreateShareKeyCode();
@@ -20,6 +20,7 @@ namespace MyFileItDataLayer.Models
             AMOUNT = amount;
            // SALESREPID = salesRepId;
             DATECREATED = DateTime.Now;
+            SHAREIMAGE = shareImageName;
             SetNewID();
         }
 
@@ -39,7 +40,7 @@ namespace MyFileItDataLayer.Models
             result += PRIMARYAPPUSERID.ToString().PadLeft(6,'0');
 
             var curCnt = 1; 
-            var testResult = result + curCnt.ToString().PadLeft(6);
+            var testResult = result + curCnt.ToString().PadLeft(6,'0');
             using (var db = new MyFileItEntities())
             {
                 while (db.SHAREKEYs.Any(sk => sk.SHAREKEYCODE.Equals(testResult, StringComparison.CurrentCultureIgnoreCase))) {
@@ -70,6 +71,7 @@ namespace MyFileItDataLayer.Models
             SHAREKEYCODE = updated.SHAREKEYCODE;
             SALESREPID = updated.SALESREPID;
             PAYMENTTYPEID =updated.PAYMENTTYPEID;
+            SHAREIMAGE = updated.SHAREIMAGE;
       
             result = true;
             return result;
