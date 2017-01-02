@@ -173,8 +173,8 @@ namespace MyFileItService.DTOs
             });
 
             IsCoach = appUserEF.IsCoach;//Coaches.Any();
-
-            ShowAds = !ShareKeys.Any();
+            //always show ads in PE
+            ShowAds = true; //!ShareKeys.Any();
 
             RemindUserForSignUp = !ShareKeys.Any();// && DATECREATED < DateTime.Now.AddDays(-90);
             var expirationDate = ((DateTime)DATECREATED).AddDays(ConfigurationSettings.TrialExpirationDays);
