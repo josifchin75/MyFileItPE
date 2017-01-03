@@ -436,6 +436,7 @@ namespace MyFileItPEService
                         else
                         {
                             result.Message = "Share already exists";
+                            result.Success = true; //return a true so that the app continues.
                         }
                     }
                     else
