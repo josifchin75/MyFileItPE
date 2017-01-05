@@ -41,7 +41,7 @@ namespace MyFileItPEService
             var svc = new MyFileItPEService.MyFileItPEMainService();
             var appUserDto = new MyFileItService.DTOs.AppUserDTO()
             {
-                USERNAME = "josifchin75@gmail.com",
+                USERNAME = "josifchin75" + DateTime.Now.Second.ToString() + "@gmail.com",
                 PASSWORD = "jopass12",
                 EMAILADDRESS = "josifchin75@gmail.com",
                 ADDRESS1 = "1",
@@ -108,6 +108,8 @@ namespace MyFileItPEService
                 lblError.Text += t.NAME + "<br/>";
             });
         }
+
+
 
     }
 }
