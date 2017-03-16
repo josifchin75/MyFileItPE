@@ -315,11 +315,11 @@ namespace MyFileItPEService
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json)]
-        MyFileItResult AddShareKey(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName);
+        MyFileItResult AddShareKeyOrganization(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json)]
-        MyFileItResult AddShareKeyImage(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image);
+        MyFileItResult AddShareKeyImageOrganization(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image);
 
 
         [OperationContract]

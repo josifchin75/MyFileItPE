@@ -2455,7 +2455,7 @@ namespace MyFileItPEService
                     {
                         organizationId = db.APPUSERORGANIZATIONs.First(au => au.APPUSERID == primaryAppUserId).ORGANIZATIONID;
                     }
-                    result = AddShareKey(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                    result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
                 }
             }
             return result;
@@ -2471,12 +2471,12 @@ namespace MyFileItPEService
                 {
                     organizationId = db.APPUSERORGANIZATIONs.First(au => au.APPUSERID == primaryAppUserId).ORGANIZATIONID;
                 }
-                result = AddShareKey(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
             }
             return result;
         }
 
-        public MyFileItResult AddShareKeyImage(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image)
+        public MyFileItResult AddShareKeyImageOrganization(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image)
         {
             var result = new MyFileItResult();
             if (AllowAccess(user, pass))
@@ -2486,13 +2486,13 @@ namespace MyFileItPEService
                 var imageName = DateTime.Now.Ticks.ToString() + Path.GetExtension(uploadImageName);
                 if (string.IsNullOrWhiteSpace(uploadImageName) || FileHelper.WriteBytesToFile(Path.Combine(path, imageName), image))
                 {
-                    result = AddShareKey(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                    result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
                 }
             }
             return result;
         }
 
-        public MyFileItResult AddShareKey(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName)
+        public MyFileItResult AddShareKeyOrganization(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName)
         {
             var result = new MyFileItResult();
             if (AllowAccess(user, pass))

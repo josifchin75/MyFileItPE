@@ -78,7 +78,7 @@ namespace MyFileItPEService
                     fileBytes = fuImage.FileBytes;
                 }
 
-                var result = svc.AddShareKeyImage(SERVICEUSER, SERVICEPASS, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, fileBytes);
+                var result = svc.AddShareKeyImageOrganization(SERVICEUSER, SERVICEPASS, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, fileBytes);
                 lblError.Text = result.Success ? "Keys have been added to the system" : "Error adding keys. " + result.Message;
                 if (result.Success)
                 {
