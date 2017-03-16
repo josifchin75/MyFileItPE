@@ -62,7 +62,7 @@
         <AssociationConnector Association="MyFileItModel.INTEG_300" />
         <AssociationConnector Association="MyFileItModel.INTEG_206" />
         <AssociationConnector Association="MyFileItModel.INTEG_297" />
-        <EntityTypeShape EntityType="MyFileItModel.SHAREKEY" Width="1.5" PointX="6" PointY="19.5" />
+        <EntityTypeShape EntityType="MyFileItModel.SHAREKEY" Width="1.5" PointX="6" PointY="19.375" />
         <AssociationConnector Association="MyFileItModel.INTEG_256" />
         <AssociationConnector Association="MyFileItModel.INTEG_251" />
         <AssociationConnector Association="MyFileItModel.INTEG_160" />

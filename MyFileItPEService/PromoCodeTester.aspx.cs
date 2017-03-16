@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MyFileItDataLayer.Helpers;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -33,7 +35,8 @@ namespace MyFileItPEService
                     var appUserObj = db.APPUSERORGANIZATIONs.Where(au => au.ORGANIZATIONID == o.ID).FirstOrDefault();
                     if (appUserObj != null)
                     {
-                        ddlOrganization.Items.Add(new ListItem(o.NAME, appUserObj.APPUSERID.ToString()));
+                        // ddlOrganization.Items.Add(new ListItem(o.NAME, appUserObj.APPUSERID.ToString()));
+                        ddlOrganization.Items.Add(new ListItem(o.NAME, appUserObj.ORGANIZATION.ID.ToString()));
                     }
                 });
 
@@ -49,7 +52,8 @@ namespace MyFileItPEService
             if (validKey())
             {
                 var svc = new MyFileItPEMainService();
-                var primaryAppUserId = int.Parse(ddlOrganization.SelectedValue);
+                var organizationId = int.Parse(ddlOrganization.SelectedValue);
+                var primaryAppUserId = -1;//int.Parse(ddlOrganization.SelectedValue);
                 var salesRepId = int.Parse(ddlSalesRep.SelectedValue);
                 var purchaseDate = DateTime.Now;
                 var promoCode = txtPromoCode.Text;
@@ -61,7 +65,8 @@ namespace MyFileItPEService
                 {
                     using (var db = new MyFileItDataLayer.Models.MyFileItEntities())
                     {
-                        primaryAppUserId = db.APPUSERs.First().ID;
+                        //primaryAppUserId = db.APPUSERs.First().ID;
+                        primaryAppUserId = db.APPUSERORGANIZATIONs.First(auo => auo.ORGANIZATIONID == organizationId).APPUSERID;
                         //salesRepId = db.SALESREPs.First().ID;
                     }
                 }
@@ -73,7 +78,7 @@ namespace MyFileItPEService
                     fileBytes = fuImage.FileBytes;
                 }
 
-                var result = svc.AddShareKeyImage(SERVICEUSER, SERVICEPASS, primaryAppUserId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, fileBytes);
+                var result = svc.AddShareKeyImage(SERVICEUSER, SERVICEPASS, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, fileBytes);
                 lblError.Text = result.Success ? "Keys have been added to the system" : "Error adding keys. " + result.Message;
                 if (result.Success)
                 {
@@ -99,6 +104,51 @@ namespace MyFileItPEService
                 success = false;
             }
             return success;
+        }
+
+        protected void btnViewCodes_Click(object sender, EventArgs e)
+        {
+            litCodes.Text = "";
+            var organizationId = int.Parse(ddlOrganization.SelectedValue);
+            if (organizationId > -1)
+            {
+                // var organizationName = ddlOrganization.SelectedItem.Text;
+                using (var db = new MyFileItDataLayer.Models.MyFileItEntities())
+                {
+                    // var primaryAppUserId = int.Parse(ddlOrganization.SelectedValue);
+                    var organization = db.ORGANIZATIONs.Single(au => au.ID == organizationId);
+                    var sql = CreateSql(organization, false);
+                    var dt = FireBirdHelper.GenericSelect(sql, db.Database.Connection.ConnectionString);
+                    litCodes.Text = DisplayTableHtml(dt, false);
+
+                    sql = CreateSql(organization, true);
+                    dt = FireBirdHelper.GenericSelect(sql, db.Database.Connection.ConnectionString);
+                    litCodes.Text += DisplayTableHtml(dt, true);
+                }
+            }
+        }
+
+        private string DisplayTableHtml(DataTable dt, bool unUsed)
+        {
+            var result = "<h2>" + (unUsed ? "Unused " : "") + "Total Promocodes For Company</h2><hr/>";
+            result += "<table><tr><th>Code</th><th>Count</th></tr>";
+            foreach (DataRow dr in dt.Rows)
+            {
+                result += "<tr>";
+                result += "<td>" + dr["Promocode"].ToString() + "</td>";
+                result += "<td>" + dr["Cnt"].ToString() + "</td>";
+                result += "</tr>";
+            }
+            result += "</table>";
+
+            return result;
+        }
+
+        private string CreateSql(MyFileItDataLayer.Models.ORGANIZATION organization, bool unUsed)
+        {
+            var result = "";
+            result += "select promocode, count(*) as cnt from sharekey where OrganizationId=" + organization.ID + (unUsed ? " and AppUserId is null " : "") + " group by Promocode";
+            return result;
         }
 
     }

@@ -2443,6 +2443,7 @@ namespace MyFileItPEService
         public MyFileItResult AddShareKeyImage(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image)
         {
             var result = new MyFileItResult();
+            int organizationId;
             if (AllowAccess(user, pass))
             {
                 //add the image
@@ -2450,13 +2451,48 @@ namespace MyFileItPEService
                 var imageName = DateTime.Now.Ticks.ToString() + Path.GetExtension(uploadImageName);
                 if (string.IsNullOrWhiteSpace(uploadImageName) || FileHelper.WriteBytesToFile(Path.Combine(path, imageName), image))
                 {
-                    result = AddShareKey(user, pass, primaryAppUserId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                    using (var db = new MyFileItEntities())
+                    {
+                        organizationId = db.APPUSERORGANIZATIONs.First(au => au.APPUSERID == primaryAppUserId).ORGANIZATIONID;
+                    }
+                    result = AddShareKey(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
                 }
             }
             return result;
         }
 
         public MyFileItResult AddShareKey(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName)
+        {
+            var result = new MyFileItResult();
+            int organizationId;
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    organizationId = db.APPUSERORGANIZATIONs.First(au => au.APPUSERID == primaryAppUserId).ORGANIZATIONID;
+                }
+                result = AddShareKey(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+            }
+            return result;
+        }
+
+        public MyFileItResult AddShareKeyImage(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                //add the image
+                var path = ConfigurationSettings.PromoCodeImagePath;
+                var imageName = DateTime.Now.Ticks.ToString() + Path.GetExtension(uploadImageName);
+                if (string.IsNullOrWhiteSpace(uploadImageName) || FileHelper.WriteBytesToFile(Path.Combine(path, imageName), image))
+                {
+                    result = AddShareKey(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult AddShareKey(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName)
         {
             var result = new MyFileItResult();
             if (AllowAccess(user, pass))
@@ -2471,7 +2507,7 @@ namespace MyFileItPEService
                         for (var i = 0; i < numKeys; i++)
                         {
                             //this is slow due to the id issues with firebird
-                            sk = new SHAREKEY(primaryAppUserId, purchaseDate, promoCode, last4Digits, amount, salesRepId, imageName);
+                            sk = new SHAREKEY(primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, imageName);
                             db.SHAREKEYs.Add(sk);
                             result.Success = SaveDBChanges(db);
                             //fk issue??

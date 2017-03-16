@@ -10,7 +10,7 @@ namespace MyFileItDataLayer.Models
     {
         public SHAREKEY() { }
 
-        public SHAREKEY(int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, string shareImageName)
+        public SHAREKEY(int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, string shareImageName)
         {
             PRIMARYAPPUSERID = primaryAppUserId;
             SHAREKEYCODE = CreateShareKeyCode();
@@ -18,6 +18,7 @@ namespace MyFileItDataLayer.Models
             PROMOCODE = promoCode;
             LAST4CC = last4Digits;
             AMOUNT = amount;
+            ORGANIZATIONID = organizationId;
            // SALESREPID = salesRepId;
             DATECREATED = DateTime.Now;
             SHAREIMAGE = shareImageName;

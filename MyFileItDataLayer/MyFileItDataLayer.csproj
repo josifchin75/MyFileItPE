@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\FireBirdHelper.cs" />
     <Compile Include="Models\APPUSER.cs">
       <DependentUpon>MyFileItModel.tt</DependentUpon>
     </Compile>
