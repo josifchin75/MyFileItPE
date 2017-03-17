@@ -2534,14 +2534,14 @@ namespace MyFileItPEService
             else
             {
                 //test if it exists
-                if (db.SHAREKEYs.Any(sk => sk.PROMOCODE.ToLower() == promoCode.ToLower()))
-                {
-                    message = promoCode + " already exists in the system.";
-                }
-                else
-                {
+                //if (db.SHAREKEYs.Any(sk => sk.PROMOCODE.ToLower() == promoCode.ToLower()))
+                //{
+                //    message = promoCode + " already exists in the system.";
+                //}
+                //else
+                //{
                     result = true;
-                }
+                //}
             }
 
             return result;
