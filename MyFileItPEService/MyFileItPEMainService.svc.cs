@@ -2554,6 +2554,7 @@ namespace MyFileItPEService
             {
                 using (var db = new MyFileItEntities())
                 {
+                    //NOTE: this could be an issue if there is high volume!
                     var sharekey = db.SHAREKEYs.SingleOrDefault(sk => sk.ID == shareKeyId);
                     if (sharekey != null)
                     {
@@ -2563,6 +2564,8 @@ namespace MyFileItPEService
                             sharekey.APPUSERID = appUserId;
                             db.Entry(sharekey).State = EntityState.Modified;
                             result.Success = SaveDBChanges(db);
+                            result.AppUsers = new List<AppUserDTO>();
+                            result.AppUsers.Add(new AppUserDTO(appUser));
                         }
                         else
                         {
@@ -2608,7 +2611,10 @@ namespace MyFileItPEService
                        .ToList()
                        .ForEach(sk =>
                        {
-                           result.ShareKeys.Add(new ShareKeyDTO(sk, false));
+                           if (!result.ShareKeys.Any(r => r.PROMOCODE == sk.PROMOCODE))
+                           {
+                               result.ShareKeys.Add(new ShareKeyDTO(sk, false));
+                           }
                        });
                     result.Success = true;
                 }
