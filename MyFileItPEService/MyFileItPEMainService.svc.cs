@@ -47,7 +47,6 @@ namespace MyFileItPEService
 
         private void CheckIfRemindersShouldRun()
         {
-            var result1 = SendReminderEmails();
             if (DateTime.Now.Hour == ConfigurationSettings.ReminderCheckHour24)
             {
                 var lastReminderCheck = ConfigurationSettings.LastReminderCheck;
