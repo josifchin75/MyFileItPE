@@ -109,6 +109,20 @@ namespace MyFileItPEService
             });
         }
 
+        protected void btnInitServices_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.InitService(); 
+            lblError.Text = "RAN INIT: " + result.ToString();
+        }
+
+        protected void btnSendReminders_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.SendReminderEmails();
+            lblError.Text = "RAN Send: " + result.ToString();
+        }
+
 
 
     }

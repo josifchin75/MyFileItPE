@@ -286,6 +286,76 @@ namespace MyFileItPEService.Helpers
             You can do this by logging in to MyFile-IT APP and (SNAP) taking a picture of the filled-out documents and saving them (SAVE). Then (SHARE) share the documents with the organization’s event.  We know you’re busy but if you could take 5 minutes and share these documents with us, we would appreciate it. If you have any questions, please contact <assigned person to the event> */
         }
 
+        public static bool SendMonthlyReminderEmail(APPUSER appUser, ORGANIZATION organization, int emailSelectionNumber)
+        {
+            var bccList = new List<string>(){
+                "josifchin75@gmail.com",
+                "sbutcher@binaryresearch.com"
+            };
+            //appUser.EMAILADDRESS = "josifchin75@gmail.com";
+
+            var subject = "MyFileIT PE - Message from " + organization.NAME;
+            string error = "";
+            string html = "";
+            switch (emailSelectionNumber)
+            {
+                case 1:
+                    html = CreateMonthlyReminderEmail1();
+                    break;
+                case 2:
+                    html = CreateMonthlyReminderEmail2();
+                    break;
+            }
+
+            return EmailHelper.SendEmailAsync(appUser.EMAILADDRESS, new List<string>(), bccList, subject, html, true, new List<string>(), ref error);
+        }
+
+        private static string CreateMonthlyReminderEmail1()
+        {
+            var result = new System.Text.StringBuilder();
+
+            result.AppendLine("<p>Thank you creating a MyFile-IT  account.</p>");
+            result.AppendLine("<p>We noticed that you have not started to protect yourself. We hope you start soon.</p>");
+            CreateReminderChecklistText(result);
+
+            return result.ToString();
+        }
+
+        private static string CreateMonthlyReminderEmail2()
+        {
+            var result = new System.Text.StringBuilder();
+
+            result.AppendLine("<p>Today we see so much in the news of what happens to people’s personal property in a disaster. It is so tragic! In 2014, there is 32.2 million victims from natural disasters. Most the time you cannot stop it, but you can be prepared to protect yourself. The problem is that most of us do not. For example; in Hurricane “Sandy” & “Katrina”, thousands of people lost many of their important documents. In most cases, FEMA and other agencies can’t do that much for you, unless you have certain documents like; insurance forms, local, state and federal tax returns, mortgage information, and financial information. Since you lost the information, you will have to go and hope you can get copies of your paperwork.  This can take a lot of time. These agents and insurance companies might be able to give some emergency help but until you provide the information, they need to see if you qualify for assistance.  But we still do very little to protect ourselves. We think that it will never happen to me. Well it does!</p>");
+            result.AppendLine("<p>I have been through two nationally declared (Clinton, G Bush) floods from a small creek outside of Philadelphia in which one of the storms, we received more than 8 inches of rain in two hours. We had more than 4 feet of water in my home and in my office building. With a wife and four kids, it was a nightmare getting help and providing all the right documents. This was one of the reasons we decided to create this App.</p>");
+            result.AppendLine("<p>Kristina W, Philadelphia, says “It’s a great app. I use it all the time for my personal expenses. It also gives me a feeling that I am prepared for a disaster.”</p>");
+            result.AppendLine("<p>Rachael M, Ambler, “This App is easy to use and keeps all my documents safe and easy to access.”</p>");
+
+            CreateReminderChecklistText(result);
+
+            return result.ToString();
+        }
+
+        private static void CreateReminderChecklistText(System.Text.StringBuilder result)
+        {
+            result.AppendLine("<p>Here is helpful checklist of some documents you should protect in case of disaster:</p>");
+
+            result.AppendLine("<ol>");
+            result.AppendLine("<li>Take pictures of each room where you are living.</li>");
+            result.AppendLine("<li>If you have personal property that is worth more than $1000, take separate picture.</li>");
+            result.AppendLine("<li>Local, State, Federal Taxes for last 7 years</li>");
+            result.AppendLine("<li>Insurance policy</li>");
+            result.AppendLine("<li>Mortgage information including a Deed</li>");
+            result.AppendLine("<li>Driver license, Car registration, car title, Passport, Certification, other licenses</li>");
+            result.AppendLine("<li>Equipment Warranties</li>");
+            result.AppendLine("<li>If you rent, get the Lease information.</li>");
+            result.AppendLine("<li>Your Will and other legal documents.</li>");
+            result.AppendLine("<li>Medical History Information, and medication.</li>");
+            result.AppendLine("</ol>");
+
+            result.AppendLine("<p>Best regards</p>");
+            result.AppendLine("<p>Sandy</p>");
+        }
+
         public static bool SendEmailAsync(string emailAddress, List<string> ccEmails, List<string> bccEmails, string subject, string body, bool html, List<string> attachmentsFullPath, ref string error)
         {
             Task.Factory.StartNew(() =>

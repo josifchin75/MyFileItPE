@@ -54,6 +54,11 @@
                 </tr>
             </table>
         </div>
+        <div>
+            <h1>INIT CHECK</h1>
+            <asp:Button runat="server" ID="btnInitServices" Text="Call Init Method" OnClick="btnInitServices_Click" />
+            <asp:Button runat="server" ID="btnSendReminders" Text="Send Reminders" OnClick="btnSendReminders_Click" />
+        </div>
     </form>
 </body>
 </html>

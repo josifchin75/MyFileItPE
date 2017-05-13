@@ -68,7 +68,8 @@ namespace MyFileItPEService
             {
                 var path = System.Configuration.ConfigurationManager.AppSettings["PromoCodeImagePath"].ToString();
                 //make sure it exists
-                if (!Directory.Exists(path)) {
+                if (!Directory.Exists(path))
+                {
                     Directory.CreateDirectory(path);
                 }
                 return path;
@@ -89,6 +90,22 @@ namespace MyFileItPEService
             get
             {
                 return int.Parse(System.Configuration.ConfigurationManager.AppSettings["ReminderCheckHour24"].ToString());
+            }
+        }
+
+        public static int ReminderDaysIncrement
+        {
+            get
+            {
+                return int.Parse(System.Configuration.ConfigurationManager.AppSettings["ReminderDaysIncrement"].ToString());
+            }
+        }
+
+        public static int UploadDocumentMinimumForReminders
+        {
+            get
+            {
+                return int.Parse(System.Configuration.ConfigurationManager.AppSettings["UploadDocumentMinimumForReminders"].ToString());
             }
         }
 

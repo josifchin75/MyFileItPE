@@ -36,7 +36,7 @@ namespace MyFileItPEService
                 var user = db.APPUSERs.FirstOrDefault();
             }
             //ExceptionHelper.LogError("Checking For reminders to run/");
-            //CheckIfRemindersShouldRun();
+            CheckIfRemindersShouldRun();
 
             //call the login 
             // ExceptionHelper.LogError("About to call login service.");
@@ -47,12 +47,17 @@ namespace MyFileItPEService
 
         private void CheckIfRemindersShouldRun()
         {
+            var result1 = SendReminderEmails();
             if (DateTime.Now.Hour == ConfigurationSettings.ReminderCheckHour24)
             {
                 var lastReminderCheck = ConfigurationSettings.LastReminderCheck;
                 if (lastReminderCheck == null || ((DateTime)lastReminderCheck).Date < DateTime.Now.Date)
                 {
-                    var result = SendMissingDocumentShares();
+                    var result = SendReminderEmails();
+                   // if (result.Success)
+                   // {
+                        ConfigurationSettings.LastReminderCheck = DateTime.Now;
+                    //}
                 }
             }
         }
@@ -976,62 +981,73 @@ namespace MyFileItPEService
             return result;
         }
 
-        public MyFileItResult RunMissingDocumentShareEmails(string user, string pass)
-        {
-            var result = new MyFileItResult();
-            //result.Success = true;
-            //var cnt = 0;
-            if (AllowAccess(user, pass))
-            {
-                result = SendMissingDocumentShares();
-                /*
-                 select
-                    o.name,
-                    a.ID as appuserid,
-                    a.emailaddress as email,
-                    e.name as eventname,
-                    td.documentname as docname ,
-                    s.documentid
-                from teameventplayerroster r
-                left join teamevent e on e.id = r.TEAMEVENTID
-                left join APPUSER a on a.id = r.APPUSERID
-                left join teameventdocument td  on td.id = e.id
-                left join sharedocument s on s.teameventdocumentid = td.id
-                left join organization o on o.id = e.organizationid
-                where s.documentid is null`
-                 */
-            }
-
-            return result;
-        }
-
-        //todo: NECESSARY?
-        private MyFileItResult SendMissingDocumentShares()
+        public MyFileItResult SendReminderEmails()
         {
             var result = new MyFileItResult();
             int cnt = 0;
+            int uploadedDocumentMinimum = ConfigurationSettings.UploadDocumentMinimumForReminders;
+            int reminderDaysIncrement = ConfigurationSettings.ReminderDaysIncrement;
+            //reminderDaysIncrement = 1; //debug
             result.Success = true;
             //get the emails to send
             using (var db = new MyFileItEntities())
             {
-                var emails = db.TEAMEVENTPLAYERROSTERs.Where(
-                         r => !r.APPUSER.SHAREDOCUMENTs.Any(sd => sd.TEAMEVENTID == r.TEAMEVENTID)
-                    )
+                var emails = db.APPUSERORGANIZATIONs.Where(u =>
+                        u.APPUSER.SHAREDOCUMENTs.Count == 0
+                        && DbFunctions.DiffDays(DateTime.Now, u.DATECREATED) % reminderDaysIncrement == 0
+                    || (
+                        u.APPUSER.SHAREDOCUMENTs.Count <= uploadedDocumentMinimum
+                        && DbFunctions.DiffDays(DateTime.Now, u.APPUSER.SHAREDOCUMENTs.Max(d => d.DATECREATED)) % reminderDaysIncrement == 0
+                        )
+                     )
                     .ToList();
+
                 emails.ForEach(e =>
                 {
-                    if (!EmailHelper.SendShareReminderEmail(e.APPUSER, e.TEAMEVENT.ORGANIZATION, e.TEAMEVENT))
+                    var lastShare = e.APPUSER.SHAREDOCUMENTs.Any() ? e.APPUSER.SHAREDOCUMENTs.Max(d => d.DATECREATED) : e.DATECREATED;
+                    var daysDifference = (int)((TimeSpan)(DateTime.Now - lastShare)).TotalDays;
+                    int emailType = daysDifference % (reminderDaysIncrement * 2) == 0 ? 2 : 1;
+                    var mod = daysDifference % (reminderDaysIncrement * 2);
+
+                    if (!EmailHelper.SendMonthlyReminderEmail(e.APPUSER, e.ORGANIZATION, emailType))
                     {
                         result.Success = false;
                     }
                 });
                 cnt++;
             }
-            result.Message = "Sent " + cnt.ToString() + " emails.";
+            result.Message = "Sent " + cnt.ToString() + " reminder emails.";
 
-            ConfigurationSettings.LastReminderCheck = DateTime.Now;
             return result;
         }
+
+        ////todo: NECESSARY?
+        //private MyFileItResult SendMissingDocumentShares()
+        //{
+        //    var result = new MyFileItResult();
+        //    int cnt = 0;
+        //    result.Success = true;
+        //    //get the emails to send
+        //    using (var db = new MyFileItEntities())
+        //    {
+        //        var emails = db.TEAMEVENTPLAYERROSTERs.Where(
+        //                 r => !r.APPUSER.SHAREDOCUMENTs.Any(sd => sd.TEAMEVENTID == r.TEAMEVENTID)
+        //            )
+        //            .ToList();
+        //        emails.ForEach(e =>
+        //        {
+        //            if (!EmailHelper.SendShareReminderEmail(e.APPUSER, e.TEAMEVENT.ORGANIZATION, e.TEAMEVENT))
+        //            {
+        //                result.Success = false;
+        //            }
+        //        });
+        //        cnt++;
+        //    }
+        //    result.Message = "Sent " + cnt.ToString() + " emails.";
+
+        //    ConfigurationSettings.LastReminderCheck = DateTime.Now;
+        //    return result;
+        //}
 
         public MyFileItResult GetSentEmails(string user, string pass, string toEmailAddress)
         {
@@ -2540,7 +2556,7 @@ namespace MyFileItPEService
                 //}
                 //else
                 //{
-                    result = true;
+                result = true;
                 //}
             }
 
