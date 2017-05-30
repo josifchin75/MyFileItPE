@@ -28,9 +28,15 @@ namespace MyFileItPEService
         {
             ddlOrganization.Items.Clear();
             ddlOrganization.Items.Add(new ListItem("<No Organization>", "-1"));
+
+            ddlAddOrganization.Items.Clear();
+            ddlAddOrganization.Items.Add(new ListItem("<No Organization>", "-1"));
+
+            ddlAddOrganizationUser.Items.Clear();
+            ddlAddOrganizationUser.Items.Add(new ListItem("<No User>", "-1"));
             using (var db = new MyFileItDataLayer.Models.MyFileItEntities())
             {
-                db.ORGANIZATIONs.ToList().ForEach(o =>
+                db.ORGANIZATIONs.OrderBy(o => o.NAME).ToList().ForEach(o =>
                 {
                     var appUserObj = db.APPUSERORGANIZATIONs.Where(au => au.ORGANIZATIONID == o.ID).FirstOrDefault();
                     if (appUserObj != null)
@@ -38,6 +44,12 @@ namespace MyFileItPEService
                         // ddlOrganization.Items.Add(new ListItem(o.NAME, appUserObj.APPUSERID.ToString()));
                         ddlOrganization.Items.Add(new ListItem(o.NAME, appUserObj.ORGANIZATION.ID.ToString()));
                     }
+                    ddlAddOrganization.Items.Add(new ListItem(o.NAME, o.ID.ToString()));
+                });
+
+                db.APPUSERs.Where(au => au.APPUSERTYPE.PLAYERUSER == "0").ToList().ForEach(au =>
+                {
+                    ddlAddOrganizationUser.Items.Add(new ListItem(au.USERNAME, au.ID.ToString()));
                 });
 
                 db.SALESREPs.ToList().ForEach(s =>
@@ -149,6 +161,32 @@ namespace MyFileItPEService
             var result = "";
             result += "select promocode, count(*) as cnt from sharekey where OrganizationId=" + organization.ID + (unUsed ? " and AppUserId is null " : "") + " group by Promocode";
             return result;
+        }
+
+        protected void btnAddUserToOrganization_Click(object sender, EventArgs e)
+        {
+            var organizationId = int.Parse(ddlAddOrganization.SelectedValue);
+            var appUserId = int.Parse(ddlAddOrganizationUser.SelectedValue);
+            var appUserTypeId = 7;
+            var sportTypeId = 1;
+
+            if (organizationId > -1 && appUserId > -1)
+            {
+                var svc = new MyFileItPEMainService();
+                var result = svc.AssociateAppUserToOrganization(SERVICEUSER, SERVICEPASS, appUserId, appUserTypeId, organizationId, DateTime.Now, DateTime.Now.AddYears(1), DateTime.Now.Year, sportTypeId);
+                if (result.Success) {
+                    lblError.Text = "User has been added to the organization. The organization should now show up in the promoode create list.";
+                    loadDrops();
+                }
+                else
+                {
+                    lblError.Text = "There was an error associating the user.";
+                }
+            }
+            else
+            {
+                lblError.Text = "Please select a user and an organization.";
+            }
         }
 
     }

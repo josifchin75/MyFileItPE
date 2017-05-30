@@ -60,4 +60,31 @@
 
         </asp:Literal>
     </div>
+    <h3>Sometimes an organization is missing a user and it won't show up in the list above for promo codes. If this is the case, please add it below.</h3>
+    <table>
+        <tr>
+            <th colspan="2">
+                <h3>Add a user to organization</h3>
+            </th>
+        </tr>
+        <tr>
+            <td>Add User to Organization:</td>
+            <td>
+                <asp:DropDownList runat="server" ID="ddlAddOrganization"></asp:DropDownList>
+
+            </td>
+        </tr>
+        <tr>
+            <td>Select User to add to Organization:</td>
+            <td>
+                <asp:DropDownList runat="server" ID="ddlAddOrganizationUser"></asp:DropDownList>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <asp:Button runat="server" ID="btnAddUserToOrganization" Text="Add user to Organization" OnClick="btnAddUserToOrganization_Click"/>
+            </td>
+        </tr>
+    </table>
 </asp:Content>
