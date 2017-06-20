@@ -72,6 +72,7 @@ namespace MyFileItPEService
                 var last4Digits = "1111";
                 decimal amount = 1.00M;
                 var numKeys = int.Parse(txtNumberKeys.Text);
+                var shareImageUrl = txtShareImageUrl.Text;
 
                 if (primaryAppUserId == -1)
                 {
@@ -90,7 +91,7 @@ namespace MyFileItPEService
                     fileBytes = fuImage.FileBytes;
                 }
 
-                var result = svc.AddShareKeyImageOrganization(SERVICEUSER, SERVICEPASS, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, fileBytes);
+                var result = svc.AddShareKeyImageOrganization(SERVICEUSER, SERVICEPASS, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, fileBytes, shareImageUrl);
                 lblError.Text = result.Success ? "Keys have been added to the system" : "Error adding keys. " + result.Message;
                 if (result.Success)
                 {

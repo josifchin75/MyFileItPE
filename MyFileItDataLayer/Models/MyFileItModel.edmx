@@ -296,6 +296,7 @@
           <Property Name="SHAREKEYCODE" Type="varchar" MaxLength="100" Unicode="true" />
           <Property Name="SHAREIMAGE" Type="varchar" MaxLength="255" Unicode="true" />
           <Property Name="ORGANIZATIONID" Type="int" />
+          <Property Name="SHAREIMAGEURL" Type="varchar" MaxLength="255" Unicode="true" />
         </EntityType>
         <EntityType Name="SPORTTYPE">
           <Key>
@@ -1877,6 +1878,7 @@
           <Property Name="SHAREKEYCODE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SHAREIMAGE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ORGANIZATIONID" Type="Int32" />
+          <Property Name="SHAREIMAGEURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="APPUSER" Relationship="MyFileItModel.INTEG_256" FromRole="SHAREKEY" ToRole="APPUSER" />
           <NavigationProperty Name="PAYMENTTYPE" Relationship="MyFileItModel.INTEG_251" FromRole="SHAREKEY" ToRole="PAYMENTTYPE" />
           <NavigationProperty Name="SALESREP" Relationship="MyFileItModel.INTEG_160" FromRole="SHAREKEY" ToRole="SALESREP" />
@@ -2263,6 +2265,7 @@
           <EntitySetMapping Name="SHAREKEYs">
             <EntityTypeMapping TypeName="MyFileItModel.SHAREKEY">
               <MappingFragment StoreEntitySet="SHAREKEY">
+                <ScalarProperty Name="SHAREIMAGEURL" ColumnName="SHAREIMAGEURL" />
                 <ScalarProperty Name="ORGANIZATIONID" ColumnName="ORGANIZATIONID" />
                 <ScalarProperty Name="SHAREIMAGE" ColumnName="SHAREIMAGE" />
                 <ScalarProperty Name="SHAREKEYCODE" ColumnName="SHAREKEYCODE" />

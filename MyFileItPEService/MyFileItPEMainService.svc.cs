@@ -2455,7 +2455,7 @@ namespace MyFileItPEService
         /************************************************************
          * SHAREKEYs 
          * ********************************************************/
-        public MyFileItResult AddShareKeyImage(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image)
+        public MyFileItResult AddShareKeyImage(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image, string imageUrl)
         {
             var result = new MyFileItResult();
             int organizationId;
@@ -2470,13 +2470,13 @@ namespace MyFileItPEService
                     {
                         organizationId = db.APPUSERORGANIZATIONs.First(au => au.APPUSERID == primaryAppUserId).ORGANIZATIONID;
                     }
-                    result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                    result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, imageUrl);
                 }
             }
             return result;
         }
 
-        public MyFileItResult AddShareKey(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName)
+        public MyFileItResult AddShareKey(string user, string pass, int primaryAppUserId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName, string imageUrl)
         {
             var result = new MyFileItResult();
             int organizationId;
@@ -2486,12 +2486,12 @@ namespace MyFileItPEService
                 {
                     organizationId = db.APPUSERORGANIZATIONs.First(au => au.APPUSERID == primaryAppUserId).ORGANIZATIONID;
                 }
-                result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, imageUrl);
             }
             return result;
         }
 
-        public MyFileItResult AddShareKeyImageOrganization(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image)
+        public MyFileItResult AddShareKeyImageOrganization(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string uploadImageName, byte[] image, string imageUrl)
         {
             var result = new MyFileItResult();
             if (AllowAccess(user, pass))
@@ -2501,13 +2501,13 @@ namespace MyFileItPEService
                 var imageName = DateTime.Now.Ticks.ToString() + Path.GetExtension(uploadImageName);
                 if (string.IsNullOrWhiteSpace(uploadImageName) || FileHelper.WriteBytesToFile(Path.Combine(path, imageName), image))
                 {
-                    result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName);
+                    result = AddShareKeyOrganization(user, pass, primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, numKeys, imageName, imageUrl);
                 }
             }
             return result;
         }
 
-        public MyFileItResult AddShareKeyOrganization(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName)
+        public MyFileItResult AddShareKeyOrganization(string user, string pass, int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, int numKeys, string imageName, string imageUrl)
         {
             var result = new MyFileItResult();
             if (AllowAccess(user, pass))
@@ -2522,7 +2522,8 @@ namespace MyFileItPEService
                         for (var i = 0; i < numKeys; i++)
                         {
                             //this is slow due to the id issues with firebird
-                            sk = new SHAREKEY(primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, imageName);
+                            sk = new SHAREKEY(primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, imageName, imageUrl);
+                            
                             db.SHAREKEYs.Add(sk);
                             result.Success = SaveDBChanges(db);
                             //fk issue??

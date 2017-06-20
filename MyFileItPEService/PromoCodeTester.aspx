@@ -48,6 +48,12 @@
             <td>
                 <asp:FileUpload runat="server" ID="fuImage" /></td>
         </tr>
+         <tr>
+            <td>Image Url for advertisement:</td>
+            <td>
+                <asp:TextBox runat="server" ID="txtShareImageUrl"></asp:TextBox>
+            </td>
+        </tr>
         <tr>
             <td></td>
             <td>

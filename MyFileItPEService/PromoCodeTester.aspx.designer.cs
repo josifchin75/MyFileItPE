@@ -76,6 +76,15 @@ namespace MyFileItPEService {
         protected global::System.Web.UI.WebControls.FileUpload fuImage;
         
         /// <summary>
+        /// txtShareImageUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtShareImageUrl;
+        
+        /// <summary>
         /// btnGenerateKeys control.
         /// </summary>
         /// <remarks>

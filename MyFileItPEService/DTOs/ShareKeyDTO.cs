@@ -37,6 +37,8 @@ namespace MyFileItService.DTOs
         [DataMember]
         public string SHAREIMAGE { get; set; }
         [DataMember]
+        public string SHAREIMAGEURL { get; set; }
+        [DataMember]
         public string ShareImageBase64 { get; set; }
         [DataMember]
         public AppUserDTO ApplicationUser { get; set; }
@@ -56,6 +58,7 @@ namespace MyFileItService.DTOs
             SALESREPID = sharekeyEF.SALESREPID;
             PAYMENTTYPEID = sharekeyEF.PAYMENTTYPEID;
             SHAREIMAGE = sharekeyEF.SHAREIMAGE;
+            SHAREIMAGEURL = sharekeyEF.SHAREIMAGEURL;
             if (!string.IsNullOrWhiteSpace(SHAREIMAGE))
             {
                 ShareImageBase64 = FileHelper.FileToBase64(Path.Combine(ConfigurationSettings.PromoCodeImagePath, SHAREIMAGE));
@@ -82,7 +85,8 @@ namespace MyFileItService.DTOs
                 SALESREPID = dto.SALESREPID,
                 PAYMENTTYPEID = dto.PAYMENTTYPEID,
                 SHAREIMAGE = dto.SHAREIMAGE,
-                DATECREATED = dto.DATECREATED
+                DATECREATED = dto.DATECREATED,
+                SHAREIMAGEURL = dto.SHAREIMAGEURL
             };
         }
     }
