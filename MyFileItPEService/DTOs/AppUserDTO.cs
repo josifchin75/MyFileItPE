@@ -103,6 +103,9 @@ namespace MyFileItService.DTOs
         public string PromoCodeImage { get; set; }
 
         [DataMember]
+        public string PromoCodeUrl { get; set; }
+
+        [DataMember]
         public int TotalDocumentsYTD { get; set; }
 
        
@@ -155,6 +158,7 @@ namespace MyFileItService.DTOs
             if (ShareKeys.Any())
             {
                 PromoCodeImage = "data:image/png;base64," + ShareKeys.First().ShareImageBase64;
+                PromoCodeUrl = ShareKeys.First().SHAREIMAGEURL;
             }
             //ShareKeys = appUserEF.SHAREKEYs.Where(sk => sk.APPUSERID == appUserEF.ID).Select(sk => new ShareKeyDTO(sk, true)).ToList();
 
