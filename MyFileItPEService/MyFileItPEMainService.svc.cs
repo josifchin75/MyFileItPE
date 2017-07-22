@@ -915,6 +915,9 @@ namespace MyFileItPEService
         public MyFileItResult LoginAppUser(string user, string pass, string appUserName, string appUserPass)
         {
             var result = new MyFileItResult();
+            appUserName = appUserName.Trim();
+            appUserPass = appUserPass.Trim();
+
             if (AllowAccess(user, pass))
             {
                 using (var db = new MyFileItEntities())
@@ -934,11 +937,13 @@ namespace MyFileItPEService
         public MyFileItResult ForgotPassword(string user, string pass, string emailAddress)
         {
             var result = new MyFileItResult();
+            emailAddress = emailAddress.Trim().ToLower();
+
             if (AllowAccess(user, pass))
             {
                 using (var db = new MyFileItEntities())
                 {
-                    var userObj = db.APPUSERs.FirstOrDefault(au => au.EMAILADDRESS.Equals(emailAddress, StringComparison.CurrentCultureIgnoreCase));
+                    var userObj = db.APPUSERs.FirstOrDefault(au => au.EMAILADDRESS.ToLower() == emailAddress);//au.EMAILADDRESS.Equals(emailAddress, StringComparison.CurrentCultureIgnoreCase));
                     if (userObj != null)
                     {
                         if (EmailHelper.SendForgotPassword(userObj))
