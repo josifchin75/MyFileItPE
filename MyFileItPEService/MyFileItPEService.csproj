@@ -115,6 +115,8 @@
     <Compile Include="DTOs\MyFileItResult.cs" />
     <Compile Include="DTOs\OrganizationDTO.cs" />
     <Compile Include="DTOs\PaymentHistoryDTO.cs" />
+    <Compile Include="DTOs\ReferralDTO.cs" />
+    <Compile Include="DTOs\ReferralTransactionDTO.cs" />
     <Compile Include="DTOs\SalesRepDTO.cs" />
     <Compile Include="DTOs\ShareDocumentDTO.cs" />
     <Compile Include="DTOs\ShareKeyDTO.cs" />

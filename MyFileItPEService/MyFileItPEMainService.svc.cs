@@ -1,4 +1,5 @@
 ﻿using MyFileItDataLayer.Models;
+using MyFileItPEService.DTOs;
 using MyFileItPEService.Helpers;
 using MyFileItService.DTOs;
 using System;
@@ -53,9 +54,9 @@ namespace MyFileItPEService
                 if (lastReminderCheck == null || ((DateTime)lastReminderCheck).Date < DateTime.Now.Date)
                 {
                     var result = SendReminderEmails();
-                   // if (result.Success)
-                   // {
-                        ConfigurationSettings.LastReminderCheck = DateTime.Now;
+                    // if (result.Success)
+                    // {
+                    ConfigurationSettings.LastReminderCheck = DateTime.Now;
                     //}
                 }
             }
@@ -2528,7 +2529,7 @@ namespace MyFileItPEService
                         {
                             //this is slow due to the id issues with firebird
                             sk = new SHAREKEY(primaryAppUserId, organizationId, purchaseDate, promoCode, last4Digits, amount, salesRepId, imageName, imageUrl);
-                            
+
                             db.SHAREKEYs.Add(sk);
                             result.Success = SaveDBChanges(db);
                             //fk issue??
@@ -2699,6 +2700,176 @@ namespace MyFileItPEService
             return result;
         }
 
+        /*****************************************
+        * REFERRALS
+        * ****************************************/
+        public MyFileItResult GetReferrals(string user, string pass)
+        {
+            //todo: add filter later for scaling
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    db.REFERRALs.Include(r => r.REFERRALTRANSACTIONs).ToList().ForEach(r =>
+                    {
+                        result.Referrals.Add(new ReferralDTO(r));
+                    });
+                    result.Success = true;
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult GetReferral(string user, string pass, int referralId)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    db.REFERRALs.Where(r => r.ID == referralId).Include(r => r.REFERRALTRANSACTIONs).ToList().ForEach(r =>
+                    {
+                        result.Referrals.Add(new ReferralDTO(r));
+                    });
+                    result.Success = true;
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult AddReferral(string user, string pass, ReferralDTO referral)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    //check for dups
+                    if (!db.REFERRALs.Any(r => r.EMAILADDRESS == referral.EMAILADDRESS))
+                    {
+                        var referralEF = (REFERRAL)referral;
+                        referralEF.DATECREATED = DateTime.Now;
+                        //todo: this may be configurable later!
+                        referralEF.DISCOUNTAMOUNT = 0.50m;
+                        referralEF.SetNewID();
+                        db.REFERRALs.Add(referralEF);
+                        result.Success = SaveDBChanges(db);
+                        if (result.Success)
+                        {
+                            EmailHelper.SendReferralSignupEmail(referral);
+                        }
+                    }
+                    else
+                    {
+                        result.Message = referral.EMAILADDRESS + " already exists.";
+                    }
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult UpdateReferral(string user, string pass, ReferralDTO referral)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    var r = (REFERRAL)referral;
+                    db.Entry(r).State = EntityState.Modified;
+                    result.Success = SaveDBChanges(db);
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult LoginReferral(string user, string pass, string referralEmailAddress, string referralPassword)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    var referral = db.REFERRALs.SingleOrDefault(r => r.EMAILADDRESS.ToLower() == referralEmailAddress.ToLower() && r.PASSWORD.ToLower() == referralPassword.ToLower());
+                    if (referral != null)
+                    {
+                        result.Referrals.Add(new ReferralDTO(referral));
+
+                        referral.LASTLOGINDATE = DateTime.Now;
+                        db.Entry(referral).State = EntityState.Modified;
+                        result.Success = SaveDBChanges(db); ;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult AddReferralTransaction(string user, string pass, ReferralTransactionDTO referralTransaction)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    result.Success = AddReferralTransactionToDb(referralTransaction, db);
+                }
+            }
+            return result;
+        }
+
+        private bool AddReferralTransactionToDb(ReferralTransactionDTO referralTransaction, MyFileItEntities db)
+        {
+            var result = false;
+
+            var referralTransactionEF = (REFERRALTRANSACTION)referralTransaction;
+            referralTransactionEF.DATECREATED = DateTime.Now;
+            referralTransactionEF.SetNewID();
+            db.REFERRALTRANSACTIONs.Add(referralTransactionEF);
+            result = SaveDBChanges(db);
+
+            if (result)
+            {
+                var referral = db.REFERRALs.Single(r => r.ID == referralTransaction.REFERRALID);
+                var appUser = db.SHAREKEYs.Single(sk => sk.ID == referralTransaction.SHAREKEYID).APPUSER;
+                    
+                EmailHelper.SendReferralUsedEmail(referral, appUser);
+            }
+
+            return result;
+        }
+
+        
+        public MyFileItResult UpdateReferralCommissionPaid(string user, string pass, int referralTransactionId)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    var referralTransaction = db.REFERRALTRANSACTIONs.Single(rt => rt.ID == referralTransactionId);
+                    referralTransaction.COMMISSIONPAID = "1";
+                    referralTransaction.FormatData();
+                    db.Entry(referralTransaction).State = EntityState.Modified;
+                    result.Success = SaveDBChanges(db);
+                }
+            }
+            return result;
+        }
+
+        public MyFileItResult CheckReferralCode(string user, string pass, string referralCode)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    result.Success = db.REFERRALs.Any(r => r.REFERRALCODE.ToLower() == referralCode.ToLower());
+                }
+            }
+            return result;
+        }
+
         /***********************************************
          * REPORTS
          * ********************************************/
@@ -2814,8 +2985,6 @@ namespace MyFileItPEService
         }
 
 
-
-
         public FileItMainService.FileItTemplate DefaultMyFileItTemplate(string organizationName)
         {
             var templateName = organizationName.Replace(" ", "") + "_PEtemplate";
@@ -2860,11 +3029,6 @@ namespace MyFileItPEService
                 ExceptionHelper.LogError(message);
             }
         }
-
-
-
-
-
 
 
     }

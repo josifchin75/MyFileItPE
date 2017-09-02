@@ -62,10 +62,14 @@
         <AssociationConnector Association="MyFileItModel.INTEG_300" />
         <AssociationConnector Association="MyFileItModel.INTEG_206" />
         <AssociationConnector Association="MyFileItModel.INTEG_297" />
-        <EntityTypeShape EntityType="MyFileItModel.SHAREKEY" Width="1.5" PointX="6" PointY="19.25" />
+        <EntityTypeShape EntityType="MyFileItModel.REFERRAL" PointX="13.375" PointY="1" Width="1.5" />
+        <EntityTypeShape EntityType="MyFileItModel.SHAREKEY" Width="1.5" PointX="6" PointY="19.125" />
         <AssociationConnector Association="MyFileItModel.INTEG_256" />
         <AssociationConnector Association="MyFileItModel.INTEG_251" />
         <AssociationConnector Association="MyFileItModel.INTEG_160" />
+        <EntityTypeShape EntityType="MyFileItModel.REFERRALTRANSACTION" Width="1.5" PointX="15.625" PointY="11" />
+        <AssociationConnector Association="MyFileItModel.INTEG_578" />
+        <AssociationConnector Association="MyFileItModel.INTEG_579" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

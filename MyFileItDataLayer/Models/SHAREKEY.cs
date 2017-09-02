@@ -14,6 +14,11 @@ namespace MyFileItDataLayer.Models
     
     public partial class SHAREKEY
     {
+        public SHAREKEY()
+        {
+            this.REFERRALTRANSACTIONs = new HashSet<REFERRALTRANSACTION>();
+        }
+    
         public int ID { get; set; }
         public Nullable<int> APPUSERID { get; set; }
         public Nullable<System.DateTime> PURCHASEDATE { get; set; }
@@ -32,5 +37,6 @@ namespace MyFileItDataLayer.Models
         public virtual APPUSER APPUSER { get; set; }
         public virtual PAYMENTTYPE PAYMENTTYPE { get; set; }
         public virtual SALESREP SALESREP { get; set; }
+        public virtual ICollection<REFERRALTRANSACTION> REFERRALTRANSACTIONs { get; set; }
     }
 }

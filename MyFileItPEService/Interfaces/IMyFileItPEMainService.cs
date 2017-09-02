@@ -1,4 +1,5 @@
-﻿using MyFileItPEService.FileItMainService;
+﻿using MyFileItPEService.DTOs;
+using MyFileItPEService.FileItMainService;
 using MyFileItService.DTOs;
 using System;
 using System.Collections.Generic;
@@ -367,6 +368,40 @@ namespace MyFileItPEService
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         FileItResponse UploadDocuments(string user, string pass, string cabinetId, FileItDocument[] documents);
 
+        /*********************
+       * REFERRALS - DIRECT AMBASSADOR
+       * ******************/
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult GetReferrals(string user, string pass);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult GetReferral(string user, string pass, int referralId);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult AddReferral(string user, string pass, ReferralDTO referral);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult UpdateReferral(string user, string pass, ReferralDTO referral);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult LoginReferral(string user, string pass, string referralEmailAddress, string referralPassword);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult AddReferralTransaction(string user, string pass, ReferralTransactionDTO referralTransaction);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult UpdateReferralCommissionPaid(string user, string pass, int referralTransactionId);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult CheckReferralCode(string user, string pass, string referralCode);
 
         /*********************
          * REPORTS

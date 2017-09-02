@@ -8,7 +8,7 @@ namespace MyFileItDataLayer.Models
 {
     public partial class SHAREKEY
     {
-        public SHAREKEY() { }
+        //public SHAREKEY() { }
 
         public SHAREKEY(int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, string shareImageName, string shareImageUrl)
         {

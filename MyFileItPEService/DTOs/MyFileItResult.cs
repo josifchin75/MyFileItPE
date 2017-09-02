@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyFileItPEService.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -55,6 +56,9 @@ namespace MyFileItService.DTOs
         [DataMember]
         public string ReportData { get; set; }
 
+        [DataMember]
+        public List<ReferralDTO> Referrals { get; set; }
+
         public MyFileItResult()
         {
             KeyValueData = new Dictionary<int, string>();
@@ -70,6 +74,7 @@ namespace MyFileItService.DTOs
             PaymentHistories = new List<PaymentHistoryDTO>();
             EmailLogs = new List<EmailLogDTO>();
             DocumentTypes = new List<DocumentTypeDTO>();
+            Referrals = new List<ReferralDTO>();
         }
     }
 }

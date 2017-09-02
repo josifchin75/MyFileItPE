@@ -126,6 +126,12 @@
     <Compile Include="Models\PAYMENTTYPE.cs">
       <DependentUpon>MyFileItModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\REFERRAL.cs">
+      <DependentUpon>MyFileItModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REFERRALTRANSACTION.cs">
+      <DependentUpon>MyFileItModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RELATIONSHIPTYPE.cs">
       <DependentUpon>MyFileItModel.tt</DependentUpon>
     </Compile>
@@ -164,6 +170,8 @@
     <Compile Include="PartialClasses\FILECABINETDOCUMENT.cs" />
     <Compile Include="PartialClasses\ORGANIZATION.cs" />
     <Compile Include="PartialClasses\PAYMENTHISTORY.cs" />
+    <Compile Include="PartialClasses\REFERRAL.cs" />
+    <Compile Include="PartialClasses\REFERRALTRANSACTION.cs" />
     <Compile Include="PartialClasses\SALESREP.cs" />
     <Compile Include="PartialClasses\SHAREDOCUMENT.cs" />
     <Compile Include="PartialClasses\SHAREKEY.cs" />

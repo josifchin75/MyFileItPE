@@ -356,6 +356,51 @@ namespace MyFileItPEService.Helpers
             result.AppendLine("<p>Sandy</p>");
         }
 
+
+        public static bool SendReferralSignupEmail(REFERRAL referral)
+        {
+            var subject = "MyFileIT PE Direct Ambassador Sign up";
+            string error = "";
+
+            return EmailHelper.SendEmailAsync(referral.EMAILADDRESS, new List<string>(), new List<string>(), subject, CreateReferralSignupEmail(referral), true, new List<string>(), ref error);
+        }
+
+        private static string CreateReferralSignupEmail(REFERRAL referral)
+        {
+            var result = new System.Text.StringBuilder();
+            result.AppendLine(referral.FIRSTNAME + ",");
+            result.AppendLine("<p>Thank You for signing up for the MyFile-IT PE Direct Ambassador Program.</p>");
+            result.AppendLine("<p>Here is your Rewards Code:</p>");
+            result.AppendLine("<h3>" + referral.REFERRALCODE + "</h3>");
+            result.AppendLine("<p>This will allow you to give the Rewards Code to anybody, so they can receive a 10% discount for the first year on MyFile-IT PE Subscription Key. You will also earn " + string.Format("{0:C}", referral.DISCOUNTAMOUNT) + "each time someone purchased MyFile-IT PE Subscription Key and the user uses your Rewards Code.</p>");
+            result.AppendLine("<p>If this was sent to you by mistake, please forward this email to sales@myfileit.com with a message 'Please Remove'.</p>");
+            result.AppendLine("<p>Thank You</p>");
+            result.AppendLine("<p>MyFile-IT Team</p>");
+            return result.ToString();
+        }
+
+        public static bool SendReferralUsedEmail(REFERRAL referral, APPUSER appUser)
+        {
+            var subject = "MyFileIT PE Direct Ambassador";
+            string error = "";
+
+            return EmailHelper.SendEmailAsync(referral.EMAILADDRESS, new List<string>(), new List<string>(), subject, CreateReferralUsedEmail(referral, appUser), true, new List<string>(), ref error);
+        }
+
+        private static string CreateReferralUsedEmail(REFERRAL referral, APPUSER appUser)
+        {
+            var result = new System.Text.StringBuilder();
+            result.AppendLine("<p>" + appUser.FIRSTNAME + " " + appUser.LASTNAME + " has just purchased MyFile-IT PE subscription. You have earned " + string.Format("{0:C}", referral.DISCOUNTAMOUNT) + ". Payment will be per terms Direct Ambassador Agreement. You must go to your Direct Ambassador Account and add your banking information.</p>");
+            result.AppendLine(@"<p>Click here: <a href=""https://www.myfileit.com/DirectLogin.aspx"">https://www.myfileit.com/DirectLogin.aspx</a></p>");
+            result.AppendLine("<p>GREAT JOB!</p>");
+            result.AppendLine("<p></p>");
+            result.AppendLine("<p>Thank You</p>");
+            result.AppendLine("<p>MyFile-IT Team</p>");
+            return result.ToString();
+        }
+
+        /************************************************************/
+
         public static bool SendEmailAsync(string emailAddress, List<string> ccEmails, List<string> bccEmails, string subject, string body, bool html, List<string> attachmentsFullPath, ref string error)
         {
             Task.Factory.StartNew(() =>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MyFileItService.DTOs;
+using MyFileItPEService.DTOs;
 
 namespace MyFileItPEService
 {
@@ -95,8 +96,8 @@ namespace MyFileItPEService
         protected void btnAddDocumentType_Click(object sender, EventArgs e)
         {
             var svc = new MyFileItPEService.MyFileItPEMainService();
-            var result = svc.AddDocumentType(USERNAME, PASSWORD, AppUserId,NewDocumentType);
-            lblError.Text = result.Success.ToString();           
+            var result = svc.AddDocumentType(USERNAME, PASSWORD, AppUserId, NewDocumentType);
+            lblError.Text = result.Success.ToString();
         }
 
         protected void btnGetAllDocTypes_Click(object sender, EventArgs e)
@@ -112,7 +113,7 @@ namespace MyFileItPEService
         protected void btnInitServices_Click(object sender, EventArgs e)
         {
             var svc = new MyFileItPEService.MyFileItPEMainService();
-            var result = svc.InitService(); 
+            var result = svc.InitService();
             lblError.Text = "RAN INIT: " + result.ToString();
         }
 
@@ -121,6 +122,106 @@ namespace MyFileItPEService
             var svc = new MyFileItPEService.MyFileItPEMainService();
             var result = svc.SendReminderEmails();
             lblError.Text = "RAN Send: " + result.ToString();
+        }
+
+        protected void GetReferrals_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.GetReferrals(USERNAME, PASSWORD);
+            lblError.Text = "Referral Count: " + result.Referrals.Count().ToString();
+        }
+
+        protected void GetReferral_Click(object sender, EventArgs e)
+        {
+
+            var id = int.Parse(GetTextBox("txtReferralId").Text);
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.GetReferral(USERNAME, PASSWORD, id);
+            lblError.Text = "Referral Count: " + result.Referrals.Count().ToString();
+        }
+
+        protected void AddReferral_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var referral = CreateReferralDto();
+            var result = svc.AddReferral(USERNAME, PASSWORD, referral);
+            lblError.Text = "Referral Count: " + result.Referrals.Count().ToString();
+        }
+
+        private ReferralDTO CreateReferralDto()
+        {
+            return new ReferralDTO()
+             {
+                 FIRSTNAME = "F",
+                 LASTNAME = "L",
+                 ADDRESS1 = "A1",
+                 ADDRESS2 = "A2",
+                 MOBILEPHONE = "1111",
+                 EMAILADDRESS = DateTime.Now.Ticks.ToString(),
+                 PASSWORD = "PPP",
+                 REFERRALCODE = "RRRR",
+                 STATECODE = "PA",
+                 ZIPCODE = "18914",
+                 CITY = "LANSDALE",
+                 CHECKINGACCOUNTNUMBER = "CCC",
+                 DISCOUNTAMOUNT = decimal.Parse("0.25"),
+                 IMAGENAME = "IMAGE",
+                 ROUTINGNUMBER = "RRR"
+             };
+        }
+
+        protected void UpdateReferral_Click(object sender, EventArgs e)
+        {
+            var id = int.Parse(GetTextBox("txtReferralId").Text);
+
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var referral = svc.GetReferral(USERNAME, PASSWORD, id).Referrals.First();
+            referral.EMAILADDRESS += " -U";
+            var result = svc.UpdateReferral(USERNAME, PASSWORD, referral);
+            lblError.Text = "Referral Count: " + result.Referrals.Count().ToString();
+        }
+
+        protected void LoginReferral_Click(object sender, EventArgs e)
+        {
+            var id = int.Parse(GetTextBox("txtReferralId").Text);
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var referral = svc.GetReferral(USERNAME, PASSWORD, id).Referrals.First();
+            var result = svc.LoginReferral(USERNAME, PASSWORD, referral.EMAILADDRESS, referral.PASSWORD);
+            lblError.Text = "Referral Login: " + result.Success.ToString();
+        }
+
+        protected void CheckReferralCode_Click(object sender, EventArgs e)
+        {
+            var code = GetTextBox("txtReferralCode").Text;
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.CheckReferralCode(USERNAME, PASSWORD, code);
+            lblError.Text = "Is Referral Code: " + result.Success.ToString();
+        }
+
+        protected void AddReferralTransaction_Click(object sender, EventArgs e)
+        {
+            var referralTransaction = new ReferralTransactionDTO()
+            {
+                REFERRALID = 1,
+                COMMISSIONAMOUNT = decimal.Parse("0.25"),
+                COMMISSIONPAID = "0",
+                SHAREKEYID = 2
+            };
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.AddReferralTransaction(USERNAME, PASSWORD, referralTransaction);
+            lblError.Text = "Referral Transaction added: " + result.Success.ToString();
+        }
+
+        protected void PayReferralTransaction_Click(object sender, EventArgs e)
+        {
+            var svc = new MyFileItPEService.MyFileItPEMainService();
+            var result = svc.UpdateReferralCommissionPaid(USERNAME, PASSWORD, 1);
+            lblError.Text = "Referral Transaction Paid: " + result.Success.ToString();
+        }
+
+        private TextBox GetTextBox(string id)
+        {
+            return (TextBox)Page.FindControl(id);
         }
 
 
