@@ -154,6 +154,24 @@ namespace MyFileItDirectAmbassador.Controllers
             return View("~/Views/Referral/AdminDetail.cshtml", model);
         }
 
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public ActionResult MarkCommissionPaid(string referralName, int referralTransactionId)
+        {
+            ReferralDTO model;
+            using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
+            {
+                model = svc.GetReferralByEmail(SERVICEUSER, SERVICEPASS, referralName).Referrals.First();
+                var result = svc.UpdateReferralCommissionPaid(SERVICEUSER, SERVICEPASS, referralTransactionId);
+                if (result.Success)
+                {
+                    ViewMessage = "Commission marked as paid.";
+                    model = svc.GetReferralByEmail(SERVICEUSER, SERVICEPASS, referralName).Referrals.First();
+                }
+            }
+            return View("~/Views/Referral/AdminDetail.cshtml", model);
+        }
+
 
         private bool ValidReferral(ReferralDTO referral)
         {

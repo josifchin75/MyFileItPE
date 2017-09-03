@@ -2852,6 +2852,11 @@ namespace MyFileItPEService
                         db.Entry(referral).State = EntityState.Modified;
                         result.Success = SaveDBChanges(db); ;
                     }
+                    else
+                    {
+                        //check for an appuser
+                        result = LoginAppUser(user, pass, referralEmailAddress, referralPassword);
+                    }
                 }
             }
             return result;

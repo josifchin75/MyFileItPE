@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using MyFileItDirectAmbassador.Models;
 using System.Web.Security;
 using MyFileItDirectAmbassador.MyFileItPEService;
+using MyFileItDirectAmbassador.Helpers;
 
 namespace MyFileItDirectAmbassador.Controllers
 {
@@ -43,13 +44,15 @@ namespace MyFileItDirectAmbassador.Controllers
                     // same operation on the user entered password here, But for now
                     // since the password is in plain text lets just authenticate directly
 
-                    bool userValid = svc.LoginReferral(SERVICEUSER, SERVICEPASS, emailAddress, password).Success;
+                    var result = svc.LoginReferral(SERVICEUSER, SERVICEPASS, emailAddress, password);
+                    bool userValid = result.Success;
 
                     // User found in the database
                     if (userValid)
                     {
 
-                        FormsAuthentication.SetAuthCookie(emailAddress, false);
+                        FormsAuthentication.SetAuthCookie(AuthenticationHelper.CreateAuthCookie(emailAddress, result.AppUsers.Any()), false);
+
                         if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                             && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                         {
@@ -57,10 +60,15 @@ namespace MyFileItDirectAmbassador.Controllers
                         }
                         else
                         {
-                            //put admin in object?
-                            //if(admin)
-                            return RedirectToAction("Index", "Referral");
-                            //return RedirectToAction("Detail", "Referral", new { referralName = emailAddress });
+                            //if appusers are returned the login was a regular login
+                            if (result.AppUsers.Any())
+                            {
+                                return RedirectToAction("Index", "Referral");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Detail", "Referral", new { referralName = emailAddress });
+                            }
                         }
                     }
                     else
@@ -74,6 +82,8 @@ namespace MyFileItDirectAmbassador.Controllers
             return View(model);
         }
 
+
+
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
@@ -81,7 +91,7 @@ namespace MyFileItDirectAmbassador.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-       
+
         //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         //{
         //    UserManager = userManager;

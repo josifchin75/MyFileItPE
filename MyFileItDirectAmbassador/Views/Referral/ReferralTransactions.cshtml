@@ -1,6 +1,11 @@
 ﻿@using MyFileItDirectAmbassador.MyFileItPEService
 @model ReferralDTO
+@using MyFileItDirectAmbassador.Helpers
 
+@{
+    var cookie = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+    var admin = AuthenticationHelper.Admin(cookie);
+}
 
 <div class="panel panel-default col-md-12">
     <div class="panel-heading">
@@ -24,6 +29,10 @@
                     @*<th>Commission Rate</th>*@
                     <th>Commission Earned</th>
                     <th>Paid</th>
+                    @if (admin)
+                    {
+                        <th></th>
+                    }
                 </tr>
                 @if (Model.ReferralTransactions != null)
                 {
@@ -35,6 +44,19 @@
                             <td>@transaction.DATECREATED</td>
                             <td>@transaction.COMMISSIONAMOUNT</td>
                             <td>@Html.Raw(transaction.COMMISSIONPAID == "1" ? "Yes" : "No")</td>
+                            @if (admin)
+                            {
+                                <td>
+                                    @if (transaction.COMMISSIONPAID != "1")
+                                    {
+                                        using (Html.BeginForm("MarkCommissionPaid", "Referral", new { referralName = Model.EMAILADDRESS, referralTransactionId = transaction.ID }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                        {
+                                            <input type="submit" value="Mark as Paid" class="btn btn-block btn-primary" />
+                                        }
+                                        @*@Html.ActionLink("Mark as Paid", "MarkCommissionPaid", "Referral", new { referralName = Model.EMAILADDRESS, referralTransactionId = transaction.ID }, new { @class = "btn btn-primary" })*@
+                                    }
+                                </td>
+                            }
                         </tr>
                     }
                 }

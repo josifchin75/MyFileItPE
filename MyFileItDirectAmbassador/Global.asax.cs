@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyFileItDirectAmbassador.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -28,24 +29,20 @@ namespace MyFileItDirectAmbassador
                     try
                     {
                         //let us take out the username now                
-                        string username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
-                        string roles = string.Empty;
-                        //todo: data drive this? or web.config
-                        var admins = new List<string>() { 
-                            "jono@gmail.com"
-                        };
+                        var cookie = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                        string username = AuthenticationHelper.UserName(cookie); //FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                        var admin = AuthenticationHelper.Admin(cookie);
+                        var roles = string.Empty;
 
                         using (var fileItPEService = new MyFileItPEService.MyFileItPEMainServiceClient())
                         {
                             roles = "user";
-                            if (admins.Contains(username.ToLower().Trim()))//username == "MyfileitAdmin")
+                            if (admin)
                             {
                                 roles = roles + ";admin";
                             }
                         }
-                        //let us extract the roles from our own custom cookie
-
-
+                        
                         //Let us set the Pricipal with our user specific details
                         HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(
                           new System.Security.Principal.GenericIdentity(username, "Forms"), roles.Split(';'));
@@ -56,6 +53,6 @@ namespace MyFileItDirectAmbassador
                     }
                 }
             }
-        } 
+        }
     }
 }
