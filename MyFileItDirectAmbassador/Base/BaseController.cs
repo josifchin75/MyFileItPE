@@ -17,7 +17,7 @@ namespace MyFileItDirectAmbassador
 
         private void SetViewBag()
         {
-            ViewBag.Message = ViewMessage;
+            //ViewBag.Message = ViewMessage;
         }
 
         public string SERVICEUSER
@@ -35,6 +35,16 @@ namespace MyFileItDirectAmbassador
             }
         }
 
-        public string ViewMessage { get; set; }
+        public string ViewMessage
+        {
+            get
+            {
+                return ViewBag.Message;
+            }
+            set
+            {
+                ViewBag.Message = value;
+            }
+        }
     }
 }

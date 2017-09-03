@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ namespace MyFileItDataLayer.Models
     {
         //public SHAREKEY() { }
 
+        //[NotMapped]
+        //public bool SendReferralEmail { get; set; }
+    
         public SHAREKEY(int primaryAppUserId, int organizationId, DateTime purchaseDate, string promoCode, string last4Digits, decimal amount, int salesRepId, string shareImageName, string shareImageUrl)
         {
             PRIMARYAPPUSERID = primaryAppUserId;
@@ -19,12 +23,15 @@ namespace MyFileItDataLayer.Models
             LAST4CC = last4Digits;
             AMOUNT = amount;
             ORGANIZATIONID = organizationId;
-           // SALESREPID = salesRepId;
+            // SALESREPID = salesRepId;
             DATECREATED = DateTime.Now;
             SHAREIMAGE = shareImageName;
             SHAREIMAGEURL = shareImageUrl;
             SetNewID();
+
         }
+
+        
 
         public void SetNewID()
         {
@@ -35,19 +42,22 @@ namespace MyFileItDataLayer.Models
             }
         }
 
-        private string CreateShareKeyCode() {
+        private string CreateShareKeyCode()
+        {
             //create the share key code
             //use date time and a count
             var result = DateTime.Now.ToString("yyyyMMdd-");
-            result += PRIMARYAPPUSERID.ToString().PadLeft(6,'0');
+            result += PRIMARYAPPUSERID.ToString().PadLeft(6, '0');
 
-            var curCnt = 1; 
-            var testResult = result + curCnt.ToString().PadLeft(6,'0');
+            var curCnt = 1;
+            var testResult = result + curCnt.ToString().PadLeft(6, '0');
             using (var db = new MyFileItEntities())
             {
-                while (db.SHAREKEYs.Any(sk => sk.SHAREKEYCODE.Equals(testResult, StringComparison.CurrentCultureIgnoreCase))) {
-                    testResult = result + curCnt.ToString().PadLeft(6,'0');
-                    if (curCnt > 1000000) {
+                while (db.SHAREKEYs.Any(sk => sk.SHAREKEYCODE.Equals(testResult, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    testResult = result + curCnt.ToString().PadLeft(6, '0');
+                    if (curCnt > 1000000)
+                    {
                         result = "";
                         testResult = "";
                         break;
@@ -72,9 +82,9 @@ namespace MyFileItDataLayer.Models
             AMOUNT = updated.AMOUNT;
             SHAREKEYCODE = updated.SHAREKEYCODE;
             SALESREPID = updated.SALESREPID;
-            PAYMENTTYPEID =updated.PAYMENTTYPEID;
+            PAYMENTTYPEID = updated.PAYMENTTYPEID;
             SHAREIMAGE = updated.SHAREIMAGE;
-      
+
             result = true;
             return result;
         }

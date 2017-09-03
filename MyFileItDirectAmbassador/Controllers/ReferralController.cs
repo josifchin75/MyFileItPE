@@ -12,39 +12,12 @@ namespace MyFileItDirectAmbassador.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
-            return View();
-        }
-
-        [Authorize]
-        // GET: Referral
-        public ActionResult Detail(string referralName)
-        {
-            ReferralDTO model;
+            List<ReferralDTO> model;
             using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
             {
-                model = svc.GetReferralByEmail(SERVICEUSER, SERVICEPASS, referralName).Referrals.First();
+                model = svc.GetReferrals(SERVICEUSER, SERVICEPASS).Referrals.OrderBy(r => r.EMAILADDRESS).ToList();
             }
             return View(model);
-        }
-
-        [Authorize]
-        [HttpPost]
-        // GET: Referral
-        public ActionResult Detail(ReferralDTO referral)
-        {
-            if (ValidReferral(referral))
-            {
-                using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
-                {
-                    var result = svc.UpdateReferral(SERVICEUSER, SERVICEPASS, referral);
-                    if (result.Success)
-                    {
-                        ViewMessage = "Your account has been updated.";
-                    }
-                }
-            }
-
-            return View(referral);
         }
 
         public ActionResult Create()
@@ -52,6 +25,9 @@ namespace MyFileItDirectAmbassador.Controllers
             return View();
         }
 
+        /*******************************
+         * CREATE
+         * *****************************/
         [HttpPost]
         public ActionResult Create(ReferralDTO referral)
         {
@@ -87,6 +63,97 @@ namespace MyFileItDirectAmbassador.Controllers
             }
             return View(model);
         }
+
+
+        /*******************************
+         * DETAIL
+         * *****************************/
+        [Authorize]
+        // GET: Referral
+        public ActionResult Detail(string referralName)
+        {
+            ReferralDTO model;
+            using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
+            {
+                model = svc.GetReferralByEmail(SERVICEUSER, SERVICEPASS, referralName).Referrals.First();
+            }
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        // GET: Referral
+        public ActionResult Detail(ReferralDTO referral)
+        {
+            if (ValidReferral(referral))
+            {
+                using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
+                {
+                    var result = svc.UpdateReferral(SERVICEUSER, SERVICEPASS, referral);
+                    if (result.Success)
+                    {
+                        ViewMessage = "Your account has been updated.";
+                    }
+                }
+            }
+
+            return View(referral);
+        }
+
+
+        /*******************************
+         * ADMIN DETAIL
+         * *****************************/
+        [Authorize(Roles = "admin")]
+        public ActionResult AdminDetail(int referralId)
+        {
+            ReferralDTO model;
+            using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
+            {
+                model = svc.GetReferral(SERVICEUSER, SERVICEPASS, referralId).Referrals.First();
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        // GET: Referral
+        public ActionResult AdminDetail(ReferralDTO referral)
+        {
+            if (ValidReferral(referral))
+            {
+                using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
+                {
+                    var result = svc.UpdateReferral(SERVICEUSER, SERVICEPASS, referral);
+                    if (result.Success)
+                    {
+                        ViewMessage = "This account has been updated.";
+                    }
+                }
+            }
+
+            return View(referral);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public ActionResult AddTransaction(string referralName)
+        {
+            ReferralDTO model;
+            using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
+            {
+                model = svc.GetReferralByEmail(SERVICEUSER, SERVICEPASS, referralName).Referrals.First();
+                var organizationId = svc.GetOrganizations(SERVICEUSER, SERVICEPASS,null, null).Organizations.First().ID;
+                var appUserId = svc.GetAllAppUsers(SERVICEUSER, SERVICEPASS,organizationId).AppUsers.First().ID;
+                var salesRepId = svc.GetSalesReps(SERVICEUSER, SERVICEPASS, null, "", null).SalesReps.First().ID;
+                svc.AddShareKeyOrganization(SERVICEUSER, SERVICEPASS, appUserId, organizationId, DateTime.Now, model.REFERRALCODE, "1111", 4m, salesRepId, 1, null, null);
+
+                model = svc.GetReferralByEmail(SERVICEUSER, SERVICEPASS, referralName).Referrals.First();
+
+            }
+            return View("~/Views/Referral/AdminDetail.cshtml", model);
+        }
+
 
         private bool ValidReferral(ReferralDTO referral)
         {

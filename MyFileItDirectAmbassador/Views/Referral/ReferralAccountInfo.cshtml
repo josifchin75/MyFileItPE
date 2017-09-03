@@ -1,0 +1,21 @@
+﻿@using MyFileItDirectAmbassador.MyFileItPEService
+@model ReferralDTO
+
+<label>
+    We need your Checking or Saving Account information so we can pay you your commissions. You do not need this information to get a Rewards Code. You will need to get paid your commissions you earned.
+</label>
+
+<div class="col-md-6">
+    <label>Routing Number</label>
+    @Html.TextBoxFor(m => m.ROUTINGNUMBER, new { @class = "form-control" })
+    <label class="note">
+        Routing number is located on the bottom of your check. It is the most left set of numbers.
+    </label>
+</div>
+<div class="col-md-6">
+    <label>Checking or Saving Account Number</label>
+    @Html.TextBoxFor(m => m.CHECKINGACCOUNTNUMBER, new { @class = "form-control" })
+    <label class="note">
+        Checking or Saving Account Number is located on the bottom of your check. It is the center set of numbers.
+    </label>
+</div>

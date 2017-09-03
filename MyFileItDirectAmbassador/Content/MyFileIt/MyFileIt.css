@@ -69,3 +69,7 @@ h2 {
     padding: 1em;
     margin-top: 1em;
 }
+
+.navbar-inverse .navbar-nav > li > a, .navbar-brand {
+    color: #ebebeb;
+}

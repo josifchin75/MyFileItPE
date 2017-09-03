@@ -61,7 +61,11 @@ namespace MyFileItService.DTOs
             SHAREIMAGEURL = sharekeyEF.SHAREIMAGEURL;
             if (!string.IsNullOrWhiteSpace(SHAREIMAGE))
             {
-                ShareImageBase64 = FileHelper.FileToBase64(Path.Combine(ConfigurationSettings.PromoCodeImagePath, SHAREIMAGE));
+                var filePath = Path.Combine(ConfigurationSettings.PromoCodeImagePath, SHAREIMAGE);
+                if (File.Exists(filePath))
+                {
+                    ShareImageBase64 = FileHelper.FileToBase64(filePath);
+                }
             }
             if (!skipUserInclude)
             {

@@ -30,11 +30,15 @@ namespace MyFileItDirectAmbassador
                         //let us take out the username now                
                         string username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
                         string roles = string.Empty;
+                        //todo: data drive this? or web.config
+                        var admins = new List<string>() { 
+                            "jono@gmail.com"
+                        };
 
                         using (var fileItPEService = new MyFileItPEService.MyFileItPEMainServiceClient())
                         {
                             roles = "user";
-                            if (username == "MyfileitAdmin")
+                            if (admins.Contains(username.ToLower().Trim()))//username == "MyfileitAdmin")
                             {
                                 roles = roles + ";admin";
                             }

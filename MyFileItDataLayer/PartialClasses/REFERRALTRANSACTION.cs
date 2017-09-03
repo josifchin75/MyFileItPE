@@ -9,6 +9,7 @@ namespace MyFileItDataLayer.Models
 {
     public partial class REFERRALTRANSACTION
     {
+
         public void SetNewID()
         {
             using (var db = new MyFileItEntities())

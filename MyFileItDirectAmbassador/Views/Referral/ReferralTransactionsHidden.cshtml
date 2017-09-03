@@ -1,0 +1,18 @@
+﻿@using MyFileItDirectAmbassador.MyFileItPEService
+@model ReferralDTO
+
+@if (Model.ReferralTransactions != null)
+{
+    for (var i = 0; i < Model.ReferralTransactions.Count(); i++)
+    {
+        @Html.HiddenFor(model => model.ReferralTransactions[i].ID)
+        @Html.HiddenFor(model => model.ReferralTransactions[i].REFERRALID)
+        @Html.HiddenFor(model => model.ReferralTransactions[i].SHAREKEYID)
+        @Html.HiddenFor(model => model.ReferralTransactions[i].FirstName)
+        @Html.HiddenFor(model => model.ReferralTransactions[i].LastName)
+        @Html.HiddenFor(model => model.ReferralTransactions[i].DATECREATED)
+
+        @Html.HiddenFor(model => model.ReferralTransactions[i].COMMISSIONPAID)
+        @Html.HiddenFor(model => model.ReferralTransactions[i].COMMISSIONAMOUNT)
+    }
+}

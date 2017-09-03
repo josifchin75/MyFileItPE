@@ -2535,6 +2535,13 @@ namespace MyFileItPEService
                             //fk issue??
                             sk.SALESREPID = salesRepId;
                             result.Success = SaveDBChanges(db);
+
+                            var referralTransaction = CheckForReferralCode(sk);
+
+                            if (referralTransaction != null)
+                            {
+                                AddReferralTransactionToDb(referralTransaction, db);
+                            }
                         }
                     }
                     else
@@ -2542,6 +2549,29 @@ namespace MyFileItPEService
                         result.Message = errorMessage;
                     }
                 }
+            }
+            return result;
+        }
+
+        public ReferralTransactionDTO CheckForReferralCode(SHAREKEY shareKey)
+        {
+            ReferralTransactionDTO result = null;
+            //check if there is a referral code, if so add the transaction
+            using (var db = new MyFileItEntities())
+            {
+                var referral = db.REFERRALs.SingleOrDefault(r => r.REFERRALCODE.ToLower().Trim() == shareKey.PROMOCODE.ToLower().Trim());
+                if (referral != null)
+                {
+                    result = new ReferralTransactionDTO()
+                    {
+                        REFERRALID = referral.ID,
+                        SHAREKEYID = shareKey.ID,
+                        DATECREATED = DateTime.Now,
+                        COMMISSIONAMOUNT = referral.DISCOUNTAMOUNT,
+                        COMMISSIONPAID = "0"
+                    };
+                }
+
             }
             return result;
         }
@@ -2770,7 +2800,7 @@ namespace MyFileItPEService
                         //todo: this may be configurable later!
                         referralEF.DISCOUNTAMOUNT = ConfigurationSettings.ReferralDiscountAmount;
                         referralEF.SetNewID();
-                        
+
                         db.REFERRALs.Add(referralEF);
                         result.Success = SaveDBChanges(db);
                         if (result.Success)
@@ -2853,15 +2883,16 @@ namespace MyFileItPEService
             if (result)
             {
                 var referral = db.REFERRALs.Single(r => r.ID == referralTransaction.REFERRALID);
-                var appUser = db.SHAREKEYs.Single(sk => sk.ID == referralTransaction.SHAREKEYID).APPUSER;
-                    
+                var shareKey = db.SHAREKEYs.Single(sk => sk.ID == referralTransaction.SHAREKEYID);
+                var appUser = db.APPUSERs.Single(au => au.ID == shareKey.PRIMARYAPPUSERID);
+
                 EmailHelper.SendReferralUsedEmail(referral, appUser);
             }
 
             return result;
         }
 
-        
+
         public MyFileItResult UpdateReferralCommissionPaid(string user, string pass, int referralTransactionId)
         {
             var result = new MyFileItResult();

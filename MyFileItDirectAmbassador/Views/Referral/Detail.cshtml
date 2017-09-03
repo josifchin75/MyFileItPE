@@ -7,46 +7,9 @@
 }
 
 <div class="row">
-    <div class="panel panel-default col-md-12">
-        <div class="panel-heading">
-            <h3>
-                Your Direct Ambassador Program
-                <span class="pull-right">
-                    Rewards Code @Model.REFERRALCODE
-                </span>
-            </h3>
-        </div>
-        <div class="panel-body">
-            <div class="col-sm-6">Year To Date Commission Paid @Html.Raw(string.Format("{0:C}", Model.YTDCommission))</div>
-            <div class="col-sm-6">Total Commission Paid @Html.Raw(string.Format("{0:C}", Model.TotalCommission))</div>
-            <div class="col-sm-12">
-                <h3>Your Account Transactions</h3>
-                <table class="table table-bordered table-responsive table-hover">
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Date</th>
-                        @*<th>Commission Rate</th>*@
-                        <th>Commission Earned</th>
-                        <th>Paid</th>
-                    </tr>
-                    @if (Model.ReferralTransactions != null)
-                    {
-                        foreach (var transaction in Model.ReferralTransactions)
-                        {
-                            <tr>
-                                <td>@transaction.FirstName</td>
-                                <td>@transaction.LastName</td>
-                                <td>@transaction.DATECREATED</td>
-                                <td>@transaction.COMMISSIONAMOUNT</td>
-                                <td>@Html.Raw(transaction.COMMISSIONPAID == "1" ? "Yes" : "No")</td>
-                            </tr>
-                        }
-                    }
-                </table>
-            </div>
-        </div>
-    </div>
+
+    @Html.Partial("~/Views/Referral/ReferralTransactions.cshtml", Model)
+
     @using (Html.BeginForm("Detail", "Referral", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
@@ -59,49 +22,20 @@
         @Html.HiddenFor(model => model.DATECREATED)
         @Html.HiddenFor(model => model.LASTLOGINDATE)
 
-        if (Model.ReferralTransactions != null)
-        {
-            for (var i = 0; i < Model.ReferralTransactions.Count(); i++)
-            {
-                @Html.HiddenFor(model => model.ReferralTransactions[i].ID)
-                @Html.HiddenFor(model => model.ReferralTransactions[i].REFERRALID)
-                @Html.HiddenFor(model => model.ReferralTransactions[i].SHAREKEYID)
-                @Html.HiddenFor(model => model.ReferralTransactions[i].FirstName)
-                @Html.HiddenFor(model => model.ReferralTransactions[i].LastName)
-                @Html.HiddenFor(model => model.ReferralTransactions[i].DATECREATED)
-                @Html.HiddenFor(model => model.ReferralTransactions[i].COMMISSIONPAID)
-                @Html.HiddenFor(model => model.ReferralTransactions[i].COMMISSIONAMOUNT)
-            }
-        }
+        @Html.Partial("~/Views/Referral/ReferralTransactionsHidden.cshtml", Model)
         <div class="col-md-12">
             @Html.Partial("~/Views/Referral/ReferralAddress.cshtml", Model)
         </div>
 
         <div class="col-md-10 col-md-offset-1">
-            <label>
-                We need your Checking or Saving Account information so we can pay you your commissions. You do not need this information to get a Rewards Code. You will need to get paid your commissions you earned.
-            </label>
-
-            <div class="col-md-6">
-                <label>Routing Number</label>
-                @Html.TextBoxFor(m => m.ROUTINGNUMBER, new { @class = "form-control" })
-                <label class="note">
-                    Routing number is located on the bottom of your check. It is the most left set of numbers.
-                </label>
-            </div>
-            <div class="col-md-6">
-                <label>Checking or Saving Account Number</label>
-                @Html.TextBoxFor(m => m.CHECKINGACCOUNTNUMBER, new { @class = "form-control" })
-                <label class="note">
-                    Checking or Saving Account Number is located on the bottom of your check. It is the center set of numbers.
-                </label>
-            </div>
+            @Html.Partial("~/Views/Referral/ReferralAccountInfo.cshtml", Model)
         </div>
         <div class="clear"></div>
         <div class="col-md-12 text-center">
             <div class="form-group">
-                <div class="col-md-offset-3 col-md-9">
-                    <input type="submit" value="Update" class="btn btn-primary" />
+                <div class="col-md-offset-4 col-md-8">
+                    <p></p>
+                    <input type="submit" value="Update" class="btn btn-block btn-primary" />
                 </div>
             </div>
         </div>

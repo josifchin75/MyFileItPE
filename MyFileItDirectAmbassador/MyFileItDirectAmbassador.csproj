@@ -283,6 +283,10 @@
     <Content Include="Views\Referral\Index.cshtml" />
     <Content Include="Views\Referral\ReferralAddress.cshtml" />
     <Content Include="Views\Referral\CreateSuccess.cshtml" />
+    <Content Include="Views\Referral\AdminDetail.cshtml" />
+    <Content Include="Views\Referral\ReferralTransactions.cshtml" />
+    <Content Include="Views\Referral\ReferralAccountInfo.cshtml" />
+    <Content Include="Views\Referral\ReferralTransactionsHidden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

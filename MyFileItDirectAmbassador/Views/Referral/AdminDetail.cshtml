@@ -1,0 +1,82 @@
+﻿@using MyFileItDirectAmbassador.MyFileItPEService
+@model ReferralDTO
+
+@{
+    ViewBag.Title = "AdminDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    @Html.ActionLink("Return to List","Index","Referral")
+
+    @Html.Partial("~/Views/Referral/ReferralTransactions.cshtml", Model)
+
+    @using (Html.BeginForm("AdminDetail", "Referral", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.EMAILADDRESS)
+        @Html.HiddenFor(model => model.DISCOUNTAMOUNT)
+        @Html.HiddenFor(model => model.IMAGENAME)
+        @Html.HiddenFor(model => model.DATECREATED)
+        @Html.HiddenFor(model => model.LASTLOGINDATE)
+
+        @Html.Partial("~/Views/Referral/ReferralTransactionsHidden.cshtml", Model)
+        
+        
+        
+        <div class="col-md-12">
+            <div class="form-group clear">
+                <label class="col-md-4 control-label">Email Address (login)</label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.EMAILADDRESS, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-4 control-label">Password</label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.PASSWORD, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-4 control-label">Referral Code</label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.REFERRALCODE, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-4 control-label">Discount Amount</label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.DISCOUNTAMOUNT, new { @class = "form-control" })
+                </div>
+            </div>
+
+                @Html.Partial("~/Views/Referral/ReferralAddress.cshtml", Model)
+        </div>
+
+        <div class="col-md-10 col-md-offset-1">
+            @Html.Partial("~/Views/Referral/ReferralAccountInfo.cshtml", Model)
+        </div>
+        <div class="clear"></div>
+        <div class="col-md-12 text-center">
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-8">
+                    <p></p>
+                    <input type="submit" value="Update" class="btn btn-block btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+@using (Html.BeginForm("AddTransaction", "Referral", new { referralName = Model.EMAILADDRESS }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="col-md-12 text-center">
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <p></p>
+                <input type="submit" value="Add a transaction" class="btn btn-block btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+</div>

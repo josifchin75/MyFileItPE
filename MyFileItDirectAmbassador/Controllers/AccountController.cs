@@ -57,7 +57,10 @@ namespace MyFileItDirectAmbassador.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Detail", "Referral", new { referralName = emailAddress });
+                            //put admin in object?
+                            //if(admin)
+                            return RedirectToAction("Index", "Referral");
+                            //return RedirectToAction("Detail", "Referral", new { referralName = emailAddress });
                         }
                     }
                     else
