@@ -1,0 +1,52 @@
+﻿@using MyFileItDirectAmbassador.MyFileItPEService
+@model ReferralDTO
+
+<div class="form-group">
+    <label class="col-md-3 control-label">*First Name</label>
+    <div class="col-md-9">
+        @Html.TextBoxFor(m => m.FIRSTNAME, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group clear">
+    <label class="col-md-3 control-label">*Last Name</label>
+    <div class="col-md-9">
+        @Html.TextBoxFor(m => m.LASTNAME, new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group clear">
+    <label class="col-md-3 control-label">*Address</label>
+    <div class="col-md-9">
+        @Html.TextBoxFor(m => m.ADDRESS1, new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group clear">
+    <label class="col-md-3 control-label">Suite / Apt</label>
+    <div class="col-md-9">
+        @Html.TextBoxFor(m => m.ADDRESS2, new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group clear">
+    <label class="col-md-3 control-label">*City</label>
+    <div class="col-md-9">
+        @Html.TextBoxFor(m => m.CITY, new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group clear">
+    <label class="col-md-3 control-label">*State</label>
+    <div class="col-md-9">
+        @Html.TextBoxFor(m => m.STATECODE, new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group clear">
+    <label class="col-md-3 control-label">*Zip Code</label>
+    <div class="col-md-9">
+        @Html.TextBoxFor(m => m.ZIPCODE, new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group clear">
+    <label class="col-md-3 control-label">*Mobile Phone Number</label>
+    <div class="col-md-9">
+        @Html.TextBoxFor(m => m.MOBILEPHONE, new { @class = "form-control" })
+    </div>
+</div>

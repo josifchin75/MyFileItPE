@@ -281,6 +281,7 @@
     <Content Include="Views\Account\Create.cshtml" />
     <Content Include="Views\Referral\Detail.cshtml" />
     <Content Include="Views\Referral\Index.cshtml" />
+    <Content Include="Views\Referral\ReferralAddress.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
