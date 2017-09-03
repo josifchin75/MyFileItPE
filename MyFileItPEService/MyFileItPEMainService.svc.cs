@@ -2763,18 +2763,23 @@ namespace MyFileItPEService
                 using (var db = new MyFileItEntities())
                 {
                     //check for dups
-                    if (!db.REFERRALs.Any(r => r.EMAILADDRESS == referral.EMAILADDRESS))
+                    if (!db.REFERRALs.Any(r => r.EMAILADDRESS.ToLower().Trim() == referral.EMAILADDRESS.ToLower().Trim()))
                     {
                         var referralEF = (REFERRAL)referral;
                         referralEF.DATECREATED = DateTime.Now;
                         //todo: this may be configurable later!
-                        referralEF.DISCOUNTAMOUNT = 0.50m;
+                        referralEF.DISCOUNTAMOUNT = ConfigurationSettings.ReferralDiscountAmount;
                         referralEF.SetNewID();
+                        
                         db.REFERRALs.Add(referralEF);
                         result.Success = SaveDBChanges(db);
                         if (result.Success)
                         {
                             EmailHelper.SendReferralSignupEmail(referral);
+                            result.Referrals.Clear();
+                            var newReferral = db.REFERRALs.Single(nr => nr.EMAILADDRESS.ToLower().Trim() == referral.EMAILADDRESS.ToLower().Trim());
+                            var newReferralDTO = new ReferralDTO(newReferral);
+                            result.Referrals.Add(newReferralDTO);
                         }
                     }
                     else

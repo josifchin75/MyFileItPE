@@ -2,7 +2,11 @@
     font-family: Arial;
     margin: 0px;
     padding: 0px;
-    /*background-color: #dddddd;*/
+    background-color: #dddddd;
+}
+
+h2 {
+    border-bottom: 1px solid #dddddd;
 }
 
 .body-content {
@@ -12,7 +16,7 @@
 #wrapper {
     width: 1260px;
     margin: 0px auto;
-    text-align: center;
+    /*text-align: center;*/
     background-color: #ffffff;
 }
 
@@ -41,18 +45,27 @@
     }
 
 #footer {
- padding: 40px;   
+    padding: 40px;
 }
 
 .codes {
     text-align: center;
-    border:solid 1px;
+    border: solid 1px;
     padding: 20px;
 }
-.codes table {
-    /*width: 100%;*/
-}
+
+    .codes table {
+        /*width: 100%;*/
+    }
 
 .clear {
     clear: both;
+}
+
+.note {
+    background-color: yellow;
+    font-size: 1em;
+    font-style: italic;
+    padding: 1em;
+    margin-top: 1em;
 }

@@ -10,6 +10,16 @@ namespace MyFileItDirectAmbassador
 {
     public class BaseController : Controller
     {
+        public BaseController()
+        {
+            SetViewBag();
+        }
+
+        private void SetViewBag()
+        {
+            ViewBag.Message = ViewMessage;
+        }
+
         public string SERVICEUSER
         {
             get
@@ -17,6 +27,14 @@ namespace MyFileItDirectAmbassador
                 return ConfigurationManager.AppSettings["ServiceUser"];
             }
         }
-        public string SERVICEPASS = ConfigurationManager.AppSettings["ServicePass"];
+        public string SERVICEPASS
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ServicePass"];
+            }
+        }
+
+        public string ViewMessage { get; set; }
     }
 }

@@ -15,9 +15,15 @@
         
         <fieldset>
             <div class="form-group clear">
-                <label class="col-md-3 control-label">*Email Address</label>
-                <div class="col-md-9">
+                <label class="col-md-4 control-label">*Email Address</label>
+                <div class="col-md-8">
                     @Html.TextBoxFor(m => m.EMAILADDRESS, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-4 control-label">*Password</label>
+                <div class="col-md-8">
+                    @Html.PasswordFor(m => m.PASSWORD, new { @class = "form-control" })
                 </div>
             </div>
             @Html.Partial("~/Views/Referral/ReferralAddress.cshtml", Model)

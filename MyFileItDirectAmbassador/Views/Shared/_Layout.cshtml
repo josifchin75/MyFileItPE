@@ -28,7 +28,13 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div id="wrapper" class="container body-content">
+        @if (!String.IsNullOrWhiteSpace(ViewBag.Message))
+        {
+            <div class="alert alert-success">
+                @ViewBag.Message
+            </div>
+        }
         @RenderBody()
         <hr />
         <footer>

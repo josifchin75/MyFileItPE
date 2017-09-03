@@ -27,6 +27,26 @@ namespace MyFileItDirectAmbassador.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [HttpPost]
+        // GET: Referral
+        public ActionResult Detail(ReferralDTO referral)
+        {
+            if (ValidReferral(referral))
+            {
+                using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
+                {
+                    var result = svc.UpdateReferral(SERVICEUSER, SERVICEPASS, referral);
+                    if (result.Success)
+                    {
+                        ViewMessage = "Your account has been updated.";
+                    }
+                }
+            }
+
+            return View(referral);
+        }
+
         public ActionResult Create()
         {
             return View();
@@ -43,7 +63,11 @@ namespace MyFileItDirectAmbassador.Controllers
                     var result = svc.AddReferral(SERVICEUSER, SERVICEPASS, referral);
                     if (result.Success)
                     {
-                        var i = 0;
+                        return RedirectToAction("CreateSuccess", new { referralName = referral.EMAILADDRESS });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", result.Message);
                     }
                 }
             }
@@ -52,6 +76,16 @@ namespace MyFileItDirectAmbassador.Controllers
                 ModelState.AddModelError("", "Please enter all required fields.");
             }
             return View(referral);
+        }
+
+        public ActionResult CreateSuccess(string referralName)
+        {
+            ReferralDTO model;
+            using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
+            {
+                model = svc.GetReferralByEmail(SERVICEUSER, SERVICEPASS, referralName).Referrals.First();
+            }
+            return View(model);
         }
 
         private bool ValidReferral(ReferralDTO referral)

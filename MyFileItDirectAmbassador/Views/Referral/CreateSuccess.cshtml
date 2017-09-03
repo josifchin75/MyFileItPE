@@ -1,0 +1,15 @@
+﻿@using MyFileItDirectAmbassador.MyFileItPEService
+@model ReferralDTO
+
+@{
+    ViewBag.Title = "Thank you for joining";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>My File-IT PE Direct Ambassador</h1>
+    <p class="lead">Your referral code is <strong>@Model.REFERRALCODE</strong>. Thank you for joining!</p>
+    <p>
+        @Html.ActionLink("View My Account", "Detail", "Referral", new { referralName=Model.EMAILADDRESS }, new { @class = "btn btn-primary btn-lg" })
+    </p>
+</div>

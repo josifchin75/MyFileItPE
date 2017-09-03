@@ -14,6 +14,7 @@ namespace MyFileItDataLayer.Models
             {
                 var sk = db.REFERRALs.OrderByDescending(o => o.ID).FirstOrDefault();
                 this.ID = sk == null ? 1 : sk.ID + 1;
+                this.REFERRALCODE = CreateReferralCode();
             }
         }
 
@@ -21,26 +22,25 @@ namespace MyFileItDataLayer.Models
         {
             //create the share key code
             //use date time and a count
-            var result = DateTime.Now.ToString("yyyyMMdd-");
-            //result += PRIMARYAPPUSERID.ToString().PadLeft(6, '0');
-
-            //var curCnt = 1;
-            //var testResult = result + curCnt.ToString().PadLeft(6, '0');
-            //using (var db = new MyFileItEntities())
-            //{
-            //    while (db.SHAREKEYs.Any(sk => sk.SHAREKEYCODE.Equals(testResult, StringComparison.CurrentCultureIgnoreCase)))
-            //    {
-            //        testResult = result + curCnt.ToString().PadLeft(6, '0');
-            //        if (curCnt > 1000000)
-            //        {
-            //            result = "";
-            //            testResult = "";
-            //            break;
-            //        }
-            //        curCnt++;
-            //    }
-            //    result = testResult;
-            //}
+            var result = (FIRSTNAME.Length > 1 ? FIRSTNAME.Substring(0,1) : FIRSTNAME) + (LASTNAME.Length > 3 ? LASTNAME.Substring(0,3): LASTNAME);
+            
+            var curCnt = 1;
+            var testResult = result + curCnt.ToString().PadLeft(3, '0');
+            using (var db = new MyFileItEntities())
+            {
+                while (db.REFERRALs.Any(r => r.REFERRALCODE.Equals(testResult, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    testResult = result + curCnt.ToString().PadLeft(3, '0');
+                    if (curCnt > 1000000)
+                    {
+                        result = "";
+                        testResult = "";
+                        break;
+                    }
+                    curCnt++;
+                }
+                result = testResult;
+            }
 
             return result;
         }

@@ -124,6 +124,15 @@ namespace MyFileItPEService
                 ExceptionHelper.WriteFile(value.ToString(), ReminderCheckFileName, false);
             }
         }
+
+        public static decimal ReferralDiscountAmount
+        {
+            get
+            {
+                return decimal.Parse(System.Configuration.ConfigurationManager.AppSettings["ReferralDiscountAmount"].ToString());
+            }
+        }
+        
         /*
             Email Server: mail.myfileit.com
 

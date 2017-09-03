@@ -282,6 +282,7 @@
     <Content Include="Views\Referral\Detail.cshtml" />
     <Content Include="Views\Referral\Index.cshtml" />
     <Content Include="Views\Referral\ReferralAddress.cshtml" />
+    <Content Include="Views\Referral\CreateSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

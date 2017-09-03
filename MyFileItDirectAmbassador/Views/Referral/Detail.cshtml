@@ -7,12 +7,14 @@
 }
 
 <div class="row">
-    <div class="panel panel-default">
+    <div class="panel panel-default col-md-12">
         <div class="panel-heading">
-            Your Direct Ambassador Program
-            <span class="pull-right">
-                Rewards Code @Model.REFERRALCODE
-            </span>
+            <h3>
+                Your Direct Ambassador Program
+                <span class="pull-right">
+                    Rewards Code @Model.REFERRALCODE
+                </span>
+            </h3>
         </div>
         <div class="panel-body">
             <div class="col-sm-6">Year To Date Commission Paid @Html.Raw(string.Format("{0:C}", Model.YTDCommission))</div>
@@ -28,33 +30,80 @@
                         <th>Commission Earned</th>
                         <th>Paid</th>
                     </tr>
-                    @foreach (var transaction in Model.ReferralTransactions)
+                    @if (Model.ReferralTransactions != null)
                     {
-                        <tr>
-                            <td>@transaction.FirstName</td>
-                            <td>@transaction.LastName</td>
-                            <td>@transaction.DATECREATED</td>
-                            <td>@transaction.COMMISSIONAMOUNT</td>
-                            <td>@Html.Raw(transaction.COMMISSIONPAID == "1" ? "Yes" : "No")</td>
-                        </tr>
+                        foreach (var transaction in Model.ReferralTransactions)
+                        {
+                            <tr>
+                                <td>@transaction.FirstName</td>
+                                <td>@transaction.LastName</td>
+                                <td>@transaction.DATECREATED</td>
+                                <td>@transaction.COMMISSIONAMOUNT</td>
+                                <td>@Html.Raw(transaction.COMMISSIONPAID == "1" ? "Yes" : "No")</td>
+                            </tr>
+                        }
                     }
                 </table>
             </div>
         </div>
     </div>
-    @using (Html.BeginForm("Index", "Referral", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("Detail", "Referral", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ID)
         @Html.HiddenFor(model => model.EMAILADDRESS)
+        @Html.HiddenFor(model => model.PASSWORD)
+        @Html.HiddenFor(model => model.REFERRALCODE)
+        @Html.HiddenFor(model => model.DISCOUNTAMOUNT)
+        @Html.HiddenFor(model => model.IMAGENAME)
+        @Html.HiddenFor(model => model.DATECREATED)
+        @Html.HiddenFor(model => model.LASTLOGINDATE)
 
-        <div class="col-md-6">
+        if (Model.ReferralTransactions != null)
+        {
+            for (var i = 0; i < Model.ReferralTransactions.Count(); i++)
+            {
+                @Html.HiddenFor(model => model.ReferralTransactions[i].ID)
+                @Html.HiddenFor(model => model.ReferralTransactions[i].REFERRALID)
+                @Html.HiddenFor(model => model.ReferralTransactions[i].SHAREKEYID)
+                @Html.HiddenFor(model => model.ReferralTransactions[i].FirstName)
+                @Html.HiddenFor(model => model.ReferralTransactions[i].LastName)
+                @Html.HiddenFor(model => model.ReferralTransactions[i].DATECREATED)
+                @Html.HiddenFor(model => model.ReferralTransactions[i].COMMISSIONPAID)
+                @Html.HiddenFor(model => model.ReferralTransactions[i].COMMISSIONAMOUNT)
+            }
+        }
+        <div class="col-md-12">
             @Html.Partial("~/Views/Referral/ReferralAddress.cshtml", Model)
         </div>
-        <div class="col-md-6">
 
+        <div class="col-md-10 col-md-offset-1">
+            <label>
+                We need your Checking or Saving Account information so we can pay you your commissions. You do not need this information to get a Rewards Code. You will need to get paid your commissions you earned.
+            </label>
+
+            <div class="col-md-6">
+                <label>Routing Number</label>
+                @Html.TextBoxFor(m => m.ROUTINGNUMBER, new { @class = "form-control" })
+                <label class="note">
+                    Routing number is located on the bottom of your check. It is the most left set of numbers.
+                </label>
+            </div>
+            <div class="col-md-6">
+                <label>Checking or Saving Account Number</label>
+                @Html.TextBoxFor(m => m.CHECKINGACCOUNTNUMBER, new { @class = "form-control" })
+                <label class="note">
+                    Checking or Saving Account Number is located on the bottom of your check. It is the center set of numbers.
+                </label>
+            </div>
         </div>
+        <div class="clear"></div>
         <div class="col-md-12 text-center">
-
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
+            </div>
         </div>
     }
 </div>
