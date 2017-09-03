@@ -1,0 +1,31 @@
+﻿@using MyFileItDirectAmbassador.MyFileItPEService
+@model ReferralDTO
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <h2>Create an Account</h2>
+    @using (Html.BeginForm("Create", "Referral", new { }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        
+        <fieldset>
+            <div class="form-group clear">
+                <label class="col-md-3 control-label">*Email Address</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.EMAILADDRESS, new { @class = "form-control" })
+                </div>
+            </div>
+            @Html.Partial("~/Views/Referral/ReferralAddress.cshtml", Model)
+            <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <input type="submit" value="GET YOUR REWARDS CODE" class="btn btn-primary" />
+                    </div>                   
+                </div>
+        </fieldset>
+    }
+</div>

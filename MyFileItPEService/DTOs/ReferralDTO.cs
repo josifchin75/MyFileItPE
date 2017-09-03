@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using MyFileItDataLayer.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyFileItPEService.DTOs
 {
@@ -14,26 +15,35 @@ namespace MyFileItPEService.DTOs
         [DataMember]
         public int ID { get; set; }
         [DataMember]
+        [Required]
         public string EMAILADDRESS { get; set; }
         [DataMember]
+        [Required]
         public string PASSWORD { get; set; }
         [DataMember]
         public string REFERRALCODE { get; set; }
         [DataMember]
+        [Required]
         public string FIRSTNAME { get; set; }
         [DataMember]
+        [Required]
         public string LASTNAME { get; set; }
         [DataMember]
+        [Required]
         public string ADDRESS1 { get; set; }
         [DataMember]
         public string ADDRESS2 { get; set; }
         [DataMember]
+        [Required]
         public string CITY { get; set; }
         [DataMember]
+        [Required]
         public string STATECODE { get; set; }
         [DataMember]
+        [Required]
         public string ZIPCODE { get; set; }
         [DataMember]
+        [Required]
         public string MOBILEPHONE { get; set; }
         [DataMember]
         public decimal? DISCOUNTAMOUNT { get; set; }

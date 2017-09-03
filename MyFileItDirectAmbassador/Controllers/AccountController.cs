@@ -78,18 +78,7 @@ namespace MyFileItDirectAmbassador.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(ReferralDTO referral)
-        {
-
-            return View(referral);
-        }
-
+       
         //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         //{
         //    UserManager = userManager;
