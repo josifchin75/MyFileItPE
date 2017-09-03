@@ -215,19 +215,19 @@
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="EMAILADDRESS" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
           <Property Name="PASSWORD" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
-          <Property Name="REFERRALCODE" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
+          <Property Name="REFERRALCODE" Type="varchar" MaxLength="255" Unicode="true" />
           <Property Name="FIRSTNAME" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
           <Property Name="LASTNAME" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
           <Property Name="ADDRESS1" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
-          <Property Name="ADDRESS2" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
+          <Property Name="ADDRESS2" Type="varchar" MaxLength="255" Unicode="true" />
           <Property Name="CITY" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
           <Property Name="STATECODE" Type="varchar" MaxLength="2" Unicode="true" Nullable="false" />
           <Property Name="ZIPCODE" Type="varchar" MaxLength="12" Unicode="true" Nullable="false" />
           <Property Name="MOBILEPHONE" Type="varchar" MaxLength="14" Unicode="true" Nullable="false" />
           <Property Name="DISCOUNTAMOUNT" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="IMAGENAME" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
-          <Property Name="ROUTINGNUMBER" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
-          <Property Name="CHECKINGACCOUNTNUMBER" Type="varchar" MaxLength="255" Unicode="true" Nullable="false" />
+          <Property Name="IMAGENAME" Type="varchar" MaxLength="255" Unicode="true" />
+          <Property Name="ROUTINGNUMBER" Type="varchar" MaxLength="255" Unicode="true" />
+          <Property Name="CHECKINGACCOUNTNUMBER" Type="varchar" MaxLength="255" Unicode="true" />
           <Property Name="DATECREATED" Type="timestamp" />
           <Property Name="LASTLOGINDATE" Type="timestamp" />
         </EntityType>
@@ -779,7 +779,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="INTEG_578">
+        <Association Name="INTEG_594">
           <End Role="REFERRAL" Type="Self.REFERRAL" Multiplicity="1" />
           <End Role="REFERRALTRANSACTION" Type="Self.REFERRALTRANSACTION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -791,7 +791,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="INTEG_579">
+        <Association Name="INTEG_595">
           <End Role="SHAREKEY" Type="Self.SHAREKEY" Multiplicity="0..1" />
           <End Role="REFERRALTRANSACTION" Type="Self.REFERRALTRANSACTION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -967,11 +967,11 @@
             <End Role="APPUSER" EntitySet="APPUSER" />
             <End Role="DOCUMENTTYPE" EntitySet="DOCUMENTTYPE" />
           </AssociationSet>
-          <AssociationSet Name="INTEG_578" Association="Self.INTEG_578">
+          <AssociationSet Name="INTEG_594" Association="Self.INTEG_594">
             <End Role="REFERRAL" EntitySet="REFERRAL" />
             <End Role="REFERRALTRANSACTION" EntitySet="REFERRALTRANSACTION" />
           </AssociationSet>
-          <AssociationSet Name="INTEG_579" Association="Self.INTEG_579">
+          <AssociationSet Name="INTEG_595" Association="Self.INTEG_595">
             <End Role="SHAREKEY" EntitySet="SHAREKEY" />
             <End Role="REFERRALTRANSACTION" EntitySet="REFERRALTRANSACTION" />
           </AssociationSet>
@@ -1196,7 +1196,6 @@
             <End Role="DOCUMENTTYPE" EntitySet="DOCUMENTTYPEs" />
             <End Role="SHAREDOCUMENT" EntitySet="SHAREDOCUMENTs" />
           </AssociationSet>
-          <EntitySet Name="REFERRALs" EntityType="MyFileItModel.REFERRAL" />
           <EntitySet Name="SHAREKEYs" EntityType="MyFileItModel.SHAREKEY" />
           <AssociationSet Name="INTEG_256" Association="MyFileItModel.INTEG_256">
             <End Role="APPUSER" EntitySet="APPUSERs" />
@@ -1211,12 +1210,13 @@
             <End Role="SHAREKEY" EntitySet="SHAREKEYs" />
           </AssociationSet>
           <EntitySet Name="REFERRALTRANSACTIONs" EntityType="MyFileItModel.REFERRALTRANSACTION" />
-          <AssociationSet Name="INTEG_578" Association="MyFileItModel.INTEG_578">
-            <End Role="REFERRAL" EntitySet="REFERRALs" />
-            <End Role="REFERRALTRANSACTION" EntitySet="REFERRALTRANSACTIONs" />
-          </AssociationSet>
           <AssociationSet Name="INTEG_579" Association="MyFileItModel.INTEG_579">
             <End Role="SHAREKEY" EntitySet="SHAREKEYs" />
+            <End Role="REFERRALTRANSACTION" EntitySet="REFERRALTRANSACTIONs" />
+          </AssociationSet>
+          <EntitySet Name="REFERRALs" EntityType="MyFileItModel.REFERRAL" />
+          <AssociationSet Name="INTEG_594" Association="MyFileItModel.INTEG_594">
+            <End Role="REFERRAL" EntitySet="REFERRALs" />
             <End Role="REFERRALTRANSACTION" EntitySet="REFERRALTRANSACTIONs" />
           </AssociationSet>
           </EntityContainer>
@@ -1939,30 +1939,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="REFERRAL">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Nullable="false" Type="Int32" />
-          <Property Name="EMAILADDRESS" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PASSWORD" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="REFERRALCODE" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="FIRSTNAME" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="LASTNAME" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ADDRESS1" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ADDRESS2" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="CITY" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="STATECODE" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ZIPCODE" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="MOBILEPHONE" Nullable="false" MaxLength="14" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="DISCOUNTAMOUNT" Precision="18" Scale="2" Type="Decimal" />
-          <Property Name="IMAGENAME" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ROUTINGNUMBER" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="CHECKINGACCOUNTNUMBER" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="DATECREATED" Type="DateTime" />
-          <Property Name="LASTLOGINDATE" Type="DateTime" />
-          <NavigationProperty Name="REFERRALTRANSACTIONs" Relationship="MyFileItModel.INTEG_578" FromRole="REFERRAL" ToRole="REFERRALTRANSACTION" />
-        </EntityType>
         <EntityType Name="SHAREKEY">
           <Key>
             <PropertyRef Name="ID" />
@@ -2032,21 +2008,9 @@
           <Property Name="COMMISSIONAMOUNT" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="COMMISSIONPAID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="DATECREATED" Type="DateTime" />
-          <NavigationProperty Name="REFERRAL" Relationship="MyFileItModel.INTEG_578" FromRole="REFERRALTRANSACTION" ToRole="REFERRAL" />
           <NavigationProperty Name="SHAREKEY" Relationship="MyFileItModel.INTEG_579" FromRole="REFERRALTRANSACTION" ToRole="SHAREKEY" />
+          <NavigationProperty Name="REFERRAL" Relationship="MyFileItModel.INTEG_594" FromRole="REFERRALTRANSACTION" ToRole="REFERRAL" />
         </EntityType>
-        <Association Name="INTEG_578">
-          <End Type="MyFileItModel.REFERRAL" Role="REFERRAL" Multiplicity="1" />
-          <End Type="MyFileItModel.REFERRALTRANSACTION" Role="REFERRALTRANSACTION" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="REFERRAL">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="REFERRALTRANSACTION">
-              <PropertyRef Name="REFERRALID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="INTEG_579">
           <End Type="MyFileItModel.SHAREKEY" Role="SHAREKEY" Multiplicity="0..1" />
           <End Type="MyFileItModel.REFERRALTRANSACTION" Role="REFERRALTRANSACTION" Multiplicity="*" />
@@ -2056,6 +2020,42 @@
             </Principal>
             <Dependent Role="REFERRALTRANSACTION">
               <PropertyRef Name="SHAREKEYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="REFERRAL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="EMAILADDRESS" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORD" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="REFERRALCODE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FIRSTNAME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LASTNAME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ADDRESS1" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ADDRESS2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CITY" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="STATECODE" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ZIPCODE" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="MOBILEPHONE" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="true" />
+          <Property Name="DISCOUNTAMOUNT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMAGENAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ROUTINGNUMBER" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CHECKINGACCOUNTNUMBER" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DATECREATED" Type="DateTime" />
+          <Property Name="LASTLOGINDATE" Type="DateTime" />
+          <NavigationProperty Name="REFERRALTRANSACTIONs" Relationship="MyFileItModel.INTEG_594" FromRole="REFERRAL" ToRole="REFERRALTRANSACTION" />
+        </EntityType>
+        <Association Name="INTEG_594">
+          <End Type="MyFileItModel.REFERRAL" Role="REFERRAL" Multiplicity="1" />
+          <End Type="MyFileItModel.REFERRALTRANSACTION" Role="REFERRALTRANSACTION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REFERRAL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REFERRALTRANSACTION">
+              <PropertyRef Name="REFERRALID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2402,30 +2402,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="REFERRALs">
-            <EntityTypeMapping TypeName="MyFileItModel.REFERRAL">
-              <MappingFragment StoreEntitySet="REFERRAL">
-                <ScalarProperty Name="LASTLOGINDATE" ColumnName="LASTLOGINDATE" />
-                <ScalarProperty Name="DATECREATED" ColumnName="DATECREATED" />
-                <ScalarProperty Name="CHECKINGACCOUNTNUMBER" ColumnName="CHECKINGACCOUNTNUMBER" />
-                <ScalarProperty Name="ROUTINGNUMBER" ColumnName="ROUTINGNUMBER" />
-                <ScalarProperty Name="IMAGENAME" ColumnName="IMAGENAME" />
-                <ScalarProperty Name="DISCOUNTAMOUNT" ColumnName="DISCOUNTAMOUNT" />
-                <ScalarProperty Name="MOBILEPHONE" ColumnName="MOBILEPHONE" />
-                <ScalarProperty Name="ZIPCODE" ColumnName="ZIPCODE" />
-                <ScalarProperty Name="STATECODE" ColumnName="STATECODE" />
-                <ScalarProperty Name="CITY" ColumnName="CITY" />
-                <ScalarProperty Name="ADDRESS2" ColumnName="ADDRESS2" />
-                <ScalarProperty Name="ADDRESS1" ColumnName="ADDRESS1" />
-                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
-                <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
-                <ScalarProperty Name="REFERRALCODE" ColumnName="REFERRALCODE" />
-                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
-                <ScalarProperty Name="EMAILADDRESS" ColumnName="EMAILADDRESS" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SHAREKEYs">
             <EntityTypeMapping TypeName="MyFileItModel.SHAREKEY">
               <MappingFragment StoreEntitySet="SHAREKEY">
@@ -2454,6 +2430,30 @@
                 <ScalarProperty Name="COMMISSIONAMOUNT" ColumnName="COMMISSIONAMOUNT" />
                 <ScalarProperty Name="SHAREKEYID" ColumnName="SHAREKEYID" />
                 <ScalarProperty Name="REFERRALID" ColumnName="REFERRALID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REFERRALs">
+            <EntityTypeMapping TypeName="MyFileItModel.REFERRAL">
+              <MappingFragment StoreEntitySet="REFERRAL">
+                <ScalarProperty Name="LASTLOGINDATE" ColumnName="LASTLOGINDATE" />
+                <ScalarProperty Name="DATECREATED" ColumnName="DATECREATED" />
+                <ScalarProperty Name="CHECKINGACCOUNTNUMBER" ColumnName="CHECKINGACCOUNTNUMBER" />
+                <ScalarProperty Name="ROUTINGNUMBER" ColumnName="ROUTINGNUMBER" />
+                <ScalarProperty Name="IMAGENAME" ColumnName="IMAGENAME" />
+                <ScalarProperty Name="DISCOUNTAMOUNT" ColumnName="DISCOUNTAMOUNT" />
+                <ScalarProperty Name="MOBILEPHONE" ColumnName="MOBILEPHONE" />
+                <ScalarProperty Name="ZIPCODE" ColumnName="ZIPCODE" />
+                <ScalarProperty Name="STATECODE" ColumnName="STATECODE" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="ADDRESS2" ColumnName="ADDRESS2" />
+                <ScalarProperty Name="ADDRESS1" ColumnName="ADDRESS1" />
+                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
+                <ScalarProperty Name="REFERRALCODE" ColumnName="REFERRALCODE" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="EMAILADDRESS" ColumnName="EMAILADDRESS" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

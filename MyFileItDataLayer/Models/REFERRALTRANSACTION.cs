@@ -21,7 +21,7 @@ namespace MyFileItDataLayer.Models
         public string COMMISSIONPAID { get; set; }
         public Nullable<System.DateTime> DATECREATED { get; set; }
     
-        public virtual REFERRAL REFERRAL { get; set; }
         public virtual SHAREKEY SHAREKEY { get; set; }
+        public virtual REFERRAL REFERRAL { get; set; }
     }
 }

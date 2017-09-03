@@ -49,8 +49,8 @@ namespace MyFileItDataLayer.Models
         public virtual DbSet<SHAREDOCUMENT> SHAREDOCUMENTs { get; set; }
         public virtual DbSet<FILECABINETDOCUMENT> FILECABINETDOCUMENTs { get; set; }
         public virtual DbSet<DOCUMENTTYPE> DOCUMENTTYPEs { get; set; }
-        public virtual DbSet<REFERRAL> REFERRALs { get; set; }
         public virtual DbSet<SHAREKEY> SHAREKEYs { get; set; }
         public virtual DbSet<REFERRALTRANSACTION> REFERRALTRANSACTIONs { get; set; }
+        public virtual DbSet<REFERRAL> REFERRALs { get; set; }
     }
 }
