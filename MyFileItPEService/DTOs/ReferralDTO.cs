@@ -47,6 +47,10 @@ namespace MyFileItPEService.DTOs
         public DateTime? DATECREATED { get; set; }
         [DataMember]
         public DateTime? LASTLOGINDATE { get; set; }
+        [DataMember]
+        public decimal? YTDCommission { get; set; }
+        [DataMember]
+        public decimal? TotalCommission { get; set; }
 
         [DataMember]
         public List<ReferralTransactionDTO> ReferralTransactions { get; set; }
@@ -77,11 +81,22 @@ namespace MyFileItPEService.DTOs
             DATECREATED = referralEF.DATECREATED;
             LASTLOGINDATE = referralEF.LASTLOGINDATE;
 
+            YTDCommission = 0m;
+            TotalCommission = 0m;
             //load up all sub transactions
             ReferralTransactions = new List<ReferralTransactionDTO>();
-            referralEF.REFERRALTRANSACTIONs.ToList().ForEach(rt => {
+            referralEF.REFERRALTRANSACTIONs.ToList().ForEach(rt =>
+            {
                 var dto = new ReferralTransactionDTO(rt);
                 ReferralTransactions.Add(dto);
+                if (dto.COMMISSIONPAID == "1")
+                {
+                    TotalCommission += dto.COMMISSIONAMOUNT;
+                    if (dto.DATECREATED.Value.Year == DateTime.Now.Year)
+                    {
+                        YTDCommission += dto.COMMISSIONAMOUNT;
+                    }
+                }
             });
         }
         // User-defined conversion from dto to ef 

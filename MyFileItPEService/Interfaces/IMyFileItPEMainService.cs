@@ -381,6 +381,10 @@ namespace MyFileItPEService
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        MyFileItResult GetReferralByEmail(string user, string pass, string emailAddress);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         MyFileItResult AddReferral(string user, string pass, ReferralDTO referral);
 
         [OperationContract]

@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFileItDataLayer", "MyFile
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFileItPEService", "MyFileItPEService\MyFileItPEService.csproj", "{010C42D3-9F92-4593-8F5B-950D51C80377}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFileItDirectAmbassador", "MyFileItDirectAmbassador\MyFileItDirectAmbassador.csproj", "{65175544-E0F8-4FB8-88FC-6D6791DB074B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{010C42D3-9F92-4593-8F5B-950D51C80377} = {010C42D3-9F92-4593-8F5B-950D51C80377}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +31,12 @@ Global
 		{010C42D3-9F92-4593-8F5B-950D51C80377}.Release|Any CPU.Build.0 = Release|Any CPU
 		{010C42D3-9F92-4593-8F5B-950D51C80377}.Testing|Any CPU.ActiveCfg = Release|Any CPU
 		{010C42D3-9F92-4593-8F5B-950D51C80377}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{65175544-E0F8-4FB8-88FC-6D6791DB074B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65175544-E0F8-4FB8-88FC-6D6791DB074B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65175544-E0F8-4FB8-88FC-6D6791DB074B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65175544-E0F8-4FB8-88FC-6D6791DB074B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65175544-E0F8-4FB8-88FC-6D6791DB074B}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{65175544-E0F8-4FB8-88FC-6D6791DB074B}.Testing|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

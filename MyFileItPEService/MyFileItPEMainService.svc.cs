@@ -2738,6 +2738,23 @@ namespace MyFileItPEService
             return result;
         }
 
+        public MyFileItResult GetReferralByEmail(string user, string pass, string emailAddress)
+        {
+            var result = new MyFileItResult();
+            if (AllowAccess(user, pass))
+            {
+                using (var db = new MyFileItEntities())
+                {
+                    db.REFERRALs.Where(r => r.EMAILADDRESS.ToLower().Trim() == emailAddress.ToLower().Trim()).Include(r => r.REFERRALTRANSACTIONs).ToList().ForEach(r =>
+                    {
+                        result.Referrals.Add(new ReferralDTO(r));
+                    });
+                    result.Success = true;
+                }
+            }
+            return result;
+        }
+
         public MyFileItResult AddReferral(string user, string pass, ReferralDTO referral)
         {
             var result = new MyFileItResult();

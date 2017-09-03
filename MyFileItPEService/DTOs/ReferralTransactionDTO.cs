@@ -23,6 +23,10 @@ namespace MyFileItPEService.DTOs
         public string COMMISSIONPAID { get; set; }
         [DataMember]
         public decimal? COMMISSIONAMOUNT { get; set; }
+        [DataMember]
+        public string FirstName { get; set; }
+        [DataMember]
+        public string LastName { get; set; }
 
         public ReferralTransactionDTO()
         {
@@ -36,6 +40,9 @@ namespace MyFileItPEService.DTOs
             DATECREATED = referralTransactionEF.DATECREATED;
             COMMISSIONPAID = referralTransactionEF.COMMISSIONPAID;
             COMMISSIONAMOUNT = referralTransactionEF.COMMISSIONAMOUNT;
+
+            FirstName = referralTransactionEF.SHAREKEY.APPUSER.FIRSTNAME;
+            LastName = referralTransactionEF.SHAREKEY.APPUSER.LASTNAME;
         }
         // User-defined conversion from dto to ef 
         public static implicit operator REFERRALTRANSACTION(ReferralTransactionDTO dto)

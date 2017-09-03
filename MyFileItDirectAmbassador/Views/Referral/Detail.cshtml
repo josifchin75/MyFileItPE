@@ -1,0 +1,108 @@
+﻿@using MyFileItDirectAmbassador.MyFileItPEService
+@model ReferralDTO
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Your Direct Ambassador Program
+            <span class="pull-right">
+                Rewards Code @Model.REFERRALCODE
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-6">Year To Date Commission Paid @Html.Raw(string.Format("{0:C}", Model.YTDCommission))</div>
+            <div class="col-sm-6">Total Commission Paid @Html.Raw(string.Format("{0:C}", Model.TotalCommission))</div>
+            <div class="col-sm-12">
+                <h3>Your Account Transactions</h3>
+                <table class="table table-bordered table-responsive table-hover">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Date</th>
+                        @*<th>Commission Rate</th>*@
+                        <th>Commission Earned</th>
+                        <th>Paid</th>
+                    </tr>
+                    @foreach (var transaction in Model.ReferralTransactions)
+                    {
+                        <tr>
+                            <td>@transaction.FirstName</td>
+                            <td>@transaction.LastName</td>
+                            <td>@transaction.DATECREATED</td>
+                            <td>@transaction.COMMISSIONAMOUNT</td>
+                            <td>@Html.Raw(transaction.COMMISSIONPAID == "1" ? "Yes" : "No")</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("Index", "Referral", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.EMAILADDRESS)
+        
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="col-md-3 control-label">*First Name</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.FIRSTNAME, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group clear">
+                <label class="col-md-3 control-label">*Last Name</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.LASTNAME, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-3 control-label">*Address</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.ADDRESS1, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-3 control-label">Suite / Apt</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.ADDRESS2, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-3 control-label">*City</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.CITY, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-3 control-label">*State</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.STATECODE, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-3 control-label">*Zip Code</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.ZIPCODE, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group clear">
+                <label class="col-md-3 control-label">*Mobile Phone Number</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.MOBILEPHONE, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-12 text-center">
+
+        </div>
+    }
+</div>
