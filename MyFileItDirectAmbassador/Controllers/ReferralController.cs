@@ -1,4 +1,5 @@
-﻿using MyFileItDirectAmbassador.MyFileItPEService;
+﻿using MyFileItDirectAmbassador.Helpers;
+using MyFileItDirectAmbassador.MyFileItPEService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,7 @@ namespace MyFileItDirectAmbassador.Controllers
             using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
             {
                 model = svc.GetReferralByEmail(SERVICEUSER, SERVICEPASS, referralName).Referrals.First();
+                DecryptNumbers(model);
             }
             return View(model);
         }
@@ -89,16 +91,20 @@ namespace MyFileItDirectAmbassador.Controllers
             {
                 using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
                 {
+                    EncryptNumbers(referral);
                     var result = svc.UpdateReferral(SERVICEUSER, SERVICEPASS, referral);
                     if (result.Success)
                     {
                         ViewMessage = "Your account has been updated.";
                     }
+                    DecryptNumbers(referral);
                 }
             }
 
             return View(referral);
         }
+
+       
 
 
         /*******************************
@@ -111,6 +117,7 @@ namespace MyFileItDirectAmbassador.Controllers
             using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
             {
                 model = svc.GetReferral(SERVICEUSER, SERVICEPASS, referralId).Referrals.First();
+                DecryptNumbers(model);
             }
             return View(model);
         }
@@ -124,11 +131,13 @@ namespace MyFileItDirectAmbassador.Controllers
             {
                 using (var svc = new MyFileItPEService.MyFileItPEMainServiceClient())
                 {
+                    EncryptNumbers(referral);
                     var result = svc.UpdateReferral(SERVICEUSER, SERVICEPASS, referral);
                     if (result.Success)
                     {
                         ViewMessage = "This account has been updated.";
                     }
+                    DecryptNumbers(referral);
                 }
             }
 
@@ -216,6 +225,18 @@ namespace MyFileItDirectAmbassador.Controllers
         private bool IsEmpty(string value)
         {
             return String.IsNullOrWhiteSpace(value);
+        }
+
+        private void DecryptNumbers(ReferralDTO referral)
+        {
+            referral.CHECKINGACCOUNTNUMBER = EncryptionHelper.Decrypt(referral.CHECKINGACCOUNTNUMBER, ENCRYPTIONPASS);
+            referral.ROUTINGNUMBER = EncryptionHelper.Decrypt(referral.ROUTINGNUMBER, ENCRYPTIONPASS);
+        }
+
+        private void EncryptNumbers(ReferralDTO referral)
+        {
+            referral.CHECKINGACCOUNTNUMBER = EncryptionHelper.Encrypt(referral.CHECKINGACCOUNTNUMBER, ENCRYPTIONPASS);
+            referral.ROUTINGNUMBER = EncryptionHelper.Encrypt(referral.ROUTINGNUMBER, ENCRYPTIONPASS);    
         }
 
     }

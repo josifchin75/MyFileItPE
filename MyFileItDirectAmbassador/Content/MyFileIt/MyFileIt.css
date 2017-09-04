@@ -10,7 +10,7 @@ h2 {
 }
 
 .body-content {
-    padding-top: 2em;
+    padding-top: 3em;
 }
 
 #wrapper {
@@ -68,8 +68,46 @@ h2 {
     font-style: italic;
     padding: 1em;
     margin-top: 1em;
+    font-weight:normal;
+    text-align: center;
+    width: 20em;
 }
 
 .navbar-inverse .navbar-nav > li > a, .navbar-brand {
     color: #ebebeb;
+}
+
+#title-logo{
+    position: absolute;
+    top: .5em;
+    left: .5em;
+}
+.navbar-header{
+    position:relative;
+}
+.navbar-brand {
+    padding-left: 8em;
+    color: rgba(66, 139, 202, 1) !important;
+}
+
+.login-logo{
+    text-align: center;
+    padding-top: 3em;
+}
+
+.login-logo img{
+    /*width: 100%;*/
+}
+
+#loginForm h4{
+    text-align: center;
+}
+
+.row h2 {
+    text-align: center;
+}
+
+.panel {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }

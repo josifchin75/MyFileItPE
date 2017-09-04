@@ -35,6 +35,15 @@ namespace MyFileItDirectAmbassador
             }
         }
 
+        public string ENCRYPTIONPASS
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EncryptionPass"];
+            }
+        }
+        
+
         public string ViewMessage
         {
             get
